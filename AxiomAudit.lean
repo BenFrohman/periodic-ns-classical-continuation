@@ -34,3 +34,6 @@ open Lean Elab Command
     logInfo "AxiomAudit PASS: only propext, Classical.choice, Quot.sound"
   else
     throwError m!"AxiomAudit FAIL:\n{String.intercalate "\n" bad.toList}"
+#print axioms PeriodicNSContinuation.sobolev_embedding_continuous
+#print axioms PeriodicNSContinuation.summable_sobolevWeight_neg
+#print axioms PeriodicNSContinuation.sobolevNormSq_zero

@@ -7,3 +7,4 @@ import PeriodicNSContinuation.FieldIdentities
 import PeriodicNSContinuation.Clamp
 import PeriodicNSContinuation.Energy
 import PeriodicNSContinuation.Route
+import PeriodicNSContinuation.TorusSobolev

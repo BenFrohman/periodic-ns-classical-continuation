@@ -31,3 +31,22 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 * `PeriodicLocalExistence` — classical local existence (Kato). Not formalized.
 * `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Not formalized.
 * `PeriodicBKMIntegrability` — open.
+
+## Torus Sobolev foundation (`PeriodicNSContinuation/TorusSobolev.lean`)
+
+`Hˢ(𝕋³)` for scalar `ℂ`-valued `L²` functions on `UnitAddTorus (Fin 3)`, defined by Fourier
+weights `(1 + |k|²)ˢ`. Everything below is **proved**, with no hypotheses:
+
+* `sobolevWeight_pos`, `sobolevWeight_mono` (monotone in `s`), `sobolevWeight_neg`.
+* Norm facts: `sobolevNormSqSeq_nonneg`, `sobolevNormSqSeq_eq_zero_iff`, `sobolevNormSqSeq_smul`,
+  closure under `+` and scalars (`MemSobolevSeq.add`, `MemSobolevSeq.smul`).
+* `Hᵗ ⊆ Hˢ` for `s ≤ t` (`MemSobolevSeq.mono`, `sobolevNormSqSeq_mono`).
+* `H⁰ = L²` by Mathlib's Parseval: `memSobolev_zero`, `sobolevNormSq_zero`
+  (`‖f‖²_{H⁰} = ∫ ‖f‖²`), and `integral_sq_le_sobolevNormSq` for `s ≥ 0`.
+* `summable_sobolevWeight_neg`: `∑_{k∈ℤ³} (1+|k|²)^{-s} < ∞` for `s > 3/2`.
+* **Sobolev embedding** `sobolev_embedding_continuous`: for `s > 3/2`, every `f ∈ L² ∩ Hˢ` equals
+  a.e. a continuous function, and its Fourier series converges to it uniformly.
+
+Not yet done: vector-valued fields, the triangle inequality for the `Hˢ` norm, algebra/product
+estimates and commutator estimates. These are still needed before `PeriodicLocalExistence`
+can be discharged, so that hypothesis remains open.

@@ -6,13 +6,12 @@ Authors: Benjamin Stanley Frohman
 import PeriodicNSContinuation.Uniqueness
 
 /-!
-# (3) Maximal solution and the global step
+# (3) Maximal solution
 
 * `periodicMaximalSolution_of_uniqueness`: **proved** — gluing the solutions on all horizons
   (with pressure normalised by `p t 0`) gives one maximal solution, assuming only
   `PeriodicVelocityUniqueness`.
-* `periodicGlobalOfTstarTop`: **proved outright** — a maximal solution with `periodicTstar = ⊤`
-  is a solution of Statement (B) on `[0, ∞)`.
+* The global step `periodicGlobalOfTstarTop` is proved upstream in `FeffermanClayNS`.
 -/
 
 open FeffermanClayNS NavierStokes3D Set Filter Topology
@@ -71,43 +70,5 @@ theorem isPeriodicMaximalSolution_glue (huniq : PeriodicVelocityUniqueness ν) :
 theorem periodicMaximalSolution_of_uniqueness (huniq : PeriodicVelocityUniqueness ν) :
     PeriodicMaximalSolution ν :=
   fun _ u₀ _ => ⟨_, _, isPeriodicMaximalSolution_glue (u₀ := u₀) huniq⟩
-
-lemma Icc_mem_nhdsWithin_Ici_prod (t : ℝ) (x : T3) :
-    Icc (0 : ℝ) (t + 1) ×ˢ (univ : Set T3) ∈ 𝓝[Ici (0 : ℝ) ×ˢ univ] (t, x) := by
-  refine mem_nhdsWithin.2 ⟨Iio (t + 1) ×ˢ univ, isOpen_Iio.prod isOpen_univ,
-    ⟨by simp, trivial⟩, ?_⟩
-  rintro ⟨a, b⟩ ⟨⟨ha, -⟩, ha', -⟩
-  exact ⟨⟨ha', (show a < t + 1 from ha).le⟩, trivial⟩
-
-/-- **Proved outright:** a pair solving on every positive horizon solves Statement (B). -/
-theorem isPeriodicSmoothSolution_of_all {u : TimeDependentVelocity} {p : TimeDependentPressure}
-    (h : ∀ T : ℝ, 0 < T → IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p) :
-    IsPeriodicSmoothSolution ν u₀ (fun _ _ => 0) u p := by
-  have hS : ∀ t : ℝ, 0 ≤ t → IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) (t + 1) u p :=
-    fun t ht => h (t + 1) (by linarith)
-  have hmem : ∀ t, 0 ≤ t → t ∈ Icc (0 : ℝ) (t + 1) := fun t ht => ⟨ht, by linarith⟩
-  refine ⟨fun t ht => (hS t ht).2.1 t (hmem t ht), fun t ht => (hS t ht).2.2.1 t (hmem t ht),
-    ?_, ?_, ?_, fun t ht => (hS t ht).2.2.2.2.2.2.1 t (hmem t ht), (h 1 one_pos).2.2.2.2.2.2.2⟩
-  · rintro ⟨t, x⟩ ⟨ht, -⟩
-    exact ((hS t ht).2.2.2.1 (t, x) ⟨hmem t ht, trivial⟩).mono_of_mem_nhdsWithin
-      (Icc_mem_nhdsWithin_Ici_prod t x)
-  · rintro ⟨t, x⟩ ⟨ht, -⟩
-    exact ((hS t ht).2.2.2.2.1 (t, x) ⟨hmem t ht, trivial⟩).mono_of_mem_nhdsWithin
-      (Icc_mem_nhdsWithin_Ici_prod t x)
-  · intro t ht x
-    have hd := hasDerivWithinAt_slice (hS t ht).2.2.2.1 x (hmem t ht)
-    have hnhds : Icc (0 : ℝ) (t + 1) ∈ 𝓝[Ici (0 : ℝ)] t := by
-      refine mem_nhdsWithin.2 ⟨Iio (t + 1), isOpen_Iio, by simp, ?_⟩
-      rintro a ⟨ha, ha'⟩
-      exact ⟨ha', (show a < t + 1 from ha).le⟩
-    have hd' := hd.mono_of_mem_nhdsWithin hnhds
-    rw [hd'.derivWithin ((uniqueDiffOn_Ici 0) t ht)]
-    exact (hS t ht).2.2.2.2.2.1 t (hmem t ht) x
-
-/-- **Proved outright:** `PeriodicGlobalOfTstarTop`. -/
-theorem periodicGlobalOfTstarTop (ν : ℝ) : PeriodicGlobalOfTstarTop ν := by
-  intro _ u₀ _ u p hmax htop
-  exact ⟨u, p, isPeriodicSmoothSolution_of_all
-    (fun T hT => hmax T hT (by rw [htop]; exact EReal.coe_lt_top T))⟩
 
 end PeriodicNSContinuation.Corrected

@@ -6,92 +6,17 @@ Authors: Benjamin Stanley Frohman
 import FeffermanClayNS
 
 /-!
-# Corrected periodic horizon predicates
+# Basic lemmas for periodic solutions on `[0, T]`
 
-Same definitions as `FeffermanClayNS.HighSetDepletionAndBKM` (commit 29beb91), with two
-corrections and nothing else:
-
-1. `IsPeriodicSmoothSolutionOn` drops the conjunct `IsPhysicalNSSolution u` (its `L²(ℝ³)`
-   requirement excludes every nonzero periodic field; see `Refutation.lean`).
-2. `IsPeriodicMaximalSolution` quantifies only over horizons `0 < T`.
-
-The names are kept, inside the namespace `PeriodicNSContinuation.Corrected`.
+The predicates (`IsPeriodicSmoothSolutionOn`, `periodicTstar`, `IsPeriodicMaximalSolution`,
+`PeriodicLocalExistence`, `PeriodicMaximalSolution`, `PeriodicBKMCriterion`,
+`PeriodicBKMIntegrability`) are the corrected ones in `FeffermanClayNS` (commit ebcf109).
 -/
 
 open FeffermanClayNS NavierStokes3D Set Filter Topology
 open scoped ContDiff
 
 namespace PeriodicNSContinuation.Corrected
-
-/-- Fefferman's `IsPeriodicSmoothSolutionOn` without the `IsPhysicalNSSolution` conjunct. -/
-def IsPeriodicSmoothSolutionOn
-    (ν : ℝ) (u₀ : VelocityField) (f : ℝ → T3 → EuclideanSpace ℝ (Fin 3))
-    (T : ℝ) (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
-  0 < T ∧
-  (∀ t ∈ Icc (0 : ℝ) T, IsZ3Periodic (u t)) ∧
-  (∀ t ∈ Icc (0 : ℝ) T, IsZ3Periodic (p t)) ∧
-  ContDiffOn ℝ ∞ (fun q : ℝ × T3 => u q.1 q.2) (Icc (0 : ℝ) T ×ˢ univ) ∧
-  ContDiffOn ℝ ∞ (fun q : ℝ × T3 => p q.1 q.2) (Icc (0 : ℝ) T ×ˢ univ) ∧
-  (∀ t ∈ Icc (0 : ℝ) T, ∀ x : T3,
-    derivWithin (fun s => u s x) (Icc (0 : ℝ) T) t + convective (u t) (u t) x =
-      ν • laplacian (u t) x - pressureGradient (p t) x + f t x) ∧
-  (∀ t ∈ Icc (0 : ℝ) T, ∀ x : T3, div (u t) x = 0) ∧
-  (∀ x : T3, u 0 x = u₀ x)
-
-/-- Fefferman's predicate implies the corrected one. -/
-theorem of_original {ν : ℝ} {u₀ : VelocityField} {f : ℝ → T3 → EuclideanSpace ℝ (Fin 3)}
-    {T : ℝ} {u : TimeDependentVelocity} {p : TimeDependentPressure}
-    (h : FeffermanClayNS.IsPeriodicSmoothSolutionOn ν u₀ f T u p) :
-    IsPeriodicSmoothSolutionOn ν u₀ f T u p :=
-  ⟨h.1, h.2.1, h.2.2.1, h.2.2.2.1, h.2.2.2.2.1, h.2.2.2.2.2.1, h.2.2.2.2.2.2.1,
-    h.2.2.2.2.2.2.2.1⟩
-
-/-- Horizons on which a corrected periodic smooth solution from `u₀` exists. -/
-def periodicExistenceTimes (ν : ℝ) (u₀ : VelocityField) : Set EReal :=
-  {s | ∃ T : ℝ, s = (T : EReal) ∧ ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure),
-    IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p}
-
-/-- Maximal periodic existence time. -/
-noncomputable def periodicTstar (ν : ℝ) (u₀ : VelocityField) : EReal :=
-  sSup (periodicExistenceTimes ν u₀)
-
-/-- Solves on every horizon `0 < T < periodicTstar`. -/
-def IsPeriodicMaximalSolution (ν : ℝ) (u₀ : VelocityField)
-    (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
-  ∀ T : ℝ, 0 < T → (T : EReal) < periodicTstar ν u₀ →
-    IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p
-
-/-- **Classical (Kato 1972), not formalized here:** positive local existence time. -/
-def PeriodicLocalExistence (ν : ℝ) : Prop :=
-  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ → (0 : EReal) < periodicTstar ν u₀
-
-/-- A single maximal solution (proved below from `PeriodicVelocityUniqueness`). -/
-def PeriodicMaximalSolution (ν : ℝ) : Prop :=
-  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
-    ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure), IsPeriodicMaximalSolution ν u₀ u p
-
-/-- A maximal solution with `periodicTstar = ⊤` solves Statement (B) (proved below outright). -/
-def PeriodicGlobalOfTstarTop (ν : ℝ) : Prop :=
-  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
-    ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
-      IsPeriodicMaximalSolution ν u₀ u p → periodicTstar ν u₀ = ⊤ →
-      ∃ (u' : TimeDependentVelocity) (p' : TimeDependentPressure),
-        IsPeriodicSmoothSolution ν u₀ (fun _ _ => 0) u' p'
-
-/-- **Classical (Beale–Kato–Majda 1984), not formalized here.** -/
-def PeriodicBKMCriterion (ν : ℝ) : Prop :=
-  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
-    ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
-      IsPeriodicMaximalSolution ν u₀ u p →
-      ∀ T : ℝ, periodicTstar ν u₀ = (T : EReal) →
-        ¬ MeasureTheory.IntegrableOn (fun t => vorticity_sup_norm (vorticity (u t))) (Icc 0 T)
-
-/-- **OPEN:** `‖ω(t)‖_∞` is integrable on every `[0, T]` along the maximal solution. -/
-def PeriodicBKMIntegrability (ν : ℝ) : Prop :=
-  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
-    ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
-      IsPeriodicMaximalSolution ν u₀ u p →
-      ∀ T : ℝ, MeasureTheory.IntegrableOn (fun t => vorticity_sup_norm (vorticity (u t))) (Icc 0 T)
 
 /-- **Classical (energy estimate + Grönwall), named:** two corrected solutions on `[0, T]` from the
 same data have the same velocity on `[0, T]`. Reduced to `PeriodicEnergyDifferenceEstimate` in

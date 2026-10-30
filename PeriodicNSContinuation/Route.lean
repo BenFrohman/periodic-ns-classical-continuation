@@ -16,7 +16,7 @@ import PeriodicNSContinuation.Maximal
 * `PeriodicBKMIntegrability ν` — **OPEN** (this is the Millennium content).
 
 `PeriodicMaximalSolution` and `PeriodicGlobalOfTstarTop` are no longer hypotheses: they are proved
-in `Maximal.lean`. This file does not prove Statement (B).
+(`Maximal.lean` here, and `periodicGlobalOfTstarTop` in `FeffermanClayNS`). This file does not prove Statement (B).
 -/
 
 open FeffermanClayNS NavierStokes3D
@@ -26,12 +26,9 @@ namespace PeriodicNSContinuation.Corrected
 theorem clay_B_exact_of_corrected_route (ν : ℝ)
     (hloc : PeriodicLocalExistence ν) (henergy : PeriodicEnergyDifferenceEstimate ν)
     (hcrit : PeriodicBKMCriterion ν) (hint : PeriodicBKMIntegrability ν) :
-    Clay_B_exact ν := by
-  intro hν u₀ hu₀
-  have huniq := periodicVelocityUniqueness_of_energy ν henergy
-  obtain ⟨u, p, hm⟩ := periodicMaximalSolution_of_uniqueness huniq hν u₀ hu₀
-  have htop : periodicTstar ν u₀ = ⊤ :=
-    ereal_eq_top_of_bkm _ _ (hloc hν u₀ hu₀) (hcrit hν u₀ hu₀ u p hm) (hint hν u₀ hu₀ u p hm)
-  exact periodicGlobalOfTstarTop ν hν u₀ hu₀ u p hm htop
+    Clay_B_exact ν :=
+  clay_B_exact_of_periodic_bkm ν hloc
+    (periodicMaximalSolution_of_uniqueness (periodicVelocityUniqueness_of_energy ν henergy))
+    hcrit hint
 
 end PeriodicNSContinuation.Corrected

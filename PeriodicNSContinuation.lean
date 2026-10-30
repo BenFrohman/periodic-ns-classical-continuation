@@ -1,4 +1,3 @@
-import PeriodicNSContinuation.Refutation
 import PeriodicNSContinuation.Corrected
 import PeriodicNSContinuation.Uniqueness
 import PeriodicNSContinuation.Maximal

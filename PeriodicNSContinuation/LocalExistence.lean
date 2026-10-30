@@ -15,7 +15,7 @@ Everything here is tied by types to the concrete truncated Leray-projected syste
 
 Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`,
 `PeriodicGalerkinUniformTime`, `PeriodicGalerkinLimit`, `PeriodicDataHs`,
-`GalerkinStructurePreserved`, `GalerkinContinuation`.
+`GalerkinStructurePreserved`, `GalerkinContinuation`, `PeriodicDataDivFree`.
 
 **Proved:**
 * `periodicTstar_pos_of_solution`: a solution on some `T > 0` gives `0 < periodicTstar`.
@@ -25,11 +25,13 @@ Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`
   `GalerkinTransportBound s C`, `GalerkinStructurePreserved ν`, `GalerkinContinuation ν s`
   (energy identity, viscous dissipation and ODE barrier are proved in `GalerkinEnergy`).
 
+* `fourierCoeffVF_hermitian`; `galerkinStructurePreserved_of` (from `PeriodicDataDivFree`);
+  `periodicGalerkinUniformTime_of_gt` (`s > 5/2`; transport bound now proved in `TorusFourierNS`).
+
 **NOT proved (explicit named-Prop inputs):** `PeriodicGalerkinLimit` (compactness, limit,
 smoothness, pressure), `PeriodicDataHs` (smooth periodic data have `H^s` Fourier coefficients),
-`TorusFourierNS.GalerkinTransportBound` (transport cancellation and commutator estimate),
-`GalerkinStructurePreserved` (Hermitian symmetry and `DivergenceFree` along Galerkin solutions on
-`[0,T]`), `GalerkinContinuation` (finite-dimensional ODE continuation under an a priori bound).
+`PeriodicDataDivFree` (coined: `k · û(k) = 0` for smooth divergence-free data),
+`GalerkinContinuation` (finite-dimensional ODE continuation under an a priori bound).
 -/
 
 noncomputable section
@@ -72,8 +74,8 @@ def PeriodicDataHs (s : ℝ) : Prop :=
   ∀ u₀ : NavierStokes3D.VelocityField, IsPeriodicSmoothInitialData u₀ →
     TorusFourierNS.MemHsField s (fourierCoeffVF u₀)
 
-/-- **NOT proved.** Galerkin solutions from smooth periodic data stay Hermitian and
-divergence-free. -/
+/-- Galerkin solutions from smooth periodic data stay Hermitian and divergence-free.
+Proved from `PeriodicDataDivFree` in `galerkinStructurePreserved_of`. -/
 def GalerkinStructurePreserved (ν : ℝ) : Prop :=
   ∀ u₀ : NavierStokes3D.VelocityField, IsPeriodicSmoothInitialData u₀ →
     ∀ (N : ℕ) (T : ℝ) (α : ℝ → TorusFourierNS.GState N),
@@ -132,5 +134,43 @@ theorem periodicGalerkinUniformTime_of {ν s C : ℝ} (hν : 0 ≤ ν) (hC : 0 �
   obtain ⟨α, hα⟩ := hCont N a T (Real.sqrt (Y + 1)) hT
     (fun T' hT' α hα => bound N T' hT'.2 α hα)
   exact ⟨α, hα, bound N T le_rfl α hα⟩
+
+/-- **NOT proved (coined).** Smooth divergence-free periodic data have divergence-free Fourier
+coefficients (`k · û(k) = 0`; needs integration by parts on the unit cell). -/
+def PeriodicDataDivFree : Prop :=
+  ∀ u₀ : NavierStokes3D.VelocityField, IsPeriodicSmoothInitialData u₀ →
+    TorusFourierNS.DivergenceFree (fourierCoeffVF u₀)
+
+/-- **Proved.** Fourier coefficients of a real field are Hermitian. -/
+theorem fourierCoeffVF_hermitian (u₀ : NavierStokes3D.VelocityField) :
+    TorusFourierNS.HermitianField (fourierCoeffVF u₀) := by
+  intro k i
+  simp only [fourierCoeffVF]
+  refine Eq.trans ?_ integral_conj
+  refine MeasureTheory.integral_congr_ae (Filter.Eventually.of_forall fun x => ?_)
+  simp only [map_mul, Complex.conj_ofReal, ← Complex.exp_conj, map_neg, map_sum, map_ofNat,
+    Complex.conj_I, Pi.neg_apply, Int.cast_neg]
+  push_cast
+  congr 2
+  simp only [neg_mul, Finset.sum_neg_distrib]
+  ring
+
+/-- **Proved (conditional on `PeriodicDataDivFree`).** Galerkin solutions from smooth periodic
+data stay Hermitian and divergence-free on `[0,T]`. -/
+theorem galerkinStructurePreserved_of (ν : ℝ) (hDiv : PeriodicDataDivFree) :
+    GalerkinStructurePreserved ν := by
+  intro u₀ hu₀ N T α hα
+  refine TorusFourierNS.galerkinNS_structure_Icc ν hα.2 ?_ ?_
+  · rw [hα.1]; exact TorusFourierNS.hermitian_extendG_restrictG (fourierCoeffVF_hermitian u₀) N
+  · rw [hα.1]; exact TorusFourierNS.divergenceFree_extendG_restrictG (hDiv u₀ hu₀) N
+
+/-- **Conditional assembly, `s > 5/2`.** `PeriodicGalerkinUniformTime ν s` from `PeriodicDataHs s`,
+`PeriodicDataDivFree` and `GalerkinContinuation ν s` only; the transport bound and structure
+preservation are now proved. -/
+theorem periodicGalerkinUniformTime_of_gt {ν s : ℝ} (hν : 0 ≤ ν) (hs : 5 / 2 < s)
+    (hData : PeriodicDataHs s) (hDiv : PeriodicDataDivFree) (hCont : GalerkinContinuation ν s) :
+    PeriodicGalerkinUniformTime ν s :=
+  periodicGalerkinUniformTime_of hν (TorusFourierNS.transportConst_nonneg (by linarith)) hData
+    (TorusFourierNS.galerkinTransportBound_of_gt hs) (galerkinStructurePreserved_of ν hDiv) hCont
 
 end PeriodicNSContinuation

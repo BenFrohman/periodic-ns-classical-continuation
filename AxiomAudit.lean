@@ -37,3 +37,6 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.sobolev_embedding_continuous
 #print axioms PeriodicNSContinuation.summable_sobolevWeight_neg
 #print axioms PeriodicNSContinuation.sobolevNormSq_zero
+#print axioms PeriodicNSContinuation.fourierCoeffVF_hermitian
+#print axioms PeriodicNSContinuation.galerkinStructurePreserved_of
+#print axioms PeriodicNSContinuation.periodicGalerkinUniformTime_of_gt

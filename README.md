@@ -67,12 +67,19 @@ for every `N`, a solution of the concrete truncated Leray-projected system
   `PeriodicDataHs s`, `TorusFourierNS.GalerkinTransportBound s C`,
   `GalerkinStructurePreserved ν` and `GalerkinContinuation ν s` (for `ν ≥ 0`, `C ≥ 0`). The time is
   explicit: `barrierTime C ‖û₀‖²_{H^s}`.
+- `fourierCoeffVF_hermitian`: the Fourier coefficients of a real field are Hermitian.
+- `galerkinStructurePreserved_of`: `GalerkinStructurePreserved ν` follows from `PeriodicDataDivFree`
+  (it uses the proved preservation theorems `TorusFourierNS.galerkinNS_structure_Icc`).
+- `periodicGalerkinUniformTime_of_gt`: for `ν ≥ 0` and **`s > 5/2`**, `PeriodicGalerkinUniformTime ν s`
+  follows from `PeriodicDataHs s`, `PeriodicDataDivFree` and `GalerkinContinuation ν s` only. The
+  transport bound is now proved (`TorusFourierNS.galerkinTransportBound_of_gt`, `s > 5/2`).
 
-**NOT proved (explicit named-Prop inputs):** `PeriodicGalerkinLimit`, `PeriodicDataHs`,
-`GalerkinTransportBound` (the analytic core: transport cancellation plus commutator estimate),
-`GalerkinStructurePreserved`, `GalerkinContinuation`. So `PeriodicLocalExistence` (Kato) is still
-conditional, and Clay is not solved.
+**NOT proved (explicit named-Prop inputs):** `PeriodicGalerkinLimit`, `PeriodicDataHs` (smooth data
+have `H^s` coefficients), `PeriodicDataDivFree` (smooth divergence-free data have `k·û(k) = 0`),
+`GalerkinContinuation`. `GalerkinTransportBound` for `3/2 < s ≤ 5/2` is not covered. So
+`PeriodicLocalExistence` (Kato) is still conditional, and Clay is not solved.
 
 Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`,
 `PeriodicGalerkinUniformTime`, `PeriodicGalerkinLimit`, `PeriodicDataHs`,
-`GalerkinStructurePreserved`, `GalerkinContinuation`.
+`GalerkinStructurePreserved`, `GalerkinContinuation`, `PeriodicDataDivFree`,
+`fourierCoeffVF_hermitian`, `galerkinStructurePreserved_of`, `periodicGalerkinUniformTime_of_gt`.

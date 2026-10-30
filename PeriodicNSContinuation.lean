@@ -1,4 +1,9 @@
 import PeriodicNSContinuation.Corrected
 import PeriodicNSContinuation.Uniqueness
 import PeriodicNSContinuation.Maximal
+import PeriodicNSContinuation.TorusIntegral
+import PeriodicNSContinuation.TorusField
+import PeriodicNSContinuation.FieldIdentities
+import PeriodicNSContinuation.Clamp
+import PeriodicNSContinuation.Energy
 import PeriodicNSContinuation.Route

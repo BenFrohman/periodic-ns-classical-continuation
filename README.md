@@ -50,3 +50,13 @@ weights `(1 + |k|²)ˢ`. Everything below is **proved**, with no hypotheses:
 Not yet done: vector-valued fields, the triangle inequality for the `Hˢ` norm, algebra/product
 estimates and commutator estimates. These are still needed before `PeriodicLocalExistence`
 can be discharged, so that hypothesis remains open.
+
+## LocalExistence (added)
+
+`periodicLocalExistence_of_inputs` is **conditional**: it derives `PeriodicLocalExistence ν` from
+two named Props passed as explicit arguments, relative to a user-supplied predicate `UniformBound`:
+`PeriodicGalerkinUniformTime` (uniform-in-N bound on some `T > 0`; NOT proved) and
+`PeriodicGalerkinLimit` (passage to the limit to a periodic smooth solution; NOT proved). Both names
+are coined. Proved unconditionally: `periodicTstar_pos_of_solution` (a solution on `T > 0` gives
+`0 < periodicTstar`). The Galerkin system and the `H^s` product estimate are in
+`torus-fourier-ns-lemmas` (not a dependency of this package). Clay is not solved.

@@ -51,12 +51,28 @@ Not yet done: vector-valued fields, the triangle inequality for the `Hˢ` norm, 
 estimates and commutator estimates. These are still needed before `PeriodicLocalExistence`
 can be discharged, so that hypothesis remains open.
 
-## LocalExistence (added)
+## LocalExistence (concrete Galerkin link)
 
-`periodicLocalExistence_of_inputs` is **conditional**: it derives `PeriodicLocalExistence ν` from
-two named Props passed as explicit arguments, relative to a user-supplied predicate `UniformBound`:
-`PeriodicGalerkinUniformTime` (uniform-in-N bound on some `T > 0`; NOT proved) and
-`PeriodicGalerkinLimit` (passage to the limit to a periodic smooth solution; NOT proved). Both names
-are coined. Proved unconditionally: `periodicTstar_pos_of_solution` (a solution on `T > 0` gives
-`0 < periodicTstar`). The Galerkin system and the `H^s` product estimate are in
-`torus-fourier-ns-lemmas` (not a dependency of this package). Clay is not solved.
+This package now depends on `torus-fourier-ns-lemmas` @ `ed0da95` (same Mathlib rev). The
+uniform bound is no longer an arbitrary predicate. `GalerkinUniformBoundNS ν s u₀ T` says that,
+for every `N`, a solution of the concrete truncated Leray-projected system
+`TorusFourierNS.galerkinNSField N ν` exists on `[0,T]`, starts from the truncation of
+`fourierCoeffVF u₀`, and has `H^s` norm `≤ M`, with `M` independent of `N`.
+
+**Proved:**
+- `periodicTstar_pos_of_solution`.
+- `periodicLocalExistence_of_galerkin`: `PeriodicGalerkinUniformTime ν s` together with
+  `PeriodicGalerkinLimit ν s` gives `PeriodicLocalExistence ν`.
+- `periodicGalerkinUniformTime_of`: `PeriodicGalerkinUniformTime ν s` follows from
+  `PeriodicDataHs s`, `TorusFourierNS.GalerkinTransportBound s C`,
+  `GalerkinStructurePreserved ν` and `GalerkinContinuation ν s` (for `ν ≥ 0`, `C ≥ 0`). The time is
+  explicit: `barrierTime C ‖û₀‖²_{H^s}`.
+
+**NOT proved (explicit named-Prop inputs):** `PeriodicGalerkinLimit`, `PeriodicDataHs`,
+`GalerkinTransportBound` (the analytic core: transport cancellation plus commutator estimate),
+`GalerkinStructurePreserved`, `GalerkinContinuation`. So `PeriodicLocalExistence` (Kato) is still
+conditional, and Clay is not solved.
+
+Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`,
+`PeriodicGalerkinUniformTime`, `PeriodicGalerkinLimit`, `PeriodicDataHs`,
+`GalerkinStructurePreserved`, `GalerkinContinuation`.

@@ -10,6 +10,9 @@ require FeffermanClayNS from git
 require WeightedEnstrophy from git
   "https://github.com/BenFrohman/weighted-enstrophy-identities.git" @ "1df4652d1a40430055ba6480904db5ab270497c3"
 
+require TorusFourierNS from git
+  "https://github.com/BenFrohman/torus-fourier-ns-lemmas.git" @ "ed0da95812b089b1475c6182f04887eeefed146e"
+
 @[default_target]
 lean_lib «PeriodicNSContinuation» where
   roots := #[`PeriodicNSContinuation]

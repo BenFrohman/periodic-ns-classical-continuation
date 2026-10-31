@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,hyperref,xcolor,fancyhdr}
+\newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\coined}{\textsuperscript{\textcolor{gray}{[coined]}}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[C]{\textcolor{red}{\textbf{DRAFT --- tracks build in progress}}}
+\fancyfoot[C]{\thepage}\fancyfoot[R]{\footnotesize \copyright\ 2026 Benjamin Stanley Frohman. Apache-2.0.}
+\newtheorem{theorem}{Theorem}\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}\newtheorem{hyp}{Named hypothesis}
+\title{A Lean~4 Formalization of the Classical Continuation Chain for Periodic Navier--Stokes on $\mathbb{T}^3$: Energy Identity, $H^3$ Commutator Reduction and the BKM Route\\[4pt]\large Companion paper to \texttt{BenFrohman/periodic-ns-classical-continuation}}
+\author{Benjamin Stanley Frohman\\ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\\\texttt{frohmanbenjamin@gmail.com}}
+\date{Draft, 31 October 2026 (repository HEAD \texttt{df9dcf4})}
+\begin{document}\maketitle
+\begin{center}\fbox{\parbox{0.9\textwidth}{\textbf{Draft --- tracks build in progress.} This document reports exactly what the Lean development proves at the stated commit. It does \emph{not} solve the Clay Millennium problem, and does not prove global regularity of the 3D Navier--Stokes equations. The step \lean{PeriodicBKMIntegrability} is the open Clay core and remains an explicit hypothesis.}}\end{center}
+
+\begin{abstract}
+We describe a Lean~4/Mathlib formalization of the classical continuation steps for smooth
+divergence-free solutions of the incompressible Navier--Stokes equations on the unit torus
+$\mathbb{T}^3$, along the Statement~(B) route of the companion repository
+\texttt{fefferman-clay-navier-stokes}. Proved with no hypothesis Props: local existence for
+$\nu\ge 0$, uniqueness via an $L^2$ energy-difference estimate, the Fourier coefficient ODE, coefficient decay, the
+$H^s$ energy identity, Parseval's identity on the unit cube, and the Kato--Ponce toolkit at $s=3$ (integration by parts, Leibniz
+rule, a Gagliardo--Nirenberg inequality, a bound on every lower-order term, and vanishing of the top-order term from
+$\operatorname{div}u=0$). Proved conditionally: $H^3$ Beale--Kato--Majda control from two named Props,
+\lean{PeriodicPhysicalCommutatorBound} (not yet assembled) and \lean{PeriodicLowFreqVorticityBound}
+(classical, not yet formalized), and Statement~(B) from these together with the open
+\lean{PeriodicBKMIntegrability}.
+\end{abstract}
+
+\section{Conventions and naming}
+Every hypothesis is a named \texttt{Prop} passed as an explicit theorem argument; no
+\texttt{axiom}, \texttt{sorry} or \texttt{admit} appears. The axiom audit (\texttt{lake env lean AxiomAudit.lean})
+reports only \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}. Lean identifiers defined in this repository are
+\emph{coined in this build} (marked \coined), not names from the author's May/June~2026 manuscript.
+The identifiers \lean{Clay_B_exact}, \lean{PeriodicLocalExistence}, \lean{PeriodicBKMCriterion} and
+\lean{PeriodicBKMIntegrability} come from the dependency \texttt{fefferman-clay-navier-stokes} (pinned at \texttt{ebcf109}).
+
+\section{Relation to the May/June 2026 manuscript}
+The author's manuscript frames regularity through a tethered Lyapunov functional $S_\varepsilon$
+and a comparison ODE $y'=Cy^2-\kappa''y^3$, with transport cancellation, viscous dissipation, a
+H\"older--Sobolev gate and Young absorption at $\varepsilon=\kappa/4$ (Proposition~2). For
+\emph{unmodified} Navier--Stokes ($\kappa=0$) the cubic damping is absent, and the remaining gap is
+hypothesis (H5): a non-circular majorant for the vorticity. In this repository that gap appears
+exactly as \lean{PeriodicBKMIntegrability}, i.e.\ $\int_0^T\|\omega\|_\infty\,dt<\infty$. Nothing here closes it.
+The transport cancellation of the manuscript corresponds to \lean{top_term_zero} below.
+
+\section{Proved results (no hypothesis Props)}
+\begin{theorem}[Local existence]
+\lean{periodicLocalExistence_of_nonneg}\coined: for $\nu\ge0$, \lean{PeriodicLocalExistence}~$\nu$ holds (Galerkin method at $s=3$).
+\end{theorem}
+\begin{theorem}[Energy difference / uniqueness]
+\lean{periodicEnergyDifferenceEstimate}\coined: for $\nu\ge0$ and two classical solutions with equal data,
+$E(t)=\int_{[0,1]^3}|u-v|^2$ satisfies $E'\le 2CE$. With Gr\"onwall
+(\lean{eq_zero_of_deriv_le_mul}\coined, \lean{periodicVelocityUniqueness_of_energy}\coined) this gives uniqueness.
+\end{theorem}
+\begin{theorem}[Fourier coefficient ODE, decay, $H^s$ energy identity]
+\lean{periodicFourierCoeffODE}\coined, \lean{periodicFourierCoeffDecay}\coined{} and
+\lean{periodicFourierHsEnergyIdentity}\coined{} (file \texttt{CoeffODE.lean}) prove the Props
+\lean{PeriodicFourierCoeffODE}, \lean{PeriodicFourierCoeffDecay}, \lean{PeriodicFourierHsEnergyIdentity}
+for every $\nu$ (and every $s$): each Fourier coefficient $\hat u_k(t)$ obeys the projected ODE, coefficients decay
+faster than any power, and
+\[\tfrac{d}{dt}\|u\|_{H^s}^2 = -2\nu\textstyle\sum_k(1+|k|^2)^s\,4\pi^2|k|^2|\hat u_k|^2 + \text{(nonlinear rate)}.\]
+The bridge is \lean{periodicFourierHsEnergyIdentity_of_coeff}\coined{} (\texttt{HsEnergyIdentity.lean}).
+\end{theorem}
+\begin{theorem}[Parseval on the unit cube]
+\lean{hasSum_prod_cubeCoeff}\coined{} (\texttt{Parseval.lean}): for continuous periodic $f,g$,
+$\sum_k \overline{\hat f_k}\hat g_k = \int_{[0,1]^3}\bar f g$, via \lean{torusLift}\coined{} and Mathlib's torus Parseval.
+\end{theorem}
+\begin{theorem}[Physical form of the $H^3$ rate]
+\lean{hasSum_rate_three}\coined: the Fourier-side $H^3$ nonlinear rate is summable and equals
+$-2\sum_i\int (1-\Delta/4\pi^2)^3 v_i\,((v\cdot\nabla)v)_i$.
+\end{theorem}
+\begin{theorem}[Kato--Ponce toolkit, $s=3$; \texttt{KatoPonce.lean}]
+Proved: unit-cell integration by parts \lean{cellI_ibp}\coined, \lean{cellI_ibp'}\coined; Leibniz rule
+\lean{DL_mul}\coined; Gagliardo--Nirenberg on the cell \lean{gagliardoNirenberg_cell}\coined{} and
+\lean{cellI_sq_mul_abs_le}\coined; and
+\begin{itemize}
+\item \lean{lower_term_bound}\coined: every lower-order Leibniz term (first factor of order $\ge1$) satisfies
+$|\int D^L v_i\cdot D^{p_1}v_l\, D^{p_2}\partial_l v_i|\le 5\|\nabla v\|_\infty\,Q(v)$, with $Q=$\lean{physQ}\coined;
+\item \lean{top_term_zero}\coined: $\sum_{i,l}\int D^L v_i\, v_l\, D^L\partial_l v_i = 0$, because $\operatorname{div}v=0$ (transport cancellation).
+\end{itemize}
+\end{theorem}
+\begin{theorem}[Continuation alternative]
+\lean{periodicBKMCriterion_of_hsControl}\coined: for $\nu\ge0$, $s>5/2$, \lean{PeriodicBKMHsControl}~$\nu\ s$ implies \lean{PeriodicBKMCriterion}~$\nu$ (the $H^s$ blow-up alternative is proved).
+\end{theorem}
+
+\section{Conditional results}
+\begin{hyp}\lean{PeriodicPhysicalCommutatorBound C}\coined{} (s=3): for smooth periodic divergence-free $v$,
+$-2\sum_i\int (1-\Delta/4\pi^2)^3v_i\,((v\cdot\nabla)v)_i\le C\|\nabla v\|_\infty\|v\|_{H^3}^2$.
+\emph{Status:} not yet proved; \lean{lower_term_bound} and \lean{top_term_zero} are its two analytic ingredients. Remaining: per-term bound summed over the Leibniz expansion, matching Fourier weights, comparison of $Q$ with the $H^3$ norm, final assembly.\end{hyp}
+\begin{hyp}\lean{PeriodicLowFreqVorticityBound}\coined: $\exists K\ge0$, $\forall R\ge2$, $\|V_R\nabla v\|_\infty\le K(1+\log R)\|\omega\|_\infty$.
+\emph{Status:} classically true (Littlewood--Paley/Calder\'on--Zygmund), not formalized.\end{hyp}
+\begin{hyp}\lean{PeriodicBKMIntegrability}~$\nu$ (from \texttt{fefferman-clay-navier-stokes}): $\int_0^T\|\omega\|_\infty<\infty$ on every finite interval of existence.
+\emph{Status:} \textbf{open}. This is the Clay core and the manuscript's (H5) gap.\end{hyp}
+
+\begin{proposition}
+\lean{periodicFourierCommutatorBound_of_physical}\coined: \lean{PeriodicPhysicalCommutatorBound C} $\Rightarrow$ \lean{PeriodicFourierCommutatorBound 3 C}.
+\lean{periodicBKMHsControl_of_physical_lowFreq}\coined: $(\exists C\ge0,$ \lean{PeriodicPhysicalCommutatorBound C}$)$ and \lean{PeriodicLowFreqVorticityBound} give \lean{PeriodicBKMHsControl}~$\nu$~3.
+\end{proposition}
+\begin{proposition}[Statement (B), conditional]
+\lean{clay_B_exact_of_hsControl}\coined: for $s>5/2$, \lean{PeriodicBKMHsControl}~$\nu\ s$ and \lean{PeriodicBKMIntegrability}~$\nu$ give \lean{Clay_B_exact}~$\nu$. Also \lean{clay_B_exact_of_corrected_route'}\coined{} and \lean{clay_B_exact_of_bkm}\coined.
+\end{proposition}
+\paragraph{Note on a failed route.} A Wiener-algebra/Fourier commutator estimate was tried and abandoned: its low-frequency part grows like $R^{3/2}$, not $\log R$. The $s=3$ physical-space estimate replaces it.
+
+\section{Status}
+\begin{itemize}
+\item \textbf{Proved, unconditional:} local existence ($\nu\ge0$), uniqueness, coefficient ODE and decay, $H^s$ energy identity, Parseval, physical form of the $H^3$ rate, Kato--Ponce toolkit including \lean{lower_term_bound} and \lean{top_term_zero}, the blow-up alternative.
+\item \textbf{Conditional:} $H^3$ BKM control on \lean{PeriodicPhysicalCommutatorBound} and \lean{PeriodicLowFreqVorticityBound}; Statement~(B) additionally on \lean{PeriodicBKMIntegrability}.
+\item \textbf{In progress:} assembly of \lean{PeriodicPhysicalCommutatorBound}. \textbf{Not formalized:} \lean{PeriodicLowFreqVorticityBound}.
+\item \textbf{Open:} \lean{PeriodicBKMIntegrability} --- the Clay Millennium core. Neither the Clay problem nor global regularity of 3D Navier--Stokes is claimed.
+\end{itemize}
+\section*{Reproducibility}
+\texttt{lake build}; \texttt{lake env lean AxiomAudit.lean} (0 \texttt{sorry}; only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound}).
+\section*{License}
+Copyright 2026 Benjamin Stanley Frohman. Licensed under the Apache License, Version 2.0.
+\end{document}

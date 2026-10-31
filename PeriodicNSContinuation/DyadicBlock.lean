@@ -134,4 +134,117 @@ lemma abs_blockF_le (j b : Fin 3) (ξ : Fin 3 → ℝ) : |blockF j b ξ| ≤ 1 :
   rw [blockF, abs_mul]
   exact mul_le_one₀ hq (abs_nonneg _) hc
 
+/-- Coined. Coefficients of the `s`-th dyadic block: `blockF j b (k / 2^s)`. -/
+def blockC (j b : Fin 3) (s : ℕ) (k : Mode) : ℂ := (blockF j b (fun i => (k i : ℝ) / 2 ^ s) : ℂ)
+
+lemma boxSupp_blockC (j b : Fin 3) (s : ℕ) : BoxSupp (3 * 2 ^ s) (blockC j b s) := by
+  intro k hk
+  rw [mem_modeBox] at hk; push Not at hk
+  obtain ⟨i, hi⟩ := hk
+  unfold blockC; rw [blockF_eq_zero_of_ge, Complex.ofReal_zero]
+  have h2 : (0 : ℝ) < 2 ^ s := by positivity
+  have hi' : (3 : ℝ) * 2 ^ s < |(k i : ℝ)| := by exact_mod_cast hi
+  have : (3 : ℝ) < |(k i : ℝ) / 2 ^ s| := by
+    rw [abs_div, abs_of_pos h2, lt_div_iff₀ h2]; exact hi'
+  have hsq : (9 : ℝ) < ((k i : ℝ) / 2 ^ s) ^ 2 := by
+    rw [← sq_abs]; nlinarith [abs_nonneg ((k i : ℝ) / 2 ^ s)]
+  linarith [sq_le_sqn (fun i => (k i : ℝ) / 2 ^ s) i]
+
+lemma scaled_shift (s : ℕ) (k : Mode) (l : Fin 3) :
+    (fun i => ((k + unitMode l) i : ℝ) / 2 ^ s) =
+        (fun i => (k i : ℝ) / 2 ^ s) + (1 / 2 ^ s : ℝ) • (Pi.single l 1 : Fin 3 → ℝ) ∧
+    (fun i => ((k - unitMode l) i : ℝ) / 2 ^ s) =
+        (fun i => (k i : ℝ) / 2 ^ s) - (1 / 2 ^ s : ℝ) • (Pi.single l 1 : Fin 3 → ℝ) := by
+  constructor <;> funext i <;> by_cases h : i = l <;>
+    simp [unitMode, h] <;> ring
+
+/-- **Proved.** Uniform discrete Taylor bound `|c_k − 4^s Δc_k| ≤ 1 + Σ_l M_l` for the dyadic block. -/
+theorem exists_blockC_coeff_bound (j b : Fin 3) :
+    ∃ B, 0 ≤ B ∧ ∀ s : ℕ, ∀ k : Mode,
+      ‖blockC j b s k - ((4 : ℝ) ^ s : ℝ) * secDiffSum (blockC j b s) k‖ ≤ B := by
+  choose M hM0 hM using fun l : Fin 3 => exists_secondDiff_bound (contDiff_blockF j b)
+    (hasCompactSupport_blockF j b) (Pi.single l 1)
+  refine ⟨1 + ∑ l, M l, add_nonneg zero_le_one (Finset.sum_nonneg fun l _ => hM0 l), fun s k => ?_⟩
+  set p : Fin 3 → ℝ := fun i => (k i : ℝ) / 2 ^ s
+  set h : ℝ := 1 / 2 ^ s
+  set F := blockF j b
+  have he : blockC j b s k - ((4 : ℝ) ^ s : ℝ) * secDiffSum (blockC j b s) k =
+      ((F p - (4 : ℝ) ^ s * ∑ l : Fin 3, (F (p + h • (Pi.single l 1 : Fin 3 → ℝ)) - 2 * F p +
+        F (p - h • (Pi.single l 1 : Fin 3 → ℝ))) : ℝ) : ℂ) := by
+    simp only [secDiffSum, blockC, fun l => (scaled_shift s k l).1, fun l => (scaled_shift s k l).2]
+    push_cast; rfl
+  rw [he, Complex.norm_real, Real.norm_eq_abs]
+  have h4 : (4 : ℝ) ^ s * h ^ 2 = 1 := by
+    simp only [h, div_pow, one_pow]
+    rw [← pow_mul, mul_comm s 2, pow_mul]; norm_num
+  have hsum : |(4 : ℝ) ^ s * ∑ l : Fin 3, (F (p + h • (Pi.single l 1 : Fin 3 → ℝ)) - 2 * F p +
+      F (p - h • (Pi.single l 1 : Fin 3 → ℝ)))| ≤ ∑ l, M l := by
+    rw [abs_mul, abs_of_pos (by positivity)]
+    calc (4 : ℝ) ^ s * |∑ l : Fin 3, _| ≤ (4 : ℝ) ^ s * ∑ l : Fin 3, M l * h ^ 2 :=
+          mul_le_mul_of_nonneg_left ((Finset.abs_sum_le_sum_abs _ _).trans
+            (Finset.sum_le_sum fun l _ => hM l p h)) (by positivity)
+      _ = ∑ l, M l := by rw [← Finset.sum_mul, mul_comm, mul_assoc, mul_comm (h ^ 2), h4, mul_one]
+  have := abs_blockF_le j b p
+  calc _ ≤ |F p| + |(4 : ℝ) ^ s * _| := abs_sub _ _
+    _ ≤ _ := add_le_add this hsum
+
+lemma rpow_four_pow (s : ℕ) : ((4 : ℝ) ^ s) ^ (-(3 / 2 : ℝ)) * 8 ^ s = 1 := by
+  have h2 : (0 : ℝ) < 2 ^ s := by positivity
+  have e4 : (4 : ℝ) ^ s = (2 ^ s) ^ (2 : ℝ) := by
+    rw [Real.rpow_two, ← pow_mul, mul_comm, pow_mul]; norm_num
+  have e8 : (8 : ℝ) ^ s = (2 ^ s) ^ (3 : ℝ) := by
+    rw [show (3 : ℝ) = ((3 : ℕ) : ℝ) by norm_num, Real.rpow_natCast, ← pow_mul, mul_comm, pow_mul]
+    norm_num
+  rw [e4, e8, ← Real.rpow_mul h2.le, ← Real.rpow_add h2]; norm_num
+
+/-- **Proved.** Uniform `L¹` bound for the kernels of the smooth dyadic blocks of `ξ_jξ_b/|ξ|²`. -/
+theorem exists_blockC_L1_bound (j b : Fin 3) :
+    ∃ C, 0 ≤ C ∧ ∀ s : ℕ, ∀ x : Fin 3 → ℝ,
+      ∫ y in Icc (0 : Fin 3 → ℝ) 1, ‖multKernel (modeBox (3 * 2 ^ s)) (blockC j b s) (x - y)‖ ≤ C := by
+  obtain ⟨B, hB0, hB⟩ := exists_blockC_coeff_bound j b
+  refine ⟨Real.sqrt (8 * 729 * B ^ 2), Real.sqrt_nonneg _, fun s x => ?_⟩
+  have hA : (1 : ℝ) ≤ 4 ^ s := one_le_pow₀ (by norm_num)
+  refine (integral_norm_multKernel_sub_le (boxSupp_blockC j b s) hA x).trans ?_
+  rw [← Real.sqrt_mul (by positivity)]
+  apply Real.sqrt_le_sqrt
+  have hsum : ∑ k ∈ modeBox (3 * 2 ^ s + 1),
+      ‖blockC j b s k - ((4 : ℝ) ^ s : ℝ) * secDiffSum (blockC j b s) k‖ ^ 2 ≤ 729 * 8 ^ s * B ^ 2 := by
+    refine (Finset.sum_le_sum fun k _ => pow_le_pow_left₀ (norm_nonneg _) (hB s k) 2).trans ?_
+    rw [Finset.sum_const, card_modeBox, nsmul_eq_mul]
+    apply mul_le_mul_of_nonneg_right _ (sq_nonneg _)
+    have h1 : (1 : ℝ) ≤ 2 ^ s := one_le_pow₀ (by norm_num)
+    push_cast
+    calc (2 * (3 * (2 : ℝ) ^ s + 1) + 1) ^ 3 ≤ (9 * 2 ^ s) ^ 3 :=
+          pow_le_pow_left₀ (by positivity) (by linarith) 3
+      _ = 729 * 8 ^ s := by rw [mul_pow, ← pow_mul, mul_comm s 3, pow_mul]; norm_num
+  calc 8 * ((4 : ℝ) ^ s) ^ (-(3 / 2 : ℝ)) * ∑ k ∈ modeBox (3 * 2 ^ s + 1), _
+      ≤ 8 * ((4 : ℝ) ^ s) ^ (-(3 / 2 : ℝ)) * (729 * 8 ^ s * B ^ 2) :=
+        mul_le_mul_of_nonneg_left hsum (by positivity)
+    _ = 8 * 729 * B ^ 2 * (((4 : ℝ) ^ s) ^ (-(3 / 2 : ℝ)) * 8 ^ s) := by ring
+    _ = 8 * 729 * B ^ 2 := by rw [rpow_four_pow, mul_one]
+
+/-- Coined. Real embedding of a mode. -/
+def modeR (k : Mode) : Fin 3 → ℝ := fun i => (k i : ℝ)
+
+lemma blockC_eq (j b : Fin 3) (s : ℕ) (k : Mode) :
+    blockC j b s k = ((modeR k j * modeR k b / sqn (modeR k) *
+      (cutχ (sqn (modeR k) / 4 ^ (s + 1)) - cutχ (sqn (modeR k) / 4 ^ s)) : ℝ) : ℂ) := by
+  have h2 : (2 : ℝ) ^ s ≠ 0 := by positivity
+  have hs : sqn (fun i => (k i : ℝ) / 2 ^ s) = sqn (modeR k) / 4 ^ s := by
+    simp only [sqn, modeR, div_pow, ← Finset.sum_div]
+    rw [← pow_mul, mul_comm s 2, pow_mul]; norm_num
+  unfold blockC blockF; rw [hs]
+  congr 1
+  rcases eq_or_ne (sqn (modeR k)) 0 with h0 | h0
+  · simp [h0]
+  · have e : ((2 : ℝ) ^ s) ^ 2 = 4 ^ s := by rw [← pow_mul, mul_comm, pow_mul]; norm_num
+    simp only [modeR, pow_succ]; field_simp; rw [e]; ring
+
+/-- **Proved.** Telescoping: `Σ_{s<S}` blocks `= q(k)·(χ(|k|²/4^S) − χ(|k|²))`. -/
+theorem sum_blockC (j b : Fin 3) (S : ℕ) (k : Mode) :
+    ∑ s ∈ Finset.range S, blockC j b s k = ((modeR k j * modeR k b / sqn (modeR k) *
+      (cutχ (sqn (modeR k) / 4 ^ S) - cutχ (sqn (modeR k))) : ℝ) : ℂ) := by
+  simp only [blockC_eq, ← Complex.ofReal_sum, ← Finset.mul_sum]
+  rw [Finset.sum_range_sub (fun s => cutχ (sqn (modeR k) / 4 ^ s))]; simp
+
 end PeriodicNSContinuation

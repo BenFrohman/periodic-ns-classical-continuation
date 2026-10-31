@@ -311,3 +311,8 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.contDiff_blockF
 #print axioms PeriodicNSContinuation.hasCompactSupport_blockF
 #print axioms PeriodicNSContinuation.abs_blockF_le
+#print axioms PeriodicNSContinuation.boxSupp_blockC
+#print axioms PeriodicNSContinuation.exists_blockC_coeff_bound
+#print axioms PeriodicNSContinuation.exists_blockC_L1_bound
+#print axioms PeriodicNSContinuation.blockC_eq
+#print axioms PeriodicNSContinuation.sum_blockC

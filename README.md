@@ -417,6 +417,13 @@ Coined names: `hasDerivAt_normSq_complex`, `PeriodicFourierCoeffODE`, `PeriodicF
 
 Coined names: `liftR`, `pdR`, `PerR`, `PerR.pdR`, `liftR_contDiff`, `liftR_add_single`, `pdC_liftR`, `cubeCoeff_pdR`, `compC_eq_liftR`, `fderiv_coord`, `laplacian_coord`, `convective_coord`, `pressureGradient_coord`, `phase_mul_charK`, `cubeCoeff_mul_series`, `hasDerivAt_coeff_time`, `integrableOn_cube_of_continuous`, `cubeCoeff_sub'`, `cubeCoeff_const_mul'`, `cubeCoeff_sum'`, `perR_coord`, `perR_of`, `PerR.continuous_liftR`, `cubeCoeff_dt_eq`, `norm_cubeCoeff_le`, `convective_coeff`, `leray_solve`, `dtCoeff`, `data_of_sol`, `fourierNSField_eq_dtCoeff`, `dtCoeff_div_Ioo`, `periodicFourierCoeffODE`, `dJ`, `helmR`, `helmJ`, `JReg`, `PerR.helmR`, `cubeCoeff_helmR`, `JReg.slice`, `pdR_slice`, `JReg.dJ`, `JReg.helm`, `helmR_slice`, `JReg.iterate`, `cubeCoeff_iterate_helmJ`, `jreg_decay`, `JReg.continuousOn_coeff`, `jreg_u`, `jreg_dt`, `dtCoeff_div`, `periodicFourierCoeffDecay`, `periodicFourierHsEnergyIdentity`, `periodicBKMHsControl_of_commutator_lowFreq`.
 
+## Parseval (Parseval.lean)
+
+**Proved (no sorry, standard axioms only):**
+- `hasSum_prod_cubeCoeff` (Parseval's identity): for continuous `ℤ³`-periodic `f, g : ℝ³ → ℂ`, `Σ_k conj(f̂_k) ĝ_k = ∫_{[0,1]³} conj(f) g`. This is transferred from Mathlib's `hasSum_prod_mFourierCoeff` on `UnitAddTorus (Fin 3)`. It is the first step of the `s = 3` physical-space (Kato–Ponce / Gagliardo–Nirenberg) route to `PeriodicFourierCommutatorBound`.
+
+Coined names, to be renamed later: `torusLift`, `torusLift_mk`, `continuous_torusLift`, `integral_torusLift`, `mFourierCoeff_torusLift`, `hasSum_prod_cubeCoeff` (modelled on Mathlib's `hasSum_prod_mFourierCoeff`).
+
 ## Copyright, license and scope
 
 Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)). Licensed under the Apache License, Version 2.0; see `LICENSE` and `NOTICE`.

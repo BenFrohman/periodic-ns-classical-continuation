@@ -167,3 +167,8 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicFourierCoeffDecay
 #print axioms PeriodicNSContinuation.periodicFourierHsEnergyIdentity
 #print axioms PeriodicNSContinuation.periodicBKMHsControl_of_commutator_lowFreq
+#print axioms PeriodicNSContinuation.torusLift_mk
+#print axioms PeriodicNSContinuation.continuous_torusLift
+#print axioms PeriodicNSContinuation.integral_torusLift
+#print axioms PeriodicNSContinuation.mFourierCoeff_torusLift
+#print axioms PeriodicNSContinuation.hasSum_prod_cubeCoeff

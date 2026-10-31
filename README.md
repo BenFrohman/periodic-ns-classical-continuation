@@ -372,3 +372,18 @@ It is not vacuous, because `R ≥ 2` and nonzero `v` are allowed. **It is not pr
 Coined names: `modeSq_nonneg`, `tailWeight_le_rpow`, `fourier_split_log`, `vpWeight` (and its lemmas), `gradCoeff`,
 `lowGrad`, `lowGradSup`, `PeriodicLowFreqVorticityBound`, `bkm_log_arith`, `modeSq_add_le`, `sobW_add_le`,
 `conv_term_split`.
+
+## BKM assembly (BKMAssembly.lean)
+
+**Proved (no sorry, standard axioms only):**
+- `periodicLogSobolevBKMBound_of_lowFreq`: for `s > 5/2`, `PeriodicLogSobolevBKMBound s` follows from the single hypothesis `PeriodicLowFreqVorticityBound`. Ingredients proved here: the Fourier series of `∂_j v_i` (`hasSum_grad`), the entrywise split into low frequencies plus tail (`entry_le`), the operator-norm-by-entries bound (`opNorm_le_entries`), the tail bound `≤ √tailWeight(s−1,R)·‖v‖_{H^s}` (`grad_tail_le`), and the choice `R = 2(1+‖v‖_{H^s})^{1/δ}`.
+- `periodicBKMHsControl_of_tame_lowFreq`: `PeriodicBKMHsControl` from the tame hypothesis plus `PeriodicLowFreqVorticityBound`.
+- Kato–Ponce split: `periodicTameHsInequality_of_fourier` derives `PeriodicTameHsInequality ν s C` from `PeriodicFourierHsEnergyIdentity ν s` and `PeriodicFourierCommutatorBound s C`. The viscous term is dropped by its sign (`visc_term_nonpos`). `periodicBKMHsControl_of_fourier_lowFreq` chains these.
+
+**Still hypotheses (true classically, not proved here):**
+- `PeriodicLowFreqVorticityBound` (low-frequency ‖∇u‖ ≲ (1+log R)‖ω‖_∞).
+- `PeriodicFourierHsEnergyIdentity`: the Fourier coefficients of a classical solution satisfy `û' = fourierNSField ν û`, and the H^s norm differentiates termwise. The repo only has the reverse (reconstruction) direction.
+- `PeriodicFourierCommutatorBound`: the commutator bound with ‖∇v‖_∞. The existing TorusFourierNS machinery (`weight_commutator_le`, `galerkinTameTransportBound_of_gt`) proves the tame bound in the H^{s₀}/Wiener norm, not in ‖∇v‖_∞. Closing that gap needs physical-space paraproducts.
+- `PeriodicBKMIntegrability` remains open. **The Clay problem is not solved by this repository.**
+
+Coined names: `ev`, `phase_shift`, `summable_mode_mul_coeff`, `norm_gradCoeff`, `hasSum_grad`, `abs_le_of_modeSq_le`, `lowGrad_eq`, `entry_le`, `opNorm_le_entries`, `grad_tail_le`, `lowGrad_norm_le`, `periodicLogSobolevBKMBound_of_lowFreq`, `periodicBKMHsControl_of_tame_lowFreq`, `nlField`, `fourierNSField_eq`, `rateOf`, `PeriodicFourierHsEnergyIdentity`, `PeriodicFourierCommutatorBound`, `visc_term_nonpos`, `periodicTameHsInequality_of_fourier`, `periodicBKMHsControl_of_fourier_lowFreq`.

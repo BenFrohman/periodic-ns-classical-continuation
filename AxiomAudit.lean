@@ -265,3 +265,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.vortCoeff_eq
 #print axioms PeriodicNSContinuation.gradCoeff_eq_vort
 #print axioms PeriodicNSContinuation.gradCoeff_zero
+#print axioms PeriodicNSContinuation.integral_exp_int
+#print axioms PeriodicNSContinuation.charE_eq_prod
+#print axioms PeriodicNSContinuation.volume_restrict_cell
+#print axioms PeriodicNSContinuation.integral_charE
+#print axioms PeriodicNSContinuation.charE_mul_conj
+#print axioms PeriodicNSContinuation.integral_charE_mul_conj
+#print axioms PeriodicNSContinuation.integral_normSq_multKernel

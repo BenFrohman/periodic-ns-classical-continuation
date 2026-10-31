@@ -40,3 +40,12 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.fourierCoeffVF_hermitian
 #print axioms PeriodicNSContinuation.galerkinStructurePreserved_of
 #print axioms PeriodicNSContinuation.periodicGalerkinUniformTime_of_gt
+#print axioms PeriodicNSContinuation.integral_pdC_eq_zero
+#print axioms PeriodicNSContinuation.cubeCoeff_pdC
+#print axioms PeriodicNSContinuation.periodicDataDivFree
+#print axioms PeriodicNSContinuation.cubeCoeff_helmOp
+#print axioms PeriodicNSContinuation.exists_bound_cubeCoeff
+#print axioms PeriodicNSContinuation.summable_sobW_cubeCoeff
+#print axioms PeriodicNSContinuation.periodicDataHs
+#print axioms PeriodicNSContinuation.galerkinContinuation
+#print axioms PeriodicNSContinuation.periodicGalerkinUniformTime_of_gt'

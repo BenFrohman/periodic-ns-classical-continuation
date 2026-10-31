@@ -28,10 +28,9 @@ Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`
 * `fourierCoeffVF_hermitian`; `galerkinStructurePreserved_of` (from `PeriodicDataDivFree`);
   `periodicGalerkinUniformTime_of_gt` (`s > 5/2`; transport bound now proved in `TorusFourierNS`).
 
-**NOT proved (explicit named-Prop inputs):** `PeriodicGalerkinLimit` (compactness, limit,
-smoothness, pressure), `PeriodicDataHs` (smooth periodic data have `H^s` Fourier coefficients),
-`PeriodicDataDivFree` (coined: `k · û(k) = 0` for smooth divergence-free data),
-`GalerkinContinuation` (finite-dimensional ODE continuation under an a priori bound).
+`PeriodicDataHs`, `PeriodicDataDivFree`, `GalerkinContinuation` are proved in `FourierData`.
+**NOT proved (explicit named-Prop input):** `PeriodicGalerkinLimit` (compactness, limit,
+smoothness, pressure).
 -/
 
 noncomputable section
@@ -69,7 +68,8 @@ def PeriodicGalerkinLimit (ν s : ℝ) : Prop :=
     ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure),
       IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p
 
-/-- **NOT proved.** Smooth periodic data have `H^s` Fourier coefficients. -/
+/-- Smooth periodic data have `H^s` Fourier coefficients. Proved for every `s` as
+`periodicDataHs` in `FourierData`. -/
 def PeriodicDataHs (s : ℝ) : Prop :=
   ∀ u₀ : NavierStokes3D.VelocityField, IsPeriodicSmoothInitialData u₀ →
     TorusFourierNS.MemHsField s (fourierCoeffVF u₀)
@@ -83,7 +83,7 @@ def GalerkinStructurePreserved (ν : ℝ) : Prop :=
         TorusFourierNS.HermitianField (TorusFourierNS.extendG (α t)) ∧
           TorusFourierNS.DivergenceFree (TorusFourierNS.extendG (α t))
 
-/-- **NOT proved.** Finite-dimensional continuation: an a priori bound valid for every solution
+/-- Finite-dimensional continuation (proved as `galerkinContinuation` in `FourierData`): an a priori bound valid for every solution
 on every `[0,T']`, `T' ≤ T`, yields a solution on `[0,T]`. -/
 def GalerkinContinuation (ν s : ℝ) : Prop :=
   ∀ (N : ℕ) (a : TorusFourierNS.FField) (T M : ℝ), 0 < T →

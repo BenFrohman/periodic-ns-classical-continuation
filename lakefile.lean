@@ -11,7 +11,7 @@ require WeightedEnstrophy from git
   "https://github.com/BenFrohman/weighted-enstrophy-identities.git" @ "1df4652d1a40430055ba6480904db5ab270497c3"
 
 require TorusFourierNS from git
-  "https://github.com/BenFrohman/torus-fourier-ns-lemmas.git" @ "10be9b1e3a3125386ed6afe76b53e5262ed411ea"
+  "https://github.com/BenFrohman/torus-fourier-ns-lemmas.git" @ "878ce978d322bf4d35c8cc5b6b92337b2784da0a"
 
 @[default_target]
 lean_lib «PeriodicNSContinuation» where

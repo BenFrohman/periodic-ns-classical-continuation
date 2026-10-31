@@ -74,10 +74,27 @@ for every `N`, a solution of the concrete truncated Leray-projected system
   follows from `PeriodicDataHs s`, `PeriodicDataDivFree` and `GalerkinContinuation ν s` only. The
   transport bound is now proved (`TorusFourierNS.galerkinTransportBound_of_gt`, `s > 5/2`).
 
-**NOT proved (explicit named-Prop inputs):** `PeriodicGalerkinLimit`, `PeriodicDataHs` (smooth data
-have `H^s` coefficients), `PeriodicDataDivFree` (smooth divergence-free data have `k·û(k) = 0`),
-`GalerkinContinuation`. `GalerkinTransportBound` for `3/2 < s ≤ 5/2` is not covered. So
+**Now proved (`PeriodicNSContinuation/FourierData.lean`):** `periodicDataHs s` (every real `s`),
+`periodicDataDivFree`, `galerkinContinuation ν s`, hence
+`periodicGalerkinUniformTime_of_gt' (hν : 0 ≤ ν) (hs : 5/2 < s) : PeriodicGalerkinUniformTime ν s`
+with no named-Prop inputs. Method: integration by parts on the unit cell `[0,1]³`
+(`cubeCoeff (∂_j g) k = 2πi k_j · cubeCoeff g k` for smooth `1`-periodic `g`), iterated
+`(1 - Δ/4π²)`, the trivial bound `|ĝ(k)| ≤ sup |g|`, and the Galerkin continuation theorem
+from `TorusFourierNS` (pin bumped to `878ce97`).
+
+**NOT proved (explicit named-Prop input):** `PeriodicGalerkinLimit` (compactness, passage to the
+limit, smoothness, pressure). `GalerkinTransportBound` for `3/2 < s ≤ 5/2` is not covered. So
 `PeriodicLocalExistence` (Kato) is still conditional, and Clay is not solved.
+
+Coined names in `FourierData`: `cubeCoeff`, `pdC`, `insertNth_one_eq`, `integral_pdC_eq_zero`,
+`charK`, `cubeCoeff_eq`, `phaseCLM`, `phaseCLM_apply`, `charK_eq`, `charK_contDiff`,
+`charK_hasFDerivAt`, `phaseCLM_single`, `charK_add_single`, `norm_charK`, `cubeCoeff_pdC`,
+`compC`, `fourierCoeffVF_eq_cubeCoeff`, `equiv_symm_single`, `compC_contDiff`,
+`compC_add_single`, `pdC_compC`, `periodicDataDivFree`, `SmoothPer`, `SmoothPer.pdC`,
+`SmoothPer.continuous`, `helmOp`, `SmoothPer.helmOp`, `integrableOn_coeff`, `cubeCoeff_helmOp`,
+`smoothPer_iterate_helmOp`, `cubeCoeff_iterate_helmOp`, `exists_bound_cubeCoeff`,
+`summable_sobW_cubeCoeff`, `periodicDataHs`, `galerkinContinuation`,
+`periodicGalerkinUniformTime_of_gt'`.
 
 Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`,
 `PeriodicGalerkinUniformTime`, `PeriodicGalerkinLimit`, `PeriodicDataHs`,

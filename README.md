@@ -31,7 +31,7 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 * `PeriodicLocalExistence` — **now proved** for `ν ≥ 0` (`periodicLocalExistence_of_nonneg`, see below); no longer a hypothesis.
 * `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Now reduced to `PeriodicBKMHsControl` (see below); the blow-up alternative is proved.
 * `PeriodicBKMIntegrability` — open.
-* `PeriodicPhysicalCommutatorBound C` (s = 3, coined) — proved sufficient for `PeriodicFourierCommutatorBound 3 C`; not yet proved itself.
+* `PeriodicPhysicalCommutatorBound C` (s = 3, coined) — proved sufficient for `PeriodicFourierCommutatorBound 3 C`, and now **proved** (`periodicPhysicalCommutatorBound`, CommutatorAssembly.lean), with C = 2·64·315·64·(4π²)³.
 
 ## Torus Sobolev foundation (`PeriodicNSContinuation/TorusSobolev.lean`)
 
@@ -432,13 +432,13 @@ Coined names, to be renamed later: `torusLift`, `torusLift_mk`, `continuous_toru
 - `periodicFourierCommutatorBound_of_physical`: `PeriodicPhysicalCommutatorBound C → PeriodicFourierCommutatorBound 3 C`.
 - `periodicBKMHsControl_of_physical_lowFreq`: `PeriodicPhysicalCommutatorBound C` (with `C ≥ 0`) together with `PeriodicLowFreqVorticityBound` gives `PeriodicBKMHsControl ν 3`.
 
-**FLAG, new hypothesis (not proved):** `PeriodicPhysicalCommutatorBound C` says that `-2 Σ_i ∫ (1 - Δ/4π²)³ v_i · ((v·∇)v)_i ≤ C ‖∇v‖_∞ ‖v‖²_{H³}`. This is the classical `s = 3` Kato–Ponce / Gagliardo–Nirenberg energy estimate. It is a sufficient replacement for `PeriodicFourierCommutatorBound 3 C`, and the reduction is proved. Discharging it is the next step.
+**FLAG, coined Prop (now proved, see CommutatorAssembly.lean below):** `PeriodicPhysicalCommutatorBound C` says that `-2 Σ_i ∫ (1 - Δ/4π²)³ v_i · ((v·∇)v)_i ≤ C ‖∇v‖_∞ ‖v‖²_{H³}`. This is the classical `s = 3` Kato–Ponce / Gagliardo–Nirenberg energy estimate. It is a sufficient replacement for `PeriodicFourierCommutatorBound 3 C`, and the reduction is proved. It is discharged in CommutatorAssembly.lean.
 
 Coined names, to be renamed later: `PeriodicPhysicalCommutatorBound`, `convR`, `hasSum_rate_three`, `periodicFourierCommutatorBound_of_physical`, `periodicBKMHsControl_of_physical_lowFreq`, `hasSum_mode_fin`, `perR_convR`, `cubeCoeff_convR`, `nlField_eq_convR`, `abs_mul_le_ksq`, `leray_grad_term_bound`, `hasSum_re_cubeCoeff`, `summable_sq_norm_cubeCoeff`, `PerR.add_int`, `PerR.liftR_int`, `PerR.iterate_helmR`, `cubeCoeff_iterate_helmR`.
 
 ## Kato–Ponce toolkit (KatoPonce.lean)
 
-Work toward discharging `PeriodicPhysicalCommutatorBound`. `PeriodicPhysicalCommutatorBound` is still a hypothesis.
+Work toward discharging `PeriodicPhysicalCommutatorBound`. (Completed in CommutatorAssembly.lean.)
 
 **Proved (no sorry, standard axioms only):**
 - Unit-cell calculus for smooth periodic scalar fields: closure of `PerR` under products, sums and scalar multiples; the Leibniz rule `pdR_mul`; linearity of `pdR`; Schwarz symmetry `pdR_comm`; `∫_{[0,1]³} ∂_j φ = 0` (`cellI_pdR`); and integration by parts (`cellI_ibp`).
@@ -446,7 +446,23 @@ Work toward discharging `PeriodicPhysicalCommutatorBound`. `PeriodicPhysicalComm
 
 Coined names, to be renamed later: `cellI`, `PerR.cont`, `PerR.mul`, `PerR.add`, `PerR.const_mul`, `PerR.sum`, `integrableOn_cell`, `cellI_add`, `cellI_const_mul`, `cellI_neg`, `cellI_sum`, `cellI_mono`, `cellI_nonneg`, `cellI_pdR`, `pdR_mul`, `pdR_add`, `pdR_const_mul`, `pdR_sum`, `pdR_comm`, `cellI_ibp`, `cellI_le_two`, `gagliardoNirenberg_cell`, `cellI_ibp'`, `cellI_sq_mul_abs_le`, `bddAbove_norm_fderiv`, `abs_pdR_coord_le`, `DL`, `PerR.DL`, `DL_append`, `DL_pdR`, `pdR_listSum`, `splits`, `splits_length`, `mem_splits`, `splits_eq`, `DL_mul`, `DL_sum`, `toL`, `exists_toL`, `toL_length`, `physQ`, `le_physQ`, `physQ_nonneg`, `abs_cellI_le`, `lower_term_bound`, `top_term_zero`.
 
-Further proved pieces (KatoPonce.lean): Leibniz rule `DL_mul` for iterated derivatives `DL`; `physQ v` (sum of squared cell integrals of all derivatives of order ≤ 3 of the components); `lower_term_bound` (each lower-order Leibniz term of order-3 commutator is ≤ 5·‖∇v‖∞·physQ, via Gagliardo–Nirenberg); `top_term_zero` (the top-order term vanishes by div v = 0). Still open toward `PeriodicPhysicalCommutatorBound`: assembling the per-word bound, the Fourier identity linking these cell integrals to `hsSq 3`, and the final constant. `PeriodicBKMHsControl ν 3` is not yet discharged.
+Further proved pieces (KatoPonce.lean): Leibniz rule `DL_mul` for iterated derivatives `DL`; `physQ v` (sum of squared cell integrals of all derivatives of order ≤ 3 of the components); `lower_term_bound` (each lower-order Leibniz term of order-3 commutator is ≤ 5·‖∇v‖∞·physQ, via Gagliardo–Nirenberg); `top_term_zero` (the top-order term vanishes by div v = 0). See below for the assembly.
+
+## Discharging the s = 3 commutator bound (CommutatorAssembly.lean)
+
+All proved; axioms only propext, Classical.choice, Quot.sound.
+
+- `cellI_iterate_helmR`: `∫ (1 - Δ/4π²)ⁿφ · χ` expands as `wordSum n` over derivative words, by repeated integration by parts.
+- `word_bound`: for each word `L` of length ≤ 3, `|Σ_i ∫ ∂^L v_i · ∂^L ((v·∇)v)_i| ≤ 315 ‖∇v‖_∞ physQ v`.
+- `sum_cellI_helm_three`: `Σ_i ∫ (1 - Δ/4π²)³v_i · v_i = hsSq 3 v` (Parseval).
+- `physQ_le_hsSq`: `physQ v ≤ 64 (4π²)³ hsSq 3 v`.
+- `periodicPhysicalCommutatorBound`: `PeriodicPhysicalCommutatorBound (2·64·315·64·(4π²)³)`.
+- `exists_periodicPhysicalCommutatorBound`: `∃ C, 0 ≤ C ∧ PeriodicPhysicalCommutatorBound C`.
+- `periodicBKMHsControl_three_of_lowFreq`: `PeriodicLowFreqVorticityBound → PeriodicBKMHsControl ν 3`. **Conditional only on `PeriodicLowFreqVorticityBound`**, which is not proved.
+
+Nothing here proves `PeriodicBKMIntegrability`, the Clay problem, or global regularity of Navier–Stokes.
+
+Coined names, to be renamed later: `pdR_helmR`, `DL_helmR`, `cellI_helmR_mul`, `wordSum`, `cellI_iterate_helmR`, `wordSum_sum`, `helm_const_le_one`, `helm_const_pos`, `abs_wordSum_le`, `wordSum_nonneg`, `le_wordSum`, `cellI_listSum`, `abs_listSum_le`, `word_bound`, `sum_cellI_helm_three`, `physQ_le_hsSq`, `periodicPhysicalCommutatorBound`, `exists_periodicPhysicalCommutatorBound`, `periodicBKMHsControl_three_of_lowFreq`.
 
 ## Copyright, license and scope
 

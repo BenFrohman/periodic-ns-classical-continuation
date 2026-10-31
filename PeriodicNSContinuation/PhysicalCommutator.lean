@@ -155,7 +155,7 @@ lemma summable_sq_norm_cubeCoeff {φ : T3 → ℝ} (hφ : PerR φ) :
   rw [Complex.conj_mul']; norm_cast
 
 
-/-- Coined. **Hypothesis (not yet proved here).** Physical-space `s = 3` commutator bound:
+/-- Coined. **Stated here; proved in `CommutatorAssembly.lean`** (`periodicPhysicalCommutatorBound`). Physical-space `s = 3` commutator bound:
 `-2 ∑ᵢ ∫_{[0,1]³} (1 - Δ/4π²)³vᵢ · ((v·∇)v)ᵢ ≤ C ‖∇v‖_∞ ‖v‖²_{H³}`. Only the convective term
 appears; the pressure has been removed by `k · v̂ = 0` (see
 `periodicFourierCommutatorBound_of_physical`). -/

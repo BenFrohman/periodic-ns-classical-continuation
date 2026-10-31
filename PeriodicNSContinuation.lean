@@ -32,3 +32,4 @@ import PeriodicNSContinuation.CoeffODE
 import PeriodicNSContinuation.Parseval
 import PeriodicNSContinuation.PhysicalCommutator
 import PeriodicNSContinuation.KatoPonce
+import PeriodicNSContinuation.CommutatorAssembly

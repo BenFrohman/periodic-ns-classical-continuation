@@ -39,3 +39,5 @@ import PeriodicNSContinuation.CellParseval
 import PeriodicNSContinuation.KernelWeighted
 import PeriodicNSContinuation.WeightIntegral
 import PeriodicNSContinuation.DyadicBlock
+import PeriodicNSContinuation.VPKernel
+import PeriodicNSContinuation.LowFreqAssembly

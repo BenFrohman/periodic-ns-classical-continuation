@@ -385,3 +385,17 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.exp_gronwall_Ioo
 #print axioms PeriodicNSContinuation.periodicDirectionCriterion_of_growth
 #print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_directionGrowth
+#print axioms PeriodicNSContinuation.hasDerivAt_normalize
+#print axioms PeriodicNSContinuation.inner_perpPart
+#print axioms PeriodicNSContinuation.strain_split
+#print axioms PeriodicNSContinuation.hasDerivAt_vortDir_lagrangian
+#print axioms PeriodicNSContinuation.abs_det3_le
+#print axioms PeriodicNSContinuation.abs_cfDepletion_le
+#print axioms PeriodicNSContinuation.cfDepletion_self
+#print axioms PeriodicNSContinuation.cfDepletion_le_of_holder
+#print axioms PeriodicNSContinuation.gronwall_integrating_factor
+#print axioms PeriodicNSContinuation.inner_vortDir_orthogonalStrain
+#print axioms PeriodicNSContinuation.periodicDirectionRegularity_of_bending
+#print axioms PeriodicNSContinuation.periodicDirectionEnstrophyGrowthL1_of_growth
+#print axioms PeriodicNSContinuation.periodicDirectionCriterion_of_growthL1
+#print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_bending

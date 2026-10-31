@@ -296,3 +296,14 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.norm_charE
 #print axioms PeriodicNSContinuation.multKernel_sub_eq_conj
 #print axioms PeriodicNSContinuation.integral_normSq_multKernel_sub
+#print axioms PeriodicNSContinuation.integral_rpow_weight_le
+#print axioms PeriodicNSContinuation.sinWeight
+#print axioms PeriodicNSContinuation.continuous_sinWeight
+#print axioms PeriodicNSContinuation.sinWeight_periodic
+#print axioms PeriodicNSContinuation.sinWeight_neg
+#print axioms PeriodicNSContinuation.sinWeight_le
+#print axioms PeriodicNSContinuation.integral_sinWeight_le
+#print axioms PeriodicNSContinuation.normSq_charE_unit_sub_one
+#print axioms PeriodicNSContinuation.cellWeight_inv_sq_le
+#print axioms PeriodicNSContinuation.integral_cellWeight_inv_sq_le
+#print axioms PeriodicNSContinuation.integral_norm_multKernel_sub_le

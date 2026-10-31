@@ -107,3 +107,9 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_nonneg
 #print axioms PeriodicNSContinuation.periodicLocalExistence_of_nonneg
 #print axioms PeriodicNSContinuation.clay_B_exact_of_bkm
+#print axioms PeriodicNSContinuation.periodicLocalSolution_quant
+#print axioms PeriodicNSContinuation.shift_sol
+#print axioms PeriodicNSContinuation.glue_sol
+#print axioms PeriodicNSContinuation.periodicHsBlowupAlternative
+#print axioms PeriodicNSContinuation.periodicBKMCriterion_of_hsControl
+#print axioms PeriodicNSContinuation.clay_B_exact_of_hsControl

@@ -29,7 +29,7 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 ## Still hypotheses (named Props)
 
 * `PeriodicLocalExistence` — **now proved** for `ν ≥ 0` (`periodicLocalExistence_of_nonneg`, see below); no longer a hypothesis.
-* `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Not formalized.
+* `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Now reduced to `PeriodicBKMHsControl` (see below); the blow-up alternative is proved.
 * `PeriodicBKMIntegrability` — open.
 
 ## Torus Sobolev foundation (`PeriodicNSContinuation/TorusSobolev.lean`)
@@ -265,3 +265,25 @@ has a coined name.
 
 Coined names: `hsNormField_extendG_mono`, `hs_bound_of_galerkin`,
 `periodicGalerkinLimit_of_velocity_pressure`.
+
+## BKM criterion split (`PeriodicNSContinuation/Continuation.lean`)
+
+**Proved, no hypothesis Props** (`0 ≤ ν`, `5/2 < s`):
+- `periodicLocalSolution_quant`: local existence on `[0, barrierTime C Y]` whenever `‖û₀‖²_{H^s} ≤ Y`
+  (time depends only on the `H^s` bound).
+- `shift_sol` (time shift), `glue_sol` (gluing two overlapping solutions).
+- `periodicHsBlowupAlternative : PeriodicHsBlowupAlternative ν s`: a maximal solution with finite
+  `T*` cannot stay bounded in `H^s` on `[0, T*)`.
+
+**Not proved (named Prop):** `PeriodicBKMHsControl ν s`: along a maximal solution with finite `T*`,
+`∫₀^{T*} ‖ω‖_∞ < ∞` implies `sup_{[0,T*)} ‖u‖_{H^s} < ∞`. This is the classical BKM core
+(tame `H^s` estimate + logarithmic Sobolev inequality), not formalized here.
+
+**Conditional:** `periodicBKMCriterion_of_hsControl : PeriodicBKMHsControl ν s → PeriodicBKMCriterion ν`
+and `clay_B_exact_of_hsControl : PeriodicBKMHsControl ν s → PeriodicBKMIntegrability ν → Clay_B_exact ν`.
+`PeriodicBKMIntegrability` is **open**. **Clay is not solved.**
+
+Coined names: `barrierTime_anti`, `barrierTime_pos`, `periodicLocalSolution_quant`, `shift_sol`,
+`glueR`, `glue_contDiffOn`, `glue_deriv`, `glue_sol`, `PeriodicHsBlowupAlternative`,
+`periodicHsBlowupAlternative`, `PeriodicBKMHsControl`, `periodicBKMCriterion_of_hsControl`,
+`clay_B_exact_of_hsControl`.

@@ -295,7 +295,7 @@ Coined names: `barrierTime_anti`, `barrierTime_pos`, `periodicLocalSolution_quan
 **Hypotheses (named Props, NOT proved here; classical and true for suitable constants):**
 - `PeriodicTameHsInequality ν s C`: along smooth solutions, `t ↦ ‖u‖²_{H^s}` is continuous and
   differentiable with `d/dt ‖u‖²_{H^s} ≤ C ‖∇u‖_∞ ‖u‖²_{H^s}` (Kato–Ponce commutator estimate).
-- `PeriodicSupNormContinuity ν`: `t ↦ ‖∇u(t)‖_∞` and `t ↦ ‖ω(t)‖_∞` are continuous (elementary).
+- `PeriodicSupNormContinuity ν`: `t ↦ ‖∇u(t)‖_∞` and `t ↦ ‖ω(t)‖_∞` are continuous. **Now proved** (`periodicSupNormContinuity`, see below).
 - `PeriodicLogSobolevBKM s K`: `‖∇v‖_∞ ≤ K (1 + ‖ω‖_∞ (1 + log (1 + ‖v‖²_{H^s})))` for smooth
   periodic divergence-free `v` (Brezis–Gallouet / BKM).
 
@@ -314,3 +314,30 @@ Coined names: `gradSupNorm`, `hsSq`, `PeriodicTameHsInequality`, `PeriodicSupNor
 `PeriodicLogSobolevBKM`, `PeriodicGradHsControl`, `gronwall_of_hasDerivAt`, `periodicGradHsControl`,
 `periodicBKMHsControl_of_tame_log`, `clay_B_exact_of_tame_log`, plus the helpers `sol_around`,
 `hsNorm_le_of_hsSq_le`, `u_zero`, `integral_le_of_nonneg`, `gradSupNorm_nonneg`, `hsSq_nonneg`.
+
+## BKM pieces (`PeriodicNSContinuation/BKMPieces.lean`)
+
+**Proved, no hypothesis Props:**
+- `supNorm_continuousOn`, `periodicSupNormContinuity ν`: sup norms of `∇u` and `ω` are continuous in time.
+- `fourier_split_bound`: for `s > 3/2` and `∑ (1+|k|²)^s c_k² < ∞`,
+  `∑|c_k| ≤ ∑_{|k|≤R}|c_k| + (∑_{|k|>R}(1+|k|²)^{-s})^{1/2} ‖c‖_{H^s}`.
+- `tailWeight_tendsto_zero` (the tail weight tends to 0 as `R → ∞`) and `fourier_split_eps`
+  (for each `ε > 0` there is an `R` that gives `ε‖c‖_{H^s}`).
+  These are the first Fourier-side steps of Brezis–Gallouet. The explicit rate
+  `tailWeight s R ≲ R^{3-2s}`, the low-frequency bound and the choice `R ~ ‖u‖_{H^s}^{1/(s-3/2)}` are
+  **not** done. The 3D BKM inequality with `‖ω‖_∞` also needs a Calderón–Zygmund/Littlewood–Paley
+  bound for the low-frequency part, which is not formalized.
+
+**Hypotheses, with constants quantified existentially and depending only on `s`:**
+`PeriodicTameHsBound s := ∃ C ≥ 0, ∀ ν, PeriodicTameHsInequality ν s C` and
+`PeriodicLogSobolevBKMBound s := ∃ K ≥ 0, PeriodicLogSobolevBKM s K`. NOT proved.
+
+**Proved from them:** `periodicGradHsControl_of_bound`, `periodicBKMHsControl_of_bounds`.
+**Conditional:** `clay_B_exact_of_bounds` (also needs the **open** `PeriodicBKMIntegrability ν`).
+**Clay is not solved.**
+
+Coined names: `supNorm_continuousOn`, `curlOf`, `continuous_single'`, `continuous_curlOf`,
+`directionalCoord_eq`, `curl_eq_curlOf`, `periodicSupNormContinuity`, `PeriodicTameHsBound`,
+`PeriodicLogSobolevBKMBound`, `periodicGradHsControl_of_bound`, `periodicBKMHsControl_of_bounds`,
+`clay_B_exact_of_bounds`, `modeSq`, `tailWeight`, `cs_tsum`, `fourier_split_bound`,
+`tailWeight_tendsto_zero`, `fourier_split_eps`.

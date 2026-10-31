@@ -117,3 +117,11 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicGradHsControl
 #print axioms PeriodicNSContinuation.periodicBKMHsControl_of_tame_log
 #print axioms PeriodicNSContinuation.clay_B_exact_of_tame_log
+#print axioms PeriodicNSContinuation.supNorm_continuousOn
+#print axioms PeriodicNSContinuation.periodicSupNormContinuity
+#print axioms PeriodicNSContinuation.periodicGradHsControl_of_bound
+#print axioms PeriodicNSContinuation.periodicBKMHsControl_of_bounds
+#print axioms PeriodicNSContinuation.clay_B_exact_of_bounds
+#print axioms PeriodicNSContinuation.fourier_split_bound
+#print axioms PeriodicNSContinuation.tailWeight_tendsto_zero
+#print axioms PeriodicNSContinuation.fourier_split_eps

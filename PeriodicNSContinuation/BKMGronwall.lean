@@ -11,7 +11,7 @@ import PeriodicNSContinuation.Continuation
 * `gronwall_of_hasDerivAt` — **proved**: differential Grönwall with a continuous coefficient.
 * `PeriodicTameHsInequality ν s C` — **hypothesis** (Kato–Ponce commutator / tame energy estimate):
   `d/dt ‖u‖²_{H^s} ≤ C ‖∇u‖_∞ ‖u‖²_{H^s}` along smooth solutions.
-* `PeriodicSupNormContinuity ν` — **hypothesis** (elementary but not formalized): `t ↦ ‖∇u(t)‖_∞`
+* `PeriodicSupNormContinuity ν` — now **proved** in `BKMPieces.lean` (`periodicSupNormContinuity`): `t ↦ ‖∇u(t)‖_∞`
   and `t ↦ ‖ω(t)‖_∞` are continuous on `[0,T']`.
 * `PeriodicLogSobolevBKM s K` — **hypothesis** (Brezis–Gallouet / BKM log inequality):
   `‖∇v‖_∞ ≤ K (1 + ‖ω‖_∞ (1 + log (1 + ‖v‖²_{H^s})))`.
@@ -50,7 +50,7 @@ def PeriodicTameHsInequality (ν s C : ℝ) : Prop :=
     ∀ t ∈ Ioo 0 T', ∃ d, HasDerivAt (fun t => hsSq s (u t)) d t ∧
       d ≤ C * gradSupNorm (u t) * hsSq s (u t)
 
-/-- Coined. **Hypothesis (elementary, not formalized):** sup norms of `∇u` and `ω` are continuous
+/-- Coined. **Proved** in `BKMPieces.lean` (`periodicSupNormContinuity`): sup norms of `∇u` and `ω` are continuous
 in time for a solution smooth on `[0,T'] × ℝ³` and periodic in space. -/
 def PeriodicSupNormContinuity (ν : ℝ) : Prop :=
   0 < ν → ∀ (u₀ : VelocityField) (u : TimeDependentVelocity) (p : TimeDependentPressure) (T' : ℝ),

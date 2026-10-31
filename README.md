@@ -31,6 +31,7 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 * `PeriodicLocalExistence` — **now proved** for `ν ≥ 0` (`periodicLocalExistence_of_nonneg`, see below); no longer a hypothesis.
 * `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Now reduced to `PeriodicBKMHsControl` (see below); the blow-up alternative is proved.
 * `PeriodicBKMIntegrability` — open.
+* `PeriodicPhysicalCommutatorBound C` (s = 3, coined) — proved sufficient for `PeriodicFourierCommutatorBound 3 C`; not yet proved itself.
 
 ## Torus Sobolev foundation (`PeriodicNSContinuation/TorusSobolev.lean`)
 
@@ -423,6 +424,17 @@ Coined names: `liftR`, `pdR`, `PerR`, `PerR.pdR`, `liftR_contDiff`, `liftR_add_s
 - `hasSum_prod_cubeCoeff` (Parseval's identity): for continuous `ℤ³`-periodic `f, g : ℝ³ → ℂ`, `Σ_k conj(f̂_k) ĝ_k = ∫_{[0,1]³} conj(f) g`. This is transferred from Mathlib's `hasSum_prod_mFourierCoeff` on `UnitAddTorus (Fin 3)`. It is the first step of the `s = 3` physical-space (Kato–Ponce / Gagliardo–Nirenberg) route to `PeriodicFourierCommutatorBound`.
 
 Coined names, to be renamed later: `torusLift`, `torusLift_mk`, `continuous_torusLift`, `integral_torusLift`, `mFourierCoeff_torusLift`, `hasSum_prod_cubeCoeff` (modelled on Mathlib's `hasSum_prod_mFourierCoeff`).
+
+## Physical-space commutator bound at s = 3 (PhysicalCommutator.lean)
+
+**Proved (no sorry, standard axioms only):**
+- `hasSum_rate_three`: for smooth periodic divergence-free `v`, the Fourier-side `H³` nonlinear rate is summable and equals `-2 Σ_i ∫_{[0,1]³} (1 - Δ/4π²)³ v_i · ((v·∇)v)_i`. The proof uses Parseval three times. The pressure (Leray gradient) part drops out because `k · v̂_k = 0`, and its summability is shown directly.
+- `periodicFourierCommutatorBound_of_physical`: `PeriodicPhysicalCommutatorBound C → PeriodicFourierCommutatorBound 3 C`.
+- `periodicBKMHsControl_of_physical_lowFreq`: `PeriodicPhysicalCommutatorBound C` (with `C ≥ 0`) together with `PeriodicLowFreqVorticityBound` gives `PeriodicBKMHsControl ν 3`.
+
+**FLAG, new hypothesis (not proved):** `PeriodicPhysicalCommutatorBound C` says that `-2 Σ_i ∫ (1 - Δ/4π²)³ v_i · ((v·∇)v)_i ≤ C ‖∇v‖_∞ ‖v‖²_{H³}`. This is the classical `s = 3` Kato–Ponce / Gagliardo–Nirenberg energy estimate. It is a sufficient replacement for `PeriodicFourierCommutatorBound 3 C`, and the reduction is proved. Discharging it is the next step.
+
+Coined names, to be renamed later: `PeriodicPhysicalCommutatorBound`, `convR`, `hasSum_rate_three`, `periodicFourierCommutatorBound_of_physical`, `periodicBKMHsControl_of_physical_lowFreq`, `hasSum_mode_fin`, `perR_convR`, `cubeCoeff_convR`, `nlField_eq_convR`, `abs_mul_le_ksq`, `leray_grad_term_bound`, `hasSum_re_cubeCoeff`, `summable_sq_norm_cubeCoeff`, `PerR.add_int`, `PerR.liftR_int`, `PerR.iterate_helmR`, `cubeCoeff_iterate_helmR`.
 
 ## Copyright, license and scope
 

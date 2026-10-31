@@ -30,3 +30,4 @@ import PeriodicNSContinuation.BKMAssembly
 import PeriodicNSContinuation.HsEnergyIdentity
 import PeriodicNSContinuation.CoeffODE
 import PeriodicNSContinuation.Parseval
+import PeriodicNSContinuation.PhysicalCommutator

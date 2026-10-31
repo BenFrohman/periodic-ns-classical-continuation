@@ -464,6 +464,21 @@ Nothing here proves `PeriodicBKMIntegrability`, the Clay problem, or global regu
 
 Coined names, to be renamed later: `pdR_helmR`, `DL_helmR`, `cellI_helmR_mul`, `wordSum`, `cellI_iterate_helmR`, `wordSum_sum`, `helm_const_le_one`, `helm_const_pos`, `abs_wordSum_le`, `wordSum_nonneg`, `le_wordSum`, `cellI_listSum`, `abs_listSum_le`, `word_bound`, `sum_cellI_helm_three`, `physQ_le_hsSq`, `periodicPhysicalCommutatorBound`, `exists_periodicPhysicalCommutatorBound`, `periodicBKMHsControl_three_of_lowFreq`.
 
+## Toward `PeriodicLowFreqVorticityBound` (LowFreqKernel.lean)
+
+`PeriodicLowFreqVorticityBound` is still an unproved hypothesis. It is a true classical estimate, not a false one, and it is not weakened here. Proved so far:
+
+- `multiplier_eq_conv`: a finitely supported Fourier multiplier applied to `cubeCoeff g` equals convolution of `g` with the trigonometric polynomial `multKernel S m` over the unit cell.
+- `norm_multiplier_le`: `L¹ * L^∞` (Young) bound. If `‖g‖ ≤ B` on the cell, the output at `x` is at most `B · ∫_{[0,1]³} ‖K(x−y)‖ dy`.
+
+Remaining plan, not done:
+1. Fourier-side Biot–Savart: express `gradCoeff` through the vorticity coefficients, `−k_j (k × ω̂)_i / |k|²`.
+2. Dyadic smooth blocks: show each block kernel has cell `L¹` norm bounded uniformly in the scale. The intended route is weighted Cauchy–Schwarz plus Parseval with second differences of the multiplier.
+3. Bound the de la Vallée Poussin kernel in `L¹`.
+4. Sum the `O(log R)` blocks.
+
+Coined names, to be renamed later: `charE`, `multKernel`, `continuous_charE`, `continuous_multKernel`, `charE_sub`, `multiplier_eq_conv`, `norm_multiplier_le`.
+
 ## Copyright, license and scope
 
 Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)). Licensed under the Apache License, Version 2.0; see `LICENSE` and `NOTICE`.

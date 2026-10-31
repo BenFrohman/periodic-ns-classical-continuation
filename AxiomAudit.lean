@@ -252,3 +252,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicPhysicalCommutatorBound
 #print axioms PeriodicNSContinuation.exists_periodicPhysicalCommutatorBound
 #print axioms PeriodicNSContinuation.periodicBKMHsControl_three_of_lowFreq
+#print axioms PeriodicNSContinuation.charE
+#print axioms PeriodicNSContinuation.multKernel
+#print axioms PeriodicNSContinuation.continuous_charE
+#print axioms PeriodicNSContinuation.continuous_multKernel
+#print axioms PeriodicNSContinuation.charE_sub
+#print axioms PeriodicNSContinuation.multiplier_eq_conv
+#print axioms PeriodicNSContinuation.norm_multiplier_le

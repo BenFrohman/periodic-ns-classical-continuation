@@ -1,6 +1,8 @@
 # periodic-ns-classical-continuation
 
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
+>
+> **Reserved DOI (draft, not yet published):** [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296)
 
 
 Lean 4 + Mathlib formalization of the classical continuation steps used by the Statement (B)

@@ -436,6 +436,16 @@ Coined names, to be renamed later: `torusLift`, `torusLift_mk`, `continuous_toru
 
 Coined names, to be renamed later: `PeriodicPhysicalCommutatorBound`, `convR`, `hasSum_rate_three`, `periodicFourierCommutatorBound_of_physical`, `periodicBKMHsControl_of_physical_lowFreq`, `hasSum_mode_fin`, `perR_convR`, `cubeCoeff_convR`, `nlField_eq_convR`, `abs_mul_le_ksq`, `leray_grad_term_bound`, `hasSum_re_cubeCoeff`, `summable_sq_norm_cubeCoeff`, `PerR.add_int`, `PerR.liftR_int`, `PerR.iterate_helmR`, `cubeCoeff_iterate_helmR`.
 
+## Kato–Ponce toolkit (KatoPonce.lean)
+
+Work toward discharging `PeriodicPhysicalCommutatorBound`. `PeriodicPhysicalCommutatorBound` is still a hypothesis.
+
+**Proved (no sorry, standard axioms only):**
+- Unit-cell calculus for smooth periodic scalar fields: closure of `PerR` under products, sums and scalar multiples; the Leibniz rule `pdR_mul`; linearity of `pdR`; Schwarz symmetry `pdR_comm`; `∫_{[0,1]³} ∂_j φ = 0` (`cellI_pdR`); and integration by parts (`cellI_ibp`).
+- `gagliardoNirenberg_cell` (Gagliardo–Nirenberg): if `|g| ≤ M` then `∫ (∂_a g)⁴ ≤ 9 M² ∫ (∂_a ∂_a g)²`.
+
+Coined names, to be renamed later: `cellI`, `PerR.cont`, `PerR.mul`, `PerR.add`, `PerR.const_mul`, `PerR.sum`, `integrableOn_cell`, `cellI_add`, `cellI_const_mul`, `cellI_neg`, `cellI_sum`, `cellI_mono`, `cellI_nonneg`, `cellI_pdR`, `pdR_mul`, `pdR_add`, `pdR_const_mul`, `pdR_sum`, `pdR_comm`, `cellI_ibp`, `cellI_le_two`, `gagliardoNirenberg_cell`.
+
 ## Copyright, license and scope
 
 Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)). Licensed under the Apache License, Version 2.0; see `LICENSE` and `NOTICE`.

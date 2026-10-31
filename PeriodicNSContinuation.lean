@@ -31,3 +31,4 @@ import PeriodicNSContinuation.HsEnergyIdentity
 import PeriodicNSContinuation.CoeffODE
 import PeriodicNSContinuation.Parseval
 import PeriodicNSContinuation.PhysicalCommutator
+import PeriodicNSContinuation.KatoPonce

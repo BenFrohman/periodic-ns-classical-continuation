@@ -51,6 +51,10 @@ Names are coined unless they come from FeffermanClayNS.
 | `integrability_of_smallDataGlobal` (Route 2, small data) | proved from the named `PeriodicSmallDataGlobal ν N ε` (classical for e.g. Fujita–Kato `Ḣ^{1/2}` smallness; not formalized) |
 | `integrability_of_prodiSerrin` (Route 2, Prodi–Serrin endpoint `L^∞_t L^∞_x`) | proved from the named `PeriodicProdiSerrinCriterion ν` (classical; not formalized) plus a velocity bound up to the lifespan |
 | `periodicBKMIntegrability_of_vorticityAPriori`, `clay_B_exact_of_vorticityAPriori` (Route 1, κ = 0 analogue of the tether) | proved from `PeriodicVorticityAPrioriBound ν` (**open**) |
+| `riccati_barrier`, `periodicTstar_eq_top_of_smallH1`, `integrability_of_smallH1` (route (a): small H¹ data, `E' ≤ E(−α+βE²)`) | proved from `PeriodicEnstrophyRiccati ν α β` + `PeriodicH1BlowupCriterion ν` (classical, **not formalized**; coined names). Breaks when `β E₀² ≥ α` |
+| `cubic_riccati_barrier`, `periodicVorticityAPrioriBound_of_tetherCubicRate`, `clay_B_exact_of_tetherCubicRate` (the author's `hDI`: `M' ≤ C M² − κ'' M³`) | proved from `PeriodicTetherCubicRate ν` (**open**; coined name). Not derived from the unmodified NS |
+| `uniform_cubic_rate_false_of_scaling` | proved: abstract scaling step; a data-uniform cubic rate is contradictory (NS scaling covariance itself not formalized) |
+| `integrability_of_directionCriterion`, `periodicBKMIntegrability_of_direction` (Def. 7.1, ½-Hölder direction) | proved from `PeriodicDirectionCriterion ν` (classical Beirão da Veiga–Berselli / Constantin–Fefferman, **not formalized**) + `PeriodicDirectionRegularity ν` (**open**) |
 | `PeriodicBKMIntegrability`, `PeriodicGlobalLifespan`, `PeriodicVorticityAPrioriBound` | **not proved; open** (each equivalent to or stronger than the Clay core) |
 
 Where Route 1 breaks: at κ = 0 there is no damping term. Enstrophy obeys only the superlinear

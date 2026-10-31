@@ -43,3 +43,5 @@ import PeriodicNSContinuation.VPKernel
 import PeriodicNSContinuation.LowFreqAssembly
 import PeriodicNSContinuation.BKMFinal
 import PeriodicNSContinuation.IntegrabilityAttack
+import PeriodicNSContinuation.SmallDataAttack
+import PeriodicNSContinuation.TetherClaimAttack

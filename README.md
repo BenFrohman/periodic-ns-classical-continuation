@@ -470,14 +470,14 @@ Coined names, to be renamed later: `pdR_helmR`, `DL_helmR`, `cellI_helmR_mul`, `
 
 - `multiplier_eq_conv`: a finitely supported Fourier multiplier applied to `cubeCoeff g` equals convolution of `g` with the trigonometric polynomial `multKernel S m` over the unit cell.
 - `norm_multiplier_le`: `L¹ * L^∞` (Young) bound. If `‖g‖ ≤ B` on the cell, the output at `x` is at most `B · ∫_{[0,1]³} ‖K(x−y)‖ dy`.
+- `gradCoeff_eq_vort` (BiotSavartCoeff.lean): Fourier-side Biot–Savart. For `k ≠ 0`, `gradCoeff v k i j = −k_j (k × ω̂_k)_i / |k|²`; `gradCoeff_zero` handles `k = 0`.
 
 Remaining plan, not done:
-1. Fourier-side Biot–Savart: express `gradCoeff` through the vorticity coefficients, `−k_j (k × ω̂)_i / |k|²`.
 2. Dyadic smooth blocks: show each block kernel has cell `L¹` norm bounded uniformly in the scale. The intended route is weighted Cauchy–Schwarz plus Parseval with second differences of the multiplier.
 3. Bound the de la Vallée Poussin kernel in `L¹`.
 4. Sum the `O(log R)` blocks.
 
-Coined names, to be renamed later: `charE`, `multKernel`, `continuous_charE`, `continuous_multKernel`, `charE_sub`, `multiplier_eq_conv`, `norm_multiplier_le`.
+Coined names, to be renamed later: `charE`, `multKernel`, `continuous_charE`, `continuous_multKernel`, `charE_sub`, `multiplier_eq_conv`, `norm_multiplier_le`, `crossC`, `vortCoeff`, `vort_comp`, `vortCoeff_eq`, `gradCoeff_eq_vort`, `gradCoeff_zero`.
 
 ## Copyright, license and scope
 

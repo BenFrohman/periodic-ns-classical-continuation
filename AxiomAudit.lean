@@ -259,3 +259,9 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.charE_sub
 #print axioms PeriodicNSContinuation.multiplier_eq_conv
 #print axioms PeriodicNSContinuation.norm_multiplier_le
+#print axioms PeriodicNSContinuation.crossC
+#print axioms PeriodicNSContinuation.vortCoeff
+#print axioms PeriodicNSContinuation.vort_comp
+#print axioms PeriodicNSContinuation.vortCoeff_eq
+#print axioms PeriodicNSContinuation.gradCoeff_eq_vort
+#print axioms PeriodicNSContinuation.gradCoeff_zero

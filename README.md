@@ -2,7 +2,16 @@
 
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 >
-> **Reserved DOIs (drafts, not yet published):** reduction paper [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296); main paper [10.5281/zenodo.23842556](https://doi.org/10.5281/zenodo.23842556)
+> **DOIs:** reduction paper [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296); main paper [10.5281/zenodo.23842556](https://doi.org/10.5281/zenodo.23842556)
+
+
+## How to cite / What is claimed
+
+In Lean 4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement (B) (periodic Navier–Stokes on T³) to the single hypothesis `PeriodicBKMIntegrability`. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and H³ control are proved unconditionally, using only the standard axioms. `PeriodicBKMIntegrability` remains open.
+
+The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale–Kato–Majda, 1984); the novelty here is the complete, `sorry`-free formalization.
+
+Cite as: Benjamin Stanley Frohman, *A Lean-verified conditional reduction of periodic Navier–Stokes regularity on T³ to a single integrability hypothesis*, DOI [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296); main paper DOI [10.5281/zenodo.23842556](https://doi.org/10.5281/zenodo.23842556).
 
 
 Lean 4 + Mathlib formalization of the classical continuation steps used by the Statement (B)

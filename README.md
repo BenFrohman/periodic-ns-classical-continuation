@@ -100,3 +100,32 @@ Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`
 `PeriodicGalerkinUniformTime`, `PeriodicGalerkinLimit`, `PeriodicDataHs`,
 `GalerkinStructurePreserved`, `GalerkinContinuation`, `PeriodicDataDivFree`,
 `fourierCoeffVF_hermitian`, `galerkinStructurePreserved_of`, `periodicGalerkinUniformTime_of_gt`.
+
+## GalerkinLimit (started; `PeriodicNSContinuation/GalerkinLimit.lean`)
+
+`PeriodicGalerkinLimit ν s` is split into named sub-Props (all coined, **NOT proved**):
+
+* `GalerkinModeEquiLipschitz ν s`: each Fourier mode of the Galerkin solutions is Lipschitz in
+  time, uniformly in `N`. This should follow from the ODE and the uniform `H^s` bound via a
+  Cauchy–Schwarz bound on the truncated convolution and the mean value theorem.
+* `GalerkinLimitEquation ν s`: the mode-wise limit satisfies the integrated full Fourier NS
+  equation `a t = a 0 + ∫₀ᵗ fourierNSField ν (a τ)`.
+* `FourierSolutionReconstruction ν s`: an `H^s`, Hermitian, divergence-free Fourier solution
+  from smooth data yields smooth periodic `u`, `p` (`IsPeriodicSmoothSolutionOn`). This needs
+  propagation of higher regularity and is not covered by a single `H^s` bound.
+
+**Proved:**
+* `exists_subseq_tendsto_of_equiLipschitz`: a diagonal Arzelà–Ascoli argument over rational times
+  and countably many coordinates.
+* `galerkinModeConvergence_of`: equi-Lipschitz implies `GalerkinModeConvergence`.
+* Properties the limit inherits: `limit_initial`, `hermitian_of_tendsto`,
+  `divergenceFree_of_tendsto`, and `hs_of_tendsto` (Fatou: `MemHsField s` and `hsNormField ≤ M`).
+* `norm_extendG_le_of_hs`, `summable_hs_extendG`, `eventually_mem_modeBox`.
+* `periodicGalerkinLimit_of` (from `GalerkinModeConvergence`, `GalerkinLimitEquation` and
+  `FourierSolutionReconstruction`) and `periodicGalerkinLimit_of'` (from the equi-Lipschitz
+  Prop instead).
+
+So `PeriodicGalerkinLimit`, and hence `PeriodicLocalExistence`, is still conditional. Clay is not solved.
+
+Coined names: `fourierNSField`, `GalerkinModeConvergence`, `GalerkinLimitEquation`,
+`FourierSolutionReconstruction`, `GalerkinModeEquiLipschitz`, and every theorem listed above.

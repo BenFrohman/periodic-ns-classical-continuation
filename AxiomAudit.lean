@@ -49,3 +49,14 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicDataHs
 #print axioms PeriodicNSContinuation.galerkinContinuation
 #print axioms PeriodicNSContinuation.periodicGalerkinUniformTime_of_gt'
+#print axioms PeriodicNSContinuation.eventually_mem_modeBox
+#print axioms PeriodicNSContinuation.limit_initial
+#print axioms PeriodicNSContinuation.hermitian_of_tendsto
+#print axioms PeriodicNSContinuation.divergenceFree_of_tendsto
+#print axioms PeriodicNSContinuation.summable_hs_extendG
+#print axioms PeriodicNSContinuation.hs_of_tendsto
+#print axioms PeriodicNSContinuation.periodicGalerkinLimit_of
+#print axioms PeriodicNSContinuation.exists_subseq_tendsto_of_equiLipschitz
+#print axioms PeriodicNSContinuation.norm_extendG_le_of_hs
+#print axioms PeriodicNSContinuation.galerkinModeConvergence_of
+#print axioms PeriodicNSContinuation.periodicGalerkinLimit_of'

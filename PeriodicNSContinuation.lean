@@ -10,3 +10,4 @@ import PeriodicNSContinuation.Route
 import PeriodicNSContinuation.TorusSobolev
 import PeriodicNSContinuation.LocalExistence
 import PeriodicNSContinuation.FourierData
+import PeriodicNSContinuation.GalerkinLimit

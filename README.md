@@ -387,3 +387,9 @@ Coined names: `modeSq_nonneg`, `tailWeight_le_rpow`, `fourier_split_log`, `vpWei
 - `PeriodicBKMIntegrability` remains open. **The Clay problem is not solved by this repository.**
 
 Coined names: `ev`, `phase_shift`, `summable_mode_mul_coeff`, `norm_gradCoeff`, `hasSum_grad`, `abs_le_of_modeSq_le`, `lowGrad_eq`, `entry_le`, `opNorm_le_entries`, `grad_tail_le`, `lowGrad_norm_le`, `periodicLogSobolevBKMBound_of_lowFreq`, `periodicBKMHsControl_of_tame_lowFreq`, `nlField`, `fourierNSField_eq`, `rateOf`, `PeriodicFourierHsEnergyIdentity`, `PeriodicFourierCommutatorBound`, `visc_term_nonpos`, `periodicTameHsInequality_of_fourier`, `periodicBKMHsControl_of_fourier_lowFreq`.
+
+## Copyright, license and scope
+
+Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)). Licensed under the Apache License, Version 2.0; see `LICENSE` and `NOTICE`.
+
+What is proved vs. conditional: Proved steps are listed above; the open step `PeriodicBKMIntegrability` (and any other named `Prop` listed above) remains an explicit hypothesis. Every hypothesis is a named `Prop` passed as an explicit argument. Nothing in this repository claims to solve the Clay Millennium problem or global regularity for unmodified 3D Navier–Stokes.

@@ -48,3 +48,4 @@ import PeriodicNSContinuation.TetherClaimAttack
 import PeriodicNSContinuation.EnstrophyIdentity
 import PeriodicNSContinuation.TetherKappaZero
 import PeriodicNSContinuation.EnstrophyRate
+import PeriodicNSContinuation.DirectionCriterion

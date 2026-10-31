@@ -382,3 +382,6 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.tetherGeometricControl_zero
 #print axioms PeriodicNSContinuation.tetherImpliesDirection_zero_iff
 #print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_tetherKappaZero
+#print axioms PeriodicNSContinuation.exp_gronwall_Ioo
+#print axioms PeriodicNSContinuation.periodicDirectionCriterion_of_growth
+#print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_directionGrowth

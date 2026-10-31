@@ -287,3 +287,30 @@ Coined names: `barrierTime_anti`, `barrierTime_pos`, `periodicLocalSolution_quan
 `glueR`, `glue_contDiffOn`, `glue_deriv`, `glue_sol`, `PeriodicHsBlowupAlternative`,
 `periodicHsBlowupAlternative`, `PeriodicBKMHsControl`, `periodicBKMCriterion_of_hsControl`,
 `clay_B_exact_of_hsControl`.
+
+## Splitting `PeriodicBKMHsControl` (`PeriodicNSContinuation/BKMGronwall.lean`)
+
+**Proved, no hypothesis Props:** `gronwall_of_hasDerivAt` (differential Grönwall with a continuous coefficient).
+
+**Hypotheses (named Props, NOT proved here; classical and true for suitable constants):**
+- `PeriodicTameHsInequality ν s C`: along smooth solutions, `t ↦ ‖u‖²_{H^s}` is continuous and
+  differentiable with `d/dt ‖u‖²_{H^s} ≤ C ‖∇u‖_∞ ‖u‖²_{H^s}` (Kato–Ponce commutator estimate).
+- `PeriodicSupNormContinuity ν`: `t ↦ ‖∇u(t)‖_∞` and `t ↦ ‖ω(t)‖_∞` are continuous (elementary).
+- `PeriodicLogSobolevBKM s K`: `‖∇v‖_∞ ≤ K (1 + ‖ω‖_∞ (1 + log (1 + ‖v‖²_{H^s})))` for smooth
+  periodic divergence-free `v` (Brezis–Gallouet / BKM).
+
+The constants `C`, `K` are explicit arguments. The Props are true for some `C(s)`, `K(s)` when
+`s > 5/2`, but those constants are not computed here. The Props are not vacuous because smooth
+solutions exist (`periodicLocalSolution_quant`).
+
+**Proved from them:**
+- `periodicGradHsControl`: from tame inequality + continuity, `∫₀^{T*} ‖∇u‖_∞ < ∞` bounds `‖u‖_{H^s}`.
+- `periodicBKMHsControl_of_tame_log`: from all three, `PeriodicBKMHsControl ν s`.
+- `clay_B_exact_of_tame_log`: from all three plus the **open** `PeriodicBKMIntegrability ν`.
+
+**Clay is not solved.**
+
+Coined names: `gradSupNorm`, `hsSq`, `PeriodicTameHsInequality`, `PeriodicSupNormContinuity`,
+`PeriodicLogSobolevBKM`, `PeriodicGradHsControl`, `gronwall_of_hasDerivAt`, `periodicGradHsControl`,
+`periodicBKMHsControl_of_tame_log`, `clay_B_exact_of_tame_log`, plus the helpers `sol_around`,
+`hsNorm_le_of_hsSq_le`, `u_zero`, `integral_le_of_nonneg`, `gradSupNorm_nonneg`, `hsSq_nonneg`.

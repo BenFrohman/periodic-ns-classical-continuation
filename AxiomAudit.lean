@@ -113,3 +113,7 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicHsBlowupAlternative
 #print axioms PeriodicNSContinuation.periodicBKMCriterion_of_hsControl
 #print axioms PeriodicNSContinuation.clay_B_exact_of_hsControl
+#print axioms PeriodicNSContinuation.gronwall_of_hasDerivAt
+#print axioms PeriodicNSContinuation.periodicGradHsControl
+#print axioms PeriodicNSContinuation.periodicBKMHsControl_of_tame_log
+#print axioms PeriodicNSContinuation.clay_B_exact_of_tame_log

@@ -36,3 +36,4 @@ import PeriodicNSContinuation.CommutatorAssembly
 import PeriodicNSContinuation.LowFreqKernel
 import PeriodicNSContinuation.BiotSavartCoeff
 import PeriodicNSContinuation.CellParseval
+import PeriodicNSContinuation.KernelWeighted

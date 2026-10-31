@@ -472,13 +472,14 @@ Coined names, to be renamed later: `pdR_helmR`, `DL_helmR`, `cellI_helmR_mul`, `
 - `norm_multiplier_le`: `L¹ * L^∞` (Young) bound. If `‖g‖ ≤ B` on the cell, the output at `x` is at most `B · ∫_{[0,1]³} ‖K(x−y)‖ dy`.
 - `gradCoeff_eq_vort` (BiotSavartCoeff.lean): Fourier-side Biot–Savart. For `k ≠ 0`, `gradCoeff v k i j = −k_j (k × ω̂_k)_i / |k|²`; `gradCoeff_zero` handles `k = 0`.
 - `integral_normSq_multKernel` (CellParseval.lean): Parseval for trigonometric polynomials on `[0,1]³`, built on the orthogonality lemma `integral_charE_mul_conj`.
+- KernelWeighted.lean (step 2 foundations): `cell_weighted_L1` gives `∫‖K‖ ≤ (∫W⁻²)^{1/2}(∫‖WK‖²)^{1/2}` for any continuous `W ≥ 1`. `cellWeight_mul_multKernel` shows that multiplying by `W_A = 1 + A Σ_l |e(z_l)−1|²` maps coefficients `c` to `c − A·secDiffSum c`. `integral_normSq_multKernel_sub` is translated Parseval.
 
 Remaining plan, not done:
 2. Dyadic smooth blocks: show each block kernel has cell `L¹` norm bounded uniformly in the scale. The intended route is weighted Cauchy–Schwarz plus Parseval with second differences of the multiplier.
 3. Bound the de la Vallée Poussin kernel in `L¹`.
 4. Sum the `O(log R)` blocks.
 
-Coined names, to be renamed later: `charE`, `multKernel`, `continuous_charE`, `continuous_multKernel`, `charE_sub`, `multiplier_eq_conv`, `norm_multiplier_le`, `crossC`, `vortCoeff`, `vort_comp`, `vortCoeff_eq`, `gradCoeff_eq_vort`, `gradCoeff_zero`, `integral_exp_int`, `charE_eq_prod`, `volume_restrict_cell`, `integral_charE`, `charE_mul_conj`, `integral_charE_mul_conj`, `integral_normSq_multKernel`.
+Coined names, to be renamed later: `charE`, `multKernel`, `continuous_charE`, `continuous_multKernel`, `charE_sub`, `multiplier_eq_conv`, `norm_multiplier_le`, `crossC`, `vortCoeff`, `vort_comp`, `vortCoeff_eq`, `gradCoeff_eq_vort`, `gradCoeff_zero`, `integral_exp_int`, `charE_eq_prod`, `volume_restrict_cell`, `integral_charE`, `charE_mul_conj`, `integral_charE_mul_conj`, `integral_normSq_multKernel`, `memLp_two_cell`, `cell_cauchySchwarz`, `cell_weighted_L1`, `charE_mul_multKernel`, `modeBox`, `mem_modeBox`, `card_modeBox`, `BoxSupp`, `multKernel_mono`, `unitMode`, `boxSupp_shift`, `charE_mul_multKernel_box`, `abs_unitMode`, `multKernel_add`, `multKernel_smul`, `normSq_charE_sub_one`, `secDiffSum`, `cellWeight`, `continuous_cellWeight`, `one_le_cellWeight`, `cellWeight_mul_multKernel`, `norm_charE`, `multKernel_sub_eq_conj`, `integral_normSq_multKernel_sub`.
 
 ## Copyright, license and scope
 

@@ -371,3 +371,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.uniform_cubic_rate_false_of_scaling
 #print axioms PeriodicNSContinuation.integrability_of_directionCriterion
 #print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_direction
+#print axioms PeriodicNSContinuation.periodicEnstrophyIdentity
+#print axioms PeriodicNSContinuation.riccati_barrier_Ioo
+#print axioms PeriodicNSContinuation.periodicTstar_eq_top_of_smallH1_of_rate
+#print axioms PeriodicNSContinuation.tetherForm_zero
+#print axioms PeriodicNSContinuation.tetherGeometricControl_zero
+#print axioms PeriodicNSContinuation.tetherImpliesDirection_zero_iff
+#print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_tetherKappaZero

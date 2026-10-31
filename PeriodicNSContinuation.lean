@@ -45,3 +45,5 @@ import PeriodicNSContinuation.BKMFinal
 import PeriodicNSContinuation.IntegrabilityAttack
 import PeriodicNSContinuation.SmallDataAttack
 import PeriodicNSContinuation.TetherClaimAttack
+import PeriodicNSContinuation.EnstrophyIdentity
+import PeriodicNSContinuation.TetherKappaZero

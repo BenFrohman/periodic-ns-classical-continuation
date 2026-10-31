@@ -55,6 +55,9 @@ Names are coined unless they come from FeffermanClayNS.
 | `cubic_riccati_barrier`, `periodicVorticityAPrioriBound_of_tetherCubicRate`, `clay_B_exact_of_tetherCubicRate` (the author's `hDI`: `M' ≤ C M² − κ'' M³`) | proved from `PeriodicTetherCubicRate ν` (**open**; coined name). Not derived from the unmodified NS |
 | `uniform_cubic_rate_false_of_scaling` | proved: abstract scaling step; a data-uniform cubic rate is contradictory (NS scaling covariance itself not formalized) |
 | `integrability_of_directionCriterion`, `periodicBKMIntegrability_of_direction` (Def. 7.1, ½-Hölder direction) | proved from `PeriodicDirectionCriterion ν` (classical Beirão da Veiga–Berselli / Constantin–Fefferman, **not formalized**) + `PeriodicDirectionRegularity ν` (**open**) |
+| `periodicEnstrophyIdentity` (T³ enstrophy/H¹ identity: continuity + `d/dt‖u‖²_{H¹} = rateOf 1 …`) | **proved, no hypotheses** (s = 1 case of the proved H^s identity) |
+| `riccati_barrier_Ioo`, `periodicTstar_eq_top_of_smallH1_of_rate` (small zero-mean H¹ data ⇒ T* = ∞) | proved from the identity + `PeriodicEnstrophyRateBound ν α β` (Ladyzhenskaya/Poincaré trilinear bound, **not formalized**) + `PeriodicH1BlowupCriterion ν` (Leray, **not formalized**). The old `PeriodicEnstrophyRiccati` with α > 0 fails for small constant flows (conserved mean mode) |
+| `tetherForm_zero`, `tetherGeometricControl_zero`, `tetherImpliesDirection_zero_iff` (headline: tether control ⇒ Def. 7.1 at κ = 0) | proved: at κ = 0 the control is vacuous, so the headline Prop **equals** the open `PeriodicDirectionRegularity ν` |
 | `PeriodicBKMIntegrability`, `PeriodicGlobalLifespan`, `PeriodicVorticityAPrioriBound` | **not proved; open** (each equivalent to or stronger than the Clay core) |
 
 Where Route 1 breaks: at κ = 0 there is no damping term. Enstrophy obeys only the superlinear

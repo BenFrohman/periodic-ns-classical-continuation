@@ -153,3 +153,17 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.hsSq_eq_tsum
 #print axioms PeriodicNSContinuation.periodicFourierHsEnergyIdentity_of_coeff
 #print axioms PeriodicNSContinuation.periodicBKMHsControl_of_coeff_lowFreq
+#print axioms PeriodicNSContinuation.cubeCoeff_pdR
+#print axioms PeriodicNSContinuation.cubeCoeff_mul_series
+#print axioms PeriodicNSContinuation.hasDerivAt_coeff_time
+#print axioms PeriodicNSContinuation.cubeCoeff_dt_eq
+#print axioms PeriodicNSContinuation.convective_coeff
+#print axioms PeriodicNSContinuation.leray_solve
+#print axioms PeriodicNSContinuation.fourierNSField_eq_dtCoeff
+#print axioms PeriodicNSContinuation.periodicFourierCoeffODE
+#print axioms PeriodicNSContinuation.cubeCoeff_helmR
+#print axioms PeriodicNSContinuation.jreg_decay
+#print axioms PeriodicNSContinuation.dtCoeff_div
+#print axioms PeriodicNSContinuation.periodicFourierCoeffDecay
+#print axioms PeriodicNSContinuation.periodicFourierHsEnergyIdentity
+#print axioms PeriodicNSContinuation.periodicBKMHsControl_of_commutator_lowFreq

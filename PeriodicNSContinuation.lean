@@ -28,3 +28,4 @@ import PeriodicNSContinuation.BKMPieces
 import PeriodicNSContinuation.BKMLog
 import PeriodicNSContinuation.BKMAssembly
 import PeriodicNSContinuation.HsEnergyIdentity
+import PeriodicNSContinuation.CoeffODE

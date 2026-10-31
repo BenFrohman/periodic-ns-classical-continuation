@@ -396,12 +396,26 @@ Coined names: `ev`, `phase_shift`, `summable_mode_mul_coeff`, `norm_gradCoeff`, 
 - `periodicFourierHsEnergyIdentity_of_coeff`: for every real `s`, `PeriodicFourierHsEnergyIdentity ν s` follows from two narrower hypotheses, `PeriodicFourierCoeffODE ν` and `PeriodicFourierCoeffDecay ν`. The termwise differentiation (`hasDerivAt_tsum_of_isPreconnected`), the summability of the rate, and the continuity of `t ↦ ‖u(t)‖²_{H^s}` are proved.
 - `periodicBKMHsControl_of_coeff_lowFreq`: BKM `H^s` control from `PeriodicFourierCoeffODE`, `PeriodicFourierCoeffDecay`, `PeriodicFourierCommutatorBound` and `PeriodicLowFreqVorticityBound`.
 
-**New hypotheses (true classically, not proved here; they replace `PeriodicFourierHsEnergyIdentity`):**
+**New hypotheses (they replace `PeriodicFourierHsEnergyIdentity`; both are now proved in CoeffODE.lean):**
 - `PeriodicFourierCoeffODE ν`: on `(0, T')`, each coefficient satisfies `û' = fourierNSField ν û`. This needs differentiation under the integral, integration by parts for the Laplacian and pressure, the convolution formula for `(u·∇)u`, and the Leray projection.
 - `PeriodicFourierCoeffDecay ν`: for every `r` there is one `B` with `‖û(t)_k‖, ‖fourierNSField ν û(t)_k‖ ≤ B⟨k⟩^{-2r}` for all `t ∈ [0, T']`. This needs `(1−Δ)^m` bounds for the jointly smooth `u` and `∂ₜu`.
 - `PeriodicBKMIntegrability` remains open. **The Clay problem is not solved by this repository.**
 
 Coined names: `hasDerivAt_normSq_complex`, `PeriodicFourierCoeffODE`, `PeriodicFourierCoeffDecay`, `fourierCoeffVF_continuousOn`, `hsSq_eq_tsum`, `summable_prod_fin3`, `sobW_mul_sobW`, `rate_term_le`, `sq_term_le`, `periodicFourierHsEnergyIdentity_of_coeff`, `periodicBKMHsControl_of_coeff_lowFreq`.
+
+## Coefficient ODE and decay (CoeffODE.lean)
+
+**Proved (no sorry, standard axioms only):**
+- `periodicFourierCoeffODE ν : PeriodicFourierCoeffODE ν`. On `(0, T')` the Fourier coefficients of a classical periodic solution (with `f = 0`) satisfy `û' = fourierNSField ν û`. The proof differentiates under the integral (`hasDerivAt_coeff_time`), integrates by parts on the unit cell (`cubeCoeff_pdR`), writes the convective term as a convolution (`cubeCoeff_mul_series`, `convective_coeff`) and removes the pressure by the Leray step (`leray_solve`, `fourierNSField_eq_dtCoeff`).
+- `periodicFourierCoeffDecay ν : PeriodicFourierCoeffDecay ν`. Both halves are proved:
+  - the `û` half comes from `(1 − Δ/4π²)^m` bounds on the compact set `[0,T'] × cell` (`cubeCoeff_helmR`, `jreg_decay`);
+  - the `fourierNSField` half applies the same bound to `∂ₜu` and identifies `fourierNSField ν û(t)` with the coefficients of `∂ₜu` on all of `[0,T']` (`dtCoeff_div` extends the divergence constraint to the endpoints by continuity).
+- `periodicFourierHsEnergyIdentity ν s : PeriodicFourierHsEnergyIdentity ν s` is now **unconditional**.
+- `periodicBKMHsControl_of_commutator_lowFreq` gives BKM `H^s` control, conditional only on `PeriodicFourierCommutatorBound` and `PeriodicLowFreqVorticityBound`.
+
+**Still conditional:** `PeriodicFourierCommutatorBound`, `PeriodicLowFreqVorticityBound`, and `PeriodicBKMIntegrability`, which remains open. **The Clay problem is not solved by this repository, and global regularity for unmodified 3D Navier–Stokes is not claimed.**
+
+Coined names: `liftR`, `pdR`, `PerR`, `PerR.pdR`, `liftR_contDiff`, `liftR_add_single`, `pdC_liftR`, `cubeCoeff_pdR`, `compC_eq_liftR`, `fderiv_coord`, `laplacian_coord`, `convective_coord`, `pressureGradient_coord`, `phase_mul_charK`, `cubeCoeff_mul_series`, `hasDerivAt_coeff_time`, `integrableOn_cube_of_continuous`, `cubeCoeff_sub'`, `cubeCoeff_const_mul'`, `cubeCoeff_sum'`, `perR_coord`, `perR_of`, `PerR.continuous_liftR`, `cubeCoeff_dt_eq`, `norm_cubeCoeff_le`, `convective_coeff`, `leray_solve`, `dtCoeff`, `data_of_sol`, `fourierNSField_eq_dtCoeff`, `dtCoeff_div_Ioo`, `periodicFourierCoeffODE`, `dJ`, `helmR`, `helmJ`, `JReg`, `PerR.helmR`, `cubeCoeff_helmR`, `JReg.slice`, `pdR_slice`, `JReg.dJ`, `JReg.helm`, `helmR_slice`, `JReg.iterate`, `cubeCoeff_iterate_helmJ`, `jreg_decay`, `JReg.continuousOn_coeff`, `jreg_u`, `jreg_dt`, `dtCoeff_div`, `periodicFourierCoeffDecay`, `periodicFourierHsEnergyIdentity`, `periodicBKMHsControl_of_commutator_lowFreq`.
 
 ## Copyright, license and scope
 

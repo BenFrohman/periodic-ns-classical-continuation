@@ -1,5 +1,8 @@
 # periodic-ns-classical-continuation
 
+> **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
+
+
 Lean 4 + Mathlib formalization of the classical continuation steps used by the Statement (B)
 route in `fefferman-clay-navier-stokes` (pinned at commit `ebcf109`, which has the corrected
 definitions). It does **not** solve the Clay Navier–Stokes problem; the open step

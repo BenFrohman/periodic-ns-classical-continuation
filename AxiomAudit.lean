@@ -75,3 +75,13 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.tendsto_fourierNSField
 #print axioms PeriodicNSContinuation.galerkinLimitEquation
 #print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_reconstruction
+#print axioms PeriodicNSContinuation.phase_periodic
+#print axioms PeriodicNSContinuation.seriesC_periodic
+#print axioms PeriodicNSContinuation.seriesVelocity_periodic
+#print axioms PeriodicNSContinuation.seriesPressure_periodic
+#print axioms PeriodicNSContinuation.conj_phase
+#print axioms PeriodicNSContinuation.conj_seriesC_of_hermitian
+#print axioms PeriodicNSContinuation.neg_lerayP_eq
+#print axioms PeriodicNSContinuation.fourierNSField_eq_pressure
+#print axioms PeriodicNSContinuation.fourierSolutionReconstruction_of
+#print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_subProps

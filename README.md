@@ -145,3 +145,33 @@ So `PeriodicGalerkinLimit`, and hence `PeriodicLocalExistence`, is still conditi
 Coined names: `fourierNSField`, `GalerkinModeConvergence`, `GalerkinLimitEquation`,
 `FourierSolutionReconstruction`, `GalerkinModeEquiLipschitz`, `convTerm`, `PtBound`, `bse`,
 `convConst`, `bseSum`, `lipC`, and every theorem listed above.
+
+## Reconstruction (`PeriodicNSContinuation/Reconstruction.lean`)
+
+`FourierSolutionReconstruction ν s` is split into three named sub-Props (all coined, **NOT proved**):
+
+* `FourierHigherRegularity ν s`: an `H^s` Fourier solution (`IsFourierSolutionOn`) from smooth
+  data is bounded in `H^{s'}` on `[0,T]` for every `s'`.
+* `FourierSeriesVelocity ν`: for a solution bounded in every `H^{s'}` (`IsSmoothFourierSolutionOn`),
+  the inverse Fourier series `seriesVelocity a` is jointly `C^∞` on `[0,T] × ℝ³`, divergence-free,
+  and equals `u₀` at `t = 0`. That last part needs Fourier inversion for smooth periodic `u₀`.
+* `PeriodicPressureRecovery ν`: `seriesPressure a`, with coefficients
+  `p̂ = pressureCoeff k N̂ = -(k·N̂)/(2πi|k|²)`, is jointly `C^∞`, and the pair satisfies the
+  momentum equation.
+
+**Proved:**
+* `fourierSolutionReconstruction_of`: the three Props imply `FourierSolutionReconstruction`.
+* `periodicGalerkinLimit_of_subProps (hs : 2 < s)`: the three Props imply `PeriodicGalerkinLimit`.
+* `seriesVelocity_periodic`, `seriesPressure_periodic` (via `phase_periodic` and `seriesC_periodic`):
+  `ℤ³`-periodicity holds for any coefficients, so it is not an assumption.
+* `conj_phase` and `conj_seriesC_of_hermitian`: Hermitian coefficients give a real series.
+* `neg_lerayP_eq` and `fourierNSField_eq_pressure`:
+  `fourierNSField ν a k i = -visc·a k i - N̂ k i - 2πi kᵢ p̂ k`. This is the Fourier-side form of
+  `∂ₜu + (u·∇)u = νΔu - ∇p`, i.e. pressure recovery at the coefficient level.
+
+So `PeriodicLocalExistence` is still conditional, now on these three Props (for `s > 2`).
+Clay is not solved.
+
+Coined names: `phase`, `seriesC`, `seriesVelocity`, `nonlinCoeff`, `pressureCoeff`, `seriesPressure`,
+`IsFourierSolutionOn`, `IsSmoothFourierSolutionOn`, `FourierHigherRegularity`,
+`FourierSeriesVelocity`, `PeriodicPressureRecovery`, and every theorem listed above.

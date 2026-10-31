@@ -50,3 +50,4 @@ import PeriodicNSContinuation.TetherKappaZero
 import PeriodicNSContinuation.EnstrophyRate
 import PeriodicNSContinuation.DirectionCriterion
 import PeriodicNSContinuation.BendingRate
+import PeriodicNSContinuation.Ladyzhenskaya

@@ -87,6 +87,9 @@ Prodi--Serrin, \lean{integrability_of_prodiSerrin}\coined & proved from named \l
 $\kappa=0$ route, \lean{periodicBKMIntegrability_of_vorticityAPriori}\coined & proved from \lean{PeriodicVorticityAPrioriBound} (open)\\
 $H^1$ enstrophy identity, \lean{periodicEnstrophyIdentity}\coined & proved unconditionally\\
 Small zero-mean $H^1$ data, \lean{periodicTstar_eq_top_of_smallH1_of_rate}\coined & proved from named \lean{PeriodicEnstrophyRateBound} + \lean{PeriodicH1BlowupCriterion} (not formalized; \cite{Ladyzhenskaya1963,Leray1934})\\
+Ladyzhenskaya-type trilinear bound, \lean{periodicH1TrilinearBound}\coined & proved (explicit unoptimized constant; Fourier/Agmon route; the inequality is classical: Ladyzhenskaya 1958 (2D), 1961 monograph (3D)~\cite{Ladyzhenskaya1963})\\
+Mean conservation, \lean{periodicMeanConservation}\coined & proved unconditionally\\
+Small zero-mean $H^1$ data, \lean{periodicTstar_eq_top_of_smallH1_ladyzhenskaya}\coined & proved from \lean{PeriodicH1BlowupCriterion} only (not formalized; \cite{Leray1934})\\
 Earlier small-$H^1$ route, \lean{integrability_of_smallH1}\coined & superseded: its hypothesis \lean{PeriodicEnstrophyRiccati} ($\alpha>0$) fails for constant flows (bug fixed in \file{ea5133d})\\
 Tether cubic rate, \lean{clay_B_exact_of_tetherCubicRate}\coined & proved from \lean{PeriodicTetherCubicRate} (open)\\
 Uniform cubic rate vs.\ scaling, \lean{uniform_cubic_rate_false_of_scaling}\coined & proved (abstract scaling step)\\
@@ -116,6 +119,8 @@ Lean name & File & Repo @ commit\\\midrule
 \lean{periodicBKMIntegrability_iff_globalLifespan}\coined & \file{PeriodicNSContinuation/IntegrabilityAttack.lean} & pnscc @ \file{ea5133d}\\
 \lean{periodicEnstrophyIdentity}\coined & \file{PeriodicNSContinuation/EnstrophyIdentity.lean} & pnscc @ \file{ea5133d}\\
 \lean{periodicTstar_eq_top_of_smallH1_of_rate}\coined & \file{PeriodicNSContinuation/EnstrophyIdentity.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicH1TrilinearBound}\coined & \file{PeriodicNSContinuation/Ladyzhenskaya.lean} & pnscc\\
+\lean{periodicMeanConservation}\coined & \file{PeriodicNSContinuation/MeanConservation.lean} & pnscc\\
 \lean{clay_B_exact_of_tetherCubicRate}\coined & \file{PeriodicNSContinuation/TetherClaimAttack.lean} & pnscc @ \file{ea5133d}\\
 \lean{periodicBKMIntegrability_of_direction}\coined & \file{PeriodicNSContinuation/TetherClaimAttack.lean} & pnscc @ \file{ea5133d}\\
 \lean{tetherImpliesDirection_zero_iff}\coined & \file{PeriodicNSContinuation/TetherKappaZero.lean} & pnscc @ \file{ea5133d}\\

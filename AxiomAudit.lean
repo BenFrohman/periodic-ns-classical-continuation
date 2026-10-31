@@ -399,3 +399,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicDirectionEnstrophyGrowthL1_of_growth
 #print axioms PeriodicNSContinuation.periodicDirectionCriterion_of_growthL1
 #print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_bending
+#print axioms PeriodicNSContinuation.periodicMeanConservation
+#print axioms PeriodicNSContinuation.latticeSum_le
+#print axioms PeriodicNSContinuation.enn_agmon
+#print axioms PeriodicNSContinuation.nlField_enorm_le
+#print axioms PeriodicNSContinuation.enn_trilinear
+#print axioms PeriodicNSContinuation.periodicH1TrilinearBound
+#print axioms PeriodicNSContinuation.periodicTstar_eq_top_of_smallH1_ladyzhenskaya

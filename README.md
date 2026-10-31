@@ -341,3 +341,34 @@ Coined names: `supNorm_continuousOn`, `curlOf`, `continuous_single'`, `continuou
 `PeriodicLogSobolevBKMBound`, `periodicGradHsControl_of_bound`, `periodicBKMHsControl_of_bounds`,
 `clay_B_exact_of_bounds`, `modeSq`, `tailWeight`, `cs_tsum`, `fourier_split_bound`,
 `tailWeight_tendsto_zero`, `fourier_split_eps`.
+
+## Brezis–Gallouet log step and Kato–Ponce start (`PeriodicNSContinuation/BKMLog.lean`)
+
+**Proved, no hypothesis Props:**
+- `tailWeight_le_rpow`: for `3/2 < s' ≤ s` and `R > 0`,
+  `tailWeight s R ≤ R^{-2(s-s')} ∑_k (1+|k|²)^{-s'}`. This gives the rate `R^{-2δ}` for every `δ < s - 3/2`.
+  The sharp endpoint `R^{3-2s}` needs lattice-shell counting, which is **not** proved. It is not needed for the log.
+- `fourier_split_log`: with `δ = s-s'`, `N = ‖c‖_{H^s}` and `R = (1+N)^{1/δ}`,
+  `∑|c_k| ≤ ∑_{|k|≤R}|c_k| + (∑(1+|k|²)^{-s'})^{1/2}` and `log R = log(1+N)/δ`.
+- `bkm_log_arith`: the remaining arithmetic. The bounds `g ≤ low + tail`, `low ≤ K(1+log R)ω`, `tail ≤ B` and the
+  log choice of `R` give `g ≤ K'(1 + ω(1+log(1+N)))` with an explicit `K'`.
+- `vpWeight` (tensor de la Vallée Poussin weight) and its lemmas `vpWeight_nonneg`, `vpWeight_le_one`, `vpWeight_eq_one`
+  and `vpWeight_eq_zero`.
+- Kato–Ponce, Fourier side (start): `sobW_add_le`, which says `(1+|a+b|²)^s ≤ 4^s((1+|a|²)^s+(1+|b|²)^s)` for `s ≥ 0`,
+  and `conv_term_split`, the pointwise split of a weighted convolution term.
+
+**New hypothesis (true, not formalized):** `PeriodicLowFreqVorticityBound`. It says there is a `K ≥ 0` such that for all
+`R ≥ 2` and every smooth periodic divergence-free `v`, `sup_x ‖V_R ∇v(x)‖ ≤ K(1+log R)‖ω‖_∞`. Here `V_R` is the de la
+Vallée Poussin low-pass operator. It holds classically: the tensor Fejér kernel is bounded in `L¹`, Biot–Savart makes
+`∇v` a Calderón–Zygmund transform of `ω`, and `O(log R)` Littlewood–Paley blocks are each bounded in `L^∞` by `C‖ω‖_∞`.
+It is not vacuous, because `R ≥ 2` and nonzero `v` are allowed. **It is not proved here.**
+
+**Not done:**
+- Assembling `PeriodicLogSobolevBKMBound s` from these pieces. That needs the pointwise Fourier inversion
+  `∇v = V_R∇v + (high-frequency part)`, with the high part bounded by `∑_{|k|_∞>R} |k||v̂_k|`.
+- The full `PeriodicTameHsBound`: the commutator estimate and the energy identity in Fourier variables.
+- `PeriodicBKMIntegrability` remains the **open** hypothesis. **Clay is not solved.**
+
+Coined names: `modeSq_nonneg`, `tailWeight_le_rpow`, `fourier_split_log`, `vpWeight` (and its lemmas), `gradCoeff`,
+`lowGrad`, `lowGradSup`, `PeriodicLowFreqVorticityBound`, `bkm_log_arith`, `modeSq_add_le`, `sobW_add_le`,
+`conv_term_split`.

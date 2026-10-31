@@ -125,3 +125,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.fourier_split_bound
 #print axioms PeriodicNSContinuation.tailWeight_tendsto_zero
 #print axioms PeriodicNSContinuation.fourier_split_eps
+#print axioms PeriodicNSContinuation.tailWeight_le_rpow
+#print axioms PeriodicNSContinuation.fourier_split_log
+#print axioms PeriodicNSContinuation.vpWeight_eq_one
+#print axioms PeriodicNSContinuation.vpWeight_eq_zero
+#print axioms PeriodicNSContinuation.bkm_log_arith
+#print axioms PeriodicNSContinuation.sobW_add_le
+#print axioms PeriodicNSContinuation.conv_term_split

@@ -25,3 +25,4 @@ import PeriodicNSContinuation.LocalExistenceProof
 import PeriodicNSContinuation.Continuation
 import PeriodicNSContinuation.BKMGronwall
 import PeriodicNSContinuation.BKMPieces
+import PeriodicNSContinuation.BKMLog

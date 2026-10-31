@@ -101,9 +101,10 @@ Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`
 `GalerkinStructurePreserved`, `GalerkinContinuation`, `PeriodicDataDivFree`,
 `fourierCoeffVF_hermitian`, `galerkinStructurePreserved_of`, `periodicGalerkinUniformTime_of_gt`.
 
-## GalerkinLimit (started; `PeriodicNSContinuation/GalerkinLimit.lean`)
+## GalerkinLimit (`GalerkinLimit.lean`, `GalerkinLimitProof.lean`)
 
-`PeriodicGalerkinLimit ν s` is split into named sub-Props (all coined, **NOT proved**):
+`PeriodicGalerkinLimit ν s` is split into named sub-Props (all coined). The first two are now
+**proved for `s > 2`**; the third is **NOT proved**:
 
 * `GalerkinModeEquiLipschitz ν s`: each Fourier mode of the Galerkin solutions is Lipschitz in
   time, uniformly in `N`. This should follow from the ODE and the uniform `H^s` bound via a
@@ -125,7 +126,22 @@ Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`
   `FourierSolutionReconstruction`) and `periodicGalerkinLimit_of'` (from the equi-Lipschitz
   Prop instead).
 
-So `PeriodicGalerkinLimit`, and hence `PeriodicLocalExistence`, is still conditional. Clay is not solved.
+**Proved for `s > 2` (`GalerkinLimitProof.lean`):**
+* `galerkinModeEquiLipschitz (hs : 2 < s) : GalerkinModeEquiLipschitz ν s`.
+* `galerkinLimitEquation (hs : 2 < s) : GalerkinLimitEquation ν s`.
+* `periodicGalerkinLimit_of_reconstruction (hs : 2 < s) : FourierSolutionReconstruction ν s →
+  PeriodicGalerkinLimit ν s`.
+* Key estimate `norm_convTerm_le`: under the pointwise decay `‖a m l‖ ≤ M (1+|m|²)^{-s/2}`
+  (implied by `hsNormField s ≤ M`), the convolution term is `≤ convConst s M k · (1+|m|²)^{-(s-1/2)}`
+  (Peetre's inequality `bse_le`). That is summable in `m` exactly when `s > 2`, which is why the
+  hypothesis appears. The Props as stated for all `s` are not claimed. The use case `s > 5/2` is covered.
+* Supporting lemmas: `norm_lerayP_le`, `norm_fourierNSField_le` (uniform mode bound `lipC`),
+  `galerkinNSField_eq` (inside the box the Galerkin field equals `fourierNSField` of `extendG u`),
+  `galerkin_component`, and `tendsto_fourierNSField` (Tannery's theorem). The limit equation uses the
+  FTC for each `N` and dominated convergence.
+
+So `PeriodicGalerkinLimit`, and hence `PeriodicLocalExistence`, is still conditional, now only on `FourierSolutionReconstruction` (for `s > 2`). Clay is not solved.
 
 Coined names: `fourierNSField`, `GalerkinModeConvergence`, `GalerkinLimitEquation`,
-`FourierSolutionReconstruction`, `GalerkinModeEquiLipschitz`, and every theorem listed above.
+`FourierSolutionReconstruction`, `GalerkinModeEquiLipschitz`, `convTerm`, `PtBound`, `bse`,
+`convConst`, `bseSum`, `lipC`, and every theorem listed above.

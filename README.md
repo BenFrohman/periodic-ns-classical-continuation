@@ -444,7 +444,9 @@ Work toward discharging `PeriodicPhysicalCommutatorBound`. `PeriodicPhysicalComm
 - Unit-cell calculus for smooth periodic scalar fields: closure of `PerR` under products, sums and scalar multiples; the Leibniz rule `pdR_mul`; linearity of `pdR`; Schwarz symmetry `pdR_comm`; `∫_{[0,1]³} ∂_j φ = 0` (`cellI_pdR`); and integration by parts (`cellI_ibp`).
 - `gagliardoNirenberg_cell` (Gagliardo–Nirenberg): if `|g| ≤ M` then `∫ (∂_a g)⁴ ≤ 9 M² ∫ (∂_a ∂_a g)²`.
 
-Coined names, to be renamed later: `cellI`, `PerR.cont`, `PerR.mul`, `PerR.add`, `PerR.const_mul`, `PerR.sum`, `integrableOn_cell`, `cellI_add`, `cellI_const_mul`, `cellI_neg`, `cellI_sum`, `cellI_mono`, `cellI_nonneg`, `cellI_pdR`, `pdR_mul`, `pdR_add`, `pdR_const_mul`, `pdR_sum`, `pdR_comm`, `cellI_ibp`, `cellI_le_two`, `gagliardoNirenberg_cell`.
+Coined names, to be renamed later: `cellI`, `PerR.cont`, `PerR.mul`, `PerR.add`, `PerR.const_mul`, `PerR.sum`, `integrableOn_cell`, `cellI_add`, `cellI_const_mul`, `cellI_neg`, `cellI_sum`, `cellI_mono`, `cellI_nonneg`, `cellI_pdR`, `pdR_mul`, `pdR_add`, `pdR_const_mul`, `pdR_sum`, `pdR_comm`, `cellI_ibp`, `cellI_le_two`, `gagliardoNirenberg_cell`, `cellI_ibp'`, `cellI_sq_mul_abs_le`, `bddAbove_norm_fderiv`, `abs_pdR_coord_le`, `DL`, `PerR.DL`, `DL_append`, `DL_pdR`, `pdR_listSum`, `splits`, `splits_length`, `mem_splits`, `splits_eq`, `DL_mul`, `DL_sum`, `toL`, `exists_toL`, `toL_length`, `physQ`, `le_physQ`, `physQ_nonneg`, `abs_cellI_le`, `lower_term_bound`, `top_term_zero`.
+
+Further proved pieces (KatoPonce.lean): Leibniz rule `DL_mul` for iterated derivatives `DL`; `physQ v` (sum of squared cell integrals of all derivatives of order ≤ 3 of the components); `lower_term_bound` (each lower-order Leibniz term of order-3 commutator is ≤ 5·‖∇v‖∞·physQ, via Gagliardo–Nirenberg); `top_term_zero` (the top-order term vanishes by div v = 0). Still open toward `PeriodicPhysicalCommutatorBound`: assembling the per-word bound, the Fourier identity linking these cell integrals to `hsSq 3`, and the final constant. `PeriodicBKMHsControl ν 3` is not yet discharged.
 
 ## Copyright, license and scope
 

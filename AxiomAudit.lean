@@ -346,3 +346,6 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.norm_vort_coord_le
 #print axioms PeriodicNSContinuation.gradCoeff_eq_qC
 #print axioms PeriodicNSContinuation.periodicLowFreqVorticityBound
+#print axioms PeriodicNSContinuation.periodicBKMHsControl_three
+#print axioms PeriodicNSContinuation.periodicBKMCriterion
+#print axioms PeriodicNSContinuation.clay_B_exact_of_integrability

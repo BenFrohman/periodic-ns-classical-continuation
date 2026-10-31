@@ -22,9 +22,7 @@ $\mathbb{T}^3$, along the Statement~(B) route of the companion repository
 $\nu\ge 0$, uniqueness via an $L^2$ energy-difference estimate, the Fourier coefficient ODE, coefficient decay, the
 $H^s$ energy identity, Parseval's identity on the unit cube, and the Kato--Ponce toolkit at $s=3$ (integration by parts, Leibniz
 rule, a Gagliardo--Nirenberg inequality, a bound on every lower-order term, and vanishing of the top-order term from
-$\operatorname{div}u=0$). Also proved: the $s=3$ physical-space commutator bound \lean{periodicPhysicalCommutatorBound}. Proved conditionally: $H^3$ Beale--Kato--Majda control from the single named Prop \lean{PeriodicLowFreqVorticityBound}
-(classical, not yet formalized), and Statement~(B) from these together with the open
-\lean{PeriodicBKMIntegrability}.
+$\operatorname{div}u=0$). Also proved: the $s=3$ physical-space commutator bound \lean{periodicPhysicalCommutatorBound}. Also proved: the low-frequency vorticity bound \lean{periodicLowFreqVorticityBound}, and hence, with no hypothesis Props, $H^3$ Beale--Kato--Majda control (\lean{periodicBKMHsControl_three}) and the periodic BKM criterion (\lean{periodicBKMCriterion}). Statement~(B) is proven conditionally on \lean{PeriodicBKMIntegrability}, which is open (\lean{clay_B_exact_of_integrability}).
 \end{abstract}
 
 \section{Conventions and naming}
@@ -89,7 +87,7 @@ $|\int D^L v_i\cdot D^{p_1}v_l\, D^{p_2}\partial_l v_i|\le 5\|\nabla v\|_\infty\
 $-2\sum_i\int (1-\Delta/4\pi^2)^3v_i\,((v\cdot\nabla)v)_i\le C\|\nabla v\|_\infty\|v\|_{H^3}^2$.
 \emph{Status:} \textbf{proved} in \texttt{CommutatorAssembly.lean} (commit \texttt{1c27a39}): \lean{periodicPhysicalCommutatorBound}\coined{} gives it with $C=2\cdot64\cdot315\cdot64\,(4\pi^2)^3$, from \lean{lower_term_bound}, \lean{top_term_zero}, \lean{word_bound}\coined{} and \lean{physQ_le_hsSq}\coined. No longer a hypothesis.\end{hyp}
 \begin{hyp}\lean{PeriodicLowFreqVorticityBound}\coined: $\exists K\ge0$, $\forall R\ge2$, $\|V_R\nabla v\|_\infty\le K(1+\log R)\|\omega\|_\infty$.
-\emph{Status:} classically true (Littlewood--Paley/Calder\'on--Zygmund), not formalized.\end{hyp}
+\emph{Status:} \textbf{proved} in \texttt{LowFreqAssembly.lean} (\lean{periodicLowFreqVorticityBound}\coined). The proof writes the Biot--Savart law in Riesz form, $\widehat{\partial_jv_i}=q_{j,i+2}\hat\omega_{i+1}-q_{j,i+1}\hat\omega_{i+2}$ with $q_{jb}=k_jk_b/|k|^2$. It splits $q$ into a low piece and $S=\lceil\log_2R\rceil+3$ smooth dyadic blocks, each with a uniformly $L^1$-bounded kernel (\texttt{DyadicBlock.lean}). Every piece is followed by the uniformly $L^1$-bounded de la Vall\'ee Poussin kernel (\texttt{VPKernel.lean}). No longer a hypothesis.\end{hyp}
 \begin{hyp}\lean{PeriodicBKMIntegrability}~$\nu$ (from \texttt{fefferman-clay-navier-stokes}): $\int_0^T\|\omega\|_\infty<\infty$ on every finite interval of existence.
 \emph{Status:} \textbf{open}. This is the Clay core and the manuscript's (H5) gap.\end{hyp}
 
@@ -97,16 +95,18 @@ $-2\sum_i\int (1-\Delta/4\pi^2)^3v_i\,((v\cdot\nabla)v)_i\le C\|\nabla v\|_\inft
 \lean{periodicFourierCommutatorBound_of_physical}\coined: \lean{PeriodicPhysicalCommutatorBound C} $\Rightarrow$ \lean{PeriodicFourierCommutatorBound 3 C}.
 \lean{periodicBKMHsControl_of_physical_lowFreq}\coined: $(\exists C\ge0,$ \lean{PeriodicPhysicalCommutatorBound C}$)$ and \lean{PeriodicLowFreqVorticityBound} give \lean{PeriodicBKMHsControl}~$\nu$~3. Combined with the proved bound: \lean{periodicBKMHsControl_three_of_lowFreq}\coined{} gives \lean{PeriodicBKMHsControl}~$\nu$~3 from \lean{PeriodicLowFreqVorticityBound} alone.
 \end{proposition}
+\begin{theorem}[unconditional corollaries, \texttt{BKMFinal.lean}]
+\lean{periodicBKMHsControl_three}\coined: \lean{PeriodicBKMHsControl}~$\nu$~3 for every $\nu$, with no hypotheses. \lean{periodicBKMCriterion}\coined: \lean{PeriodicBKMCriterion}~$\nu$ for every $\nu$, with no hypotheses.
+\end{theorem}
 \begin{proposition}[Statement (B), conditional]
-\lean{clay_B_exact_of_hsControl}\coined: for $s>5/2$, \lean{PeriodicBKMHsControl}~$\nu\ s$ and \lean{PeriodicBKMIntegrability}~$\nu$ give \lean{Clay_B_exact}~$\nu$. Also \lean{clay_B_exact_of_corrected_route'}\coined{} and \lean{clay_B_exact_of_bkm}\coined.
+\lean{clay_B_exact_of_hsControl}\coined: for $s>5/2$, \lean{PeriodicBKMHsControl}~$\nu\ s$ and \lean{PeriodicBKMIntegrability}~$\nu$ give \lean{Clay_B_exact}~$\nu$. Also \lean{clay_B_exact_of_corrected_route'}\coined{} and \lean{clay_B_exact_of_bkm}\coined. The final form, \lean{clay_B_exact_of_integrability}\coined, is conditional \emph{only} on the open \lean{PeriodicBKMIntegrability}~$\nu$.
 \end{proposition}
 \paragraph{Note on a failed route.} A Wiener-algebra/Fourier commutator estimate was tried and abandoned: its low-frequency part grows like $R^{3/2}$, not $\log R$. The $s=3$ physical-space estimate replaces it.
 
 \section{Status}
 \begin{itemize}
-\item \textbf{Proved, unconditional:} local existence ($\nu\ge0$), uniqueness, coefficient ODE and decay, $H^s$ energy identity, Parseval, physical form of the $H^3$ rate, Kato--Ponce toolkit including \lean{lower_term_bound} and \lean{top_term_zero}, the $s=3$ commutator bound \lean{periodicPhysicalCommutatorBound}, the blow-up alternative.
-\item \textbf{Conditional:} $H^3$ BKM control only on \lean{PeriodicLowFreqVorticityBound} (\lean{periodicBKMHsControl_three_of_lowFreq}); Statement~(B) additionally on \lean{PeriodicBKMIntegrability}.
-\item \textbf{Not yet formalized (classically true):} \lean{PeriodicLowFreqVorticityBound}.
+\item \textbf{Proved, unconditional:} local existence ($\nu\ge0$), uniqueness, coefficient ODE and decay, $H^s$ energy identity, Parseval, physical form of the $H^3$ rate, Kato--Ponce toolkit including \lean{lower_term_bound} and \lean{top_term_zero}, the $s=3$ commutator bound \lean{periodicPhysicalCommutatorBound}, the blow-up alternative, the low-frequency bound \lean{periodicLowFreqVorticityBound}, $H^3$ BKM control \lean{periodicBKMHsControl_three} and the BKM criterion \lean{periodicBKMCriterion}.
+\item \textbf{Conditional:} Statement~(B) is proven conditionally on \lean{PeriodicBKMIntegrability} (\lean{clay_B_exact_of_integrability}).
 \item \textbf{Open:} \lean{PeriodicBKMIntegrability} --- the Clay Millennium core. Neither the Clay problem nor global regularity of 3D Navier--Stokes is claimed.
 \end{itemize}
 \section*{Reproducibility}

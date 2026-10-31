@@ -41,3 +41,4 @@ import PeriodicNSContinuation.WeightIntegral
 import PeriodicNSContinuation.DyadicBlock
 import PeriodicNSContinuation.VPKernel
 import PeriodicNSContinuation.LowFreqAssembly
+import PeriodicNSContinuation.BKMFinal

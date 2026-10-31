@@ -13,3 +13,4 @@ import PeriodicNSContinuation.FourierData
 import PeriodicNSContinuation.GalerkinLimit
 import PeriodicNSContinuation.GalerkinLimitProof
 import PeriodicNSContinuation.Reconstruction
+import PeriodicNSContinuation.FourierInversion

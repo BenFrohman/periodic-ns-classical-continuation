@@ -175,3 +175,28 @@ Clay is not solved.
 Coined names: `phase`, `seriesC`, `seriesVelocity`, `nonlinCoeff`, `pressureCoeff`, `seriesPressure`,
 `IsFourierSolutionOn`, `IsSmoothFourierSolutionOn`, `FourierHigherRegularity`,
 `FourierSeriesVelocity`, `PeriodicPressureRecovery`, and every theorem listed above.
+
+## Fourier inversion (`PeriodicNSContinuation/FourierInversion.lean`)
+
+**Proved:**
+* `fourierCoeffVF_hasSum`: 3D Fourier inversion for smooth periodic data. If `u₀` is smooth and
+  periodic, then for every `x` the series `Σ_k fourierCoeffVF u₀ k i · e^{2πi k·x}` converges
+  (absolutely) to `u₀ x i`.
+  The proof descends each component to `C(UnitAddTorus (Fin 3), ℂ)` (`torusCompC`) and identifies
+  Mathlib's `mFourierCoeff` with `fourierCoeffVF` (`mFourierCoeff_torusCompC`). Absolute
+  summability (`summable_norm_fourierCoeffVF`) comes from `periodicDataHs 2`. It then applies
+  Mathlib's `hasSum_mFourier_series_apply_of_summable`.
+* `seriesVelocity_zero`: if `a 0 = fourierCoeffVF u₀`, then `seriesVelocity a 0 = u₀`.
+* `fourierSeriesVelocity_of`: `FourierSeriesVelocitySmooth ν → FourierSeriesVelocity ν`.
+* `periodicGalerkinLimit_of_subProps' (hs : 2 < s)`: `FourierHigherRegularity`,
+  `FourierSeriesVelocitySmooth` and `PeriodicPressureRecovery` imply `PeriodicGalerkinLimit`.
+
+**NOT proved:**
+* `FourierSeriesVelocitySmooth ν`: joint `C^∞` on `[0,T] × ℝ³` and zero divergence.
+* `PeriodicPressureRecovery ν`.
+* `FourierHigherRegularity ν s` (the tame `H^{s'}` estimate).
+
+`PeriodicLocalExistence` is still conditional. Clay is not solved.
+
+Coined names: `compR`, `torusMk`, `torusComp`, `torusCompC`, `mFourier_torusMk`, `norm_le_aux`,
+`FourierSeriesVelocitySmooth`, and every theorem listed above.

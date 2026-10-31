@@ -85,3 +85,9 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.fourierNSField_eq_pressure
 #print axioms PeriodicNSContinuation.fourierSolutionReconstruction_of
 #print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_subProps
+#print axioms PeriodicNSContinuation.mFourierCoeff_torusCompC
+#print axioms PeriodicNSContinuation.summable_norm_fourierCoeffVF
+#print axioms PeriodicNSContinuation.fourierCoeffVF_hasSum
+#print axioms PeriodicNSContinuation.seriesVelocity_zero
+#print axioms PeriodicNSContinuation.fourierSeriesVelocity_of
+#print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_subProps'

@@ -38,6 +38,28 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 * `PeriodicBKMIntegrability` — open.
 * `PeriodicPhysicalCommutatorBound C` (s = 3, coined) — proved sufficient for `PeriodicFourierCommutatorBound 3 C`, and now **proved** (`periodicPhysicalCommutatorBound`, CommutatorAssembly.lean), with C = 2·64·315·64·(4π²)³.
 
+## Attacking `PeriodicBKMIntegrability` (`PeriodicNSContinuation/IntegrabilityAttack.lean`)
+
+Work in progress. This section does **not** prove `PeriodicBKMIntegrability`. **Clay is not solved.**
+Names are coined unless they come from FeffermanClayNS.
+
+| Statement (Lean name) | Status |
+|---|---|
+| `integrableOn_vorticity_of_lt_tstar`: `T < T*` ⇒ `∫₀ᵀ ‖ω‖_∞ < ∞` (short time / below the lifespan) | **proved** |
+| `periodicBKMIntegrability_iff_globalLifespan`: `PeriodicBKMIntegrability ν ↔ PeriodicGlobalLifespan ν` (`T* = ⊤` for all smooth data) | **proved** |
+| `clay_B_exact_of_globalLifespan` | proved, conditional on `PeriodicGlobalLifespan` (open) |
+| `integrability_of_smallDataGlobal` (Route 2, small data) | proved from the named `PeriodicSmallDataGlobal ν N ε` (classical for e.g. Fujita–Kato `Ḣ^{1/2}` smallness; not formalized) |
+| `integrability_of_prodiSerrin` (Route 2, Prodi–Serrin endpoint `L^∞_t L^∞_x`) | proved from the named `PeriodicProdiSerrinCriterion ν` (classical; not formalized) plus a velocity bound up to the lifespan |
+| `periodicBKMIntegrability_of_vorticityAPriori`, `clay_B_exact_of_vorticityAPriori` (Route 1, κ = 0 analogue of the tether) | proved from `PeriodicVorticityAPrioriBound ν` (**open**) |
+| `PeriodicBKMIntegrability`, `PeriodicGlobalLifespan`, `PeriodicVorticityAPrioriBound` | **not proved; open** (each equivalent to or stronger than the Clay core) |
+
+Where Route 1 breaks: at κ = 0 there is no damping term. Enstrophy obeys only the superlinear
+`E' ≤ C E³`, and the max-point (Danskin) bound gives `Y' ≲ Y² log(…)`. Neither yields a uniform
+`‖ω‖_∞` bound, so the tethered-model ceiling argument does not carry over.
+
+The equivalence shows that the remaining hypothesis is exactly global existence of the lifespan.
+It is not a weaker technical leftover.
+
 ## Torus Sobolev foundation (`PeriodicNSContinuation/TorusSobolev.lean`)
 
 `Hˢ(𝕋³)` for scalar `ℂ`-valued `L²` functions on `UnitAddTorus (Fin 3)`, defined by Fourier

@@ -45,7 +45,7 @@ For every $\nu$, \lean{PeriodicBKMCriterion}~$\nu$ holds. If $\nu>0$ and $T^*=T<
 \end{theorem}
 
 \begin{remark}[Equivalence in difficulty]
-The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\|\omega\|_\infty$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker or "technical" leftover. This converse is argued informally here and is not packaged as a separate Lean theorem. this paper is therefore a verified reduction, not a proof of regularity.
+The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\|\omega\|_\infty$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker or "technical" leftover. This converse, from (B) itself, is argued informally here. What \emph{is} proved in Lean (\lean{periodicBKMIntegrability_iff_globalLifespan}, \texttt{IntegrabilityAttack.lean}) is that \lean{PeriodicBKMIntegrability} is equivalent to \lean{PeriodicGlobalLifespan}, i.e.\ $T^*=\infty$ for all smooth data. Its proof uses \lean{integrableOn_vorticity_of_lt_tstar}: $\int_0^T\|\omega\|_\infty<\infty$ whenever $T<T^*$. this paper is therefore a verified reduction, not a proof of regularity.
 \end{remark}
 
 
@@ -59,6 +59,11 @@ Periodic BKM criterion, \lean{periodicBKMCriterion} & proved unconditionally\\
 Clay Statement (B), via \lean{clay_B_exact_of_integrability} & proved conditionally on \lean{PeriodicBKMIntegrability}\\
 \lean{PeriodicBKMIntegrability} & not proved (open; equivalent to Clay (B))\\
 Converse: (B) $\Rightarrow$ \lean{PeriodicBKMIntegrability} & not proved in Lean (informal argument only)\\
+\lean{periodicBKMIntegrability_iff_globalLifespan}\coined & proved unconditionally\\
+\lean{integrableOn_vorticity_of_lt_tstar}\coined{} (below $T^*$) & proved unconditionally\\
+Small data, \lean{integrability_of_smallDataGlobal}\coined & proved from named \lean{PeriodicSmallDataGlobal} (not formalized)\\
+Prodi--Serrin, \lean{integrability_of_prodiSerrin}\coined & proved from named \lean{PeriodicProdiSerrinCriterion} (not formalized)\\
+$\kappa=0$ route, \lean{periodicBKMIntegrability_of_vorticityAPriori}\coined & proved from \lean{PeriodicVorticityAPrioriBound} (open)\\
 Clay problem / NS global regularity & not proved, not claimed\\\bottomrule
 \end{longtable}
 

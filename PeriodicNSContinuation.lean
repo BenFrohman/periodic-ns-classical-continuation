@@ -42,3 +42,4 @@ import PeriodicNSContinuation.DyadicBlock
 import PeriodicNSContinuation.VPKernel
 import PeriodicNSContinuation.LowFreqAssembly
 import PeriodicNSContinuation.BKMFinal
+import PeriodicNSContinuation.IntegrabilityAttack

@@ -104,6 +104,19 @@ $-2\sum_i\int (1-\Delta/4\pi^2)^3v_i\,((v\cdot\nabla)v)_i\le C\|\nabla v\|_\inft
 \end{proposition}
 \paragraph{Note on a failed route.} A Wiener-algebra/Fourier commutator estimate was tried and abandoned: its low-frequency part grows like $R^{3/2}$, not $\log R$. The $s=3$ physical-space estimate replaces it.
 
+\section{Attacking the open hypothesis (work in progress)}
+File \texttt{IntegrabilityAttack.lean}. All names are coined. \textbf{This does not prove \lean{PeriodicBKMIntegrability}.}
+\begin{itemize}
+\item \lean{integrableOn_vorticity_of_lt_tstar} (proved): if $T<T^*$, then $\int_0^T\|\omega\|_\infty<\infty$.
+\item \lean{periodicBKMIntegrability_iff_globalLifespan} (proved): \lean{PeriodicBKMIntegrability}~$\nu$ holds iff \lean{PeriodicGlobalLifespan}~$\nu$ ($T^*=\infty$ for all smooth data). The open hypothesis is therefore exactly global existence.
+\item Route 2 (proved from named classical hypotheses, not formalized here):
+  \begin{itemize}
+  \item \lean{integrability_of_smallDataGlobal}, from \lean{PeriodicSmallDataGlobal};
+  \item \lean{integrability_of_prodiSerrin}, from \lean{PeriodicProdiSerrinCriterion} (endpoint $L^\infty_tL^\infty_x$) plus a velocity bound.
+  \end{itemize}
+\item Route 1 (the $\kappa=0$ analogue of the tether), \lean{periodicBKMIntegrability_of_vorticityAPriori} (proved): from the \textbf{open} \lean{PeriodicVorticityAPrioriBound}. It breaks because with no damping term the enstrophy satisfies only $E'\le CE^3$ and the max-point bound gives $Y'\lesssim Y^2\log(\cdot)$. Neither gives a uniform bound.
+\end{itemize}
+
 \section{Status}
 \begin{itemize}
 \item \textbf{Proved, unconditional:} local existence ($\nu\ge0$), uniqueness, coefficient ODE and decay, $H^s$ energy identity, Parseval, physical form of the $H^3$ rate, Kato--Ponce toolkit including \lean{lower_term_bound} and \lean{top_term_zero}, the $s=3$ commutator bound \lean{periodicPhysicalCommutatorBound}, the blow-up alternative, the low-frequency bound \lean{periodicLowFreqVorticityBound}, $H^3$ BKM control \lean{periodicBKMHsControl_three} and the BKM criterion \lean{periodicBKMCriterion}.

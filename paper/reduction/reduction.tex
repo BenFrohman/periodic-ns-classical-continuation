@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,hyperref,booktabs,longtable}
+\newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\coined}{$^{\dagger}$}
+\newtheorem{theorem}{Theorem}\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}\newtheorem{hyp}{Hypothesis}\newtheorem{remark}{Remark}
+\title{A Lean-verified reduction of periodic Navier--Stokes regularity to a single integrability hypothesis, with a tethered-model ceiling\\[4pt]\large (conditional results; draft)}
+\author{Benjamin Stanley Frohman\\ ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
+\date{Draft, October 31, 2026 --- private, not peer reviewed, no DOI}
+\begin{document}\maketitle
+\begin{center}\fbox{\parbox{0.92\textwidth}{\textbf{Scope.} This paper reports \emph{conditional} results. It does \textbf{not} solve the Clay Millennium Problem. It does not prove global regularity of the 3D Navier--Stokes equations, either periodic or on $\mathbb R^3$. The single remaining hypothesis of Part~I, \lean{PeriodicBKMIntegrability}, is equivalent in difficulty to Clay Statement~(B). Part~II concerns a \emph{modified} (tethered) model, not Navier--Stokes, and is itself conditional.}}\end{center}
+
+\begin{abstract}
+We describe two machine-checked Lean~4/Mathlib developments. Part~I, on the torus $\mathbb T^3$ (repository \texttt{periodic-ns-classical-continuation}, commit \texttt{4ab624e}), proves the following with no hypothesis Props:
+\begin{itemize}
+\item $H^3$ Beale--Kato--Majda control, \lean{periodicBKMHsControl_three};
+\item the periodic BKM blow-up criterion, \lean{periodicBKMCriterion}.
+\end{itemize}
+It deduces the exact periodic Clay Statement~(B), \lean{Clay_B_exact}, conditionally on a single named Prop, \lean{PeriodicBKMIntegrability} (\lean{clay_B_exact_of_integrability}). That Prop asserts $\int_0^T\|\omega\|_\infty\,dt<\infty$ along maximal solutions. By the proved criterion it is equivalent to Statement~(B), so it is exactly as hard.
+
+Part~II (repository \texttt{metriplectic-world-model}, commit \texttt{2274a23}) proves a uniform-in-time ceiling on $\sup|\omega|$ for a vorticity equation with a cubic damping tether, \lean{field_uniform_ceiling_logLoss_cubicTether}. It is conditional on a pointwise log-loss stretching Prop, \lean{FieldStretchingLogLoss}, and on fixed compact support and regularity hypotheses, which we list. We explain why the known Calder\'on--Zygmund log estimate does not supply that Prop. All results use only the axioms \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}.
+\end{abstract}
+
+\section{Part I: the periodic chain on $\mathbb T^3$}
+Throughout, $\nu>0$, $u_0$ is smooth, periodic and divergence-free, and $(u,p)$ is the maximal smooth solution with existence time $T^*$. The definitions \lean{Clay_B_exact}, \lean{PeriodicBKMCriterion} and \lean{PeriodicBKMIntegrability} come from the dependency \texttt{fefferman-clay-navier-stokes}.
+
+\begin{hyp}[\lean{PeriodicBKMIntegrability}~$\nu$; \textbf{open}]
+For every maximal solution and every $T$, $t\mapsto\|\omega(t)\|_\infty$ is integrable on $[0,T]$.
+\end{hyp}
+
+\begin{theorem}[\lean{periodicBKMHsControl_three}\coined; unconditional]
+For every $\nu$, \lean{PeriodicBKMHsControl}~$\nu$~$3$ holds. That is, if $T^*=T<\infty$ and $\int_0^T\|\omega\|_\infty<\infty$, then $\sup_{[0,T)}\|u(t)\|_{H^3}<\infty$.
+\end{theorem}
+\emph{Proof route (all formalized).} The $H^3$ energy identity reduces the claim to a commutator bound and a low-frequency vorticity bound.
+\begin{itemize}
+\item The $s=3$ commutator bound is $-2\sum_i\int(1-\Delta/4\pi^2)^3v_i\,((v\cdot\nabla)v)_i\le C\|\nabla v\|_\infty\|v\|_{H^3}^2$ (\lean{periodicPhysicalCommutatorBound}\coined, \texttt{CommutatorAssembly.lean}).
+\item The low-frequency bound is $\|V_R\nabla v\|_\infty\le K(1+\log R)\|\omega\|_\infty$ for $R\ge2$ (\lean{periodicLowFreqVorticityBound}\coined, \texttt{LowFreqAssembly.lean}). It is proved through the Riesz form of Biot--Savart, a smooth dyadic decomposition with uniformly $L^1$-bounded block kernels, and a uniform $L^1$ bound for the de la Vall\'ee Poussin kernel.
+\end{itemize}
+Gr\"onwall's inequality with the $\log$ splitting then closes the bound.
+
+\begin{theorem}[\lean{periodicBKMCriterion}\coined; unconditional]
+For every $\nu$, \lean{PeriodicBKMCriterion}~$\nu$ holds. If $\nu>0$ and $T^*=T<\infty$, then $\int_0^T\|\omega\|_\infty=\infty$.
+\end{theorem}
+
+\begin{theorem}[\lean{clay_B_exact_of_integrability}\coined; conditional]
+\lean{PeriodicBKMIntegrability}~$\nu$ $\Rightarrow$ \lean{Clay_B_exact}~$\nu$.
+\end{theorem}
+
+\begin{remark}[Equivalence in difficulty]
+The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\|\omega\|_\infty$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker or "technical" leftover. This converse is argued informally here and is not packaged as a separate Lean theorem. Part~I is therefore a verified reduction, not a proof of regularity.
+\end{remark}
+
+\section{Part II: a ceiling for the cubic-tethered vorticity model}
+The model is \lean{ModelVorticityPDE}~$\nu\ \omega\ u\ T$:
+\[u=\mathrm{BS}(\omega),\qquad \operatorname{div}\omega=0,\qquad \partial_t\omega+(u\cdot\nabla)\omega-(\omega\cdot\nabla)u=\nu\Delta\omega+T.\]
+It uses the cubic tether $T=\lean{cubicTether}~\kappa~\omega=-\kappa|\omega|^2\omega$. This is \emph{not} Navier--Stokes; the tether is an added damping term. Write $Y(t)=\sup_x|\omega(t,x)|$ and $\mathrm{ceiling}(M_0,C,\kappa)=\max(M_0,\max(C/\kappa,0))$.
+
+\begin{hyp}[\lean{FieldStretchingLogLoss}~$\omega\ u\ Y\ C_1\ C_2$\coined; \textbf{not proved}]
+For every $t\ge0$ and every global maximizer $x_*$ of $|\omega(t,\cdot)|$:
+\[\omega\cdot(\omega\cdot\nabla)u\,(t,x_*)\le C_1Y^3+C_2Y^3\log(1+Y).\]
+\end{hyp}
+
+\begin{theorem}[\lean{field_uniform_ceiling_logLoss_cubicTether}\coined; conditional]
+Assume all of the following:
+\begin{enumerate}
+\item $\nu\ge0$, $\kappa>0$, $C_2\ge0$;
+\item \lean{ModelVorticityPDE}~$\nu\ \omega\ u\ (\lean{cubicTether}~\kappa~\omega)$;
+\item a \emph{fixed} compact nonempty set $K$ with $\omega(s,x)=0$ for $x\notin K$, for all $s$;
+\item $\omega(t)\in C^2$ in space for every $t$;
+\item joint continuity of $\omega$ and of $\partial_t\omega$, and the pointwise time derivative $\partial_t\omega(s,x)$ exists for all $s,x$;
+\item $Y(s)$ is the least upper bound of $\{|\omega(s,x)|\}$ for all $s$;
+\item \lean{FieldStretchingLogLoss}~$\omega\ u\ Y\ C_1\ C_2$.
+\end{enumerate}
+Then for all $t\ge0$, $Y(t)\le\mathrm{ceiling}\big(Y(0),\,C_1+\kappa/4+4C_2^2/\kappa,\,3\kappa/4\big)$.
+\end{theorem}
+\emph{Proof route.}
+\begin{itemize}
+\item \lean{fieldNetRate_of_logLoss_cubicTether}\coined{} uses $\log(1+y)\le2\sqrt{1+y}$ and Young's inequality to absorb the log loss into the quartic tether. This gives \lean{FieldNetRate} with $C=C_1+\kappa/4+4C_2^2/\kappa$ and $\kappa_{\rm eff}=3\kappa/4$.
+\item \lean{field_uniform_ceiling_of_netRate}\coined{} applies a Danskin upper-Dini bound for $Y^2$ at a maximizer. There the transport term vanishes and $\omega\cdot\Delta\omega\le0$.
+\item A Dini comparison lemma, \lean{ceiling_of_upper_dini}\coined, finishes the proof. No differentiability of $Y$ is assumed.
+\end{itemize}
+
+\paragraph{Why the known Calder\'on--Zygmund estimate does not suffice.}
+The classical log estimate (Beale--Kato--Majda, Kozono--Taniuchi type) reads
+\[\|\nabla u\|_\infty\le C\big(1+Y\,(1+\log^+(\|\omega\|_{C^\alpha}/Y))+\|\omega\|_{L^2}\big).\]
+The logarithm contains a \emph{higher} norm, $\|\omega\|_{C^\alpha}$. The ceiling argument controls only $Y$, and a time-uniform bound on $\|\omega(t)\|_{C^\alpha}$ is essentially the regularity question itself. So the known estimate does not imply \lean{FieldStretchingLogLoss}, whose $Y$-only form is a strictly stronger hypothesis than anything known.
+
+The CZ estimate itself is also not formalized in that repository, which has no singular-integral or H\"older theory for $\nabla\mathrm{BS}$. The existence of solutions with uniformly fixed compact support (hypothesis 3) is likewise not established. Neither the theorem nor anything else in Part~II says anything about unmodified Navier--Stokes.
+
+\section{Status}
+\begin{itemize}
+\item \textbf{Proved, no hypothesis Props:} \lean{periodicBKMHsControl_three}, \lean{periodicBKMCriterion}, \lean{periodicLowFreqVorticityBound} and \lean{periodicPhysicalCommutatorBound}. In Part~II: \lean{fieldNetRate_of_logLoss_cubicTether}, an implication between named Props.
+\item \textbf{Conditional:} \lean{clay_B_exact_of_integrability}, on \lean{PeriodicBKMIntegrability}. \lean{field_uniform_ceiling_logLoss_cubicTether}, on \lean{FieldStretchingLogLoss} and hypotheses 1--6.
+\item \textbf{Open:} \lean{PeriodicBKMIntegrability}, which is equivalent to Clay~(B), and \lean{FieldStretchingLogLoss}. Neither the Clay problem nor Navier--Stokes regularity is claimed.
+\end{itemize}
+
+\appendix
+\section{Theorem-to-Lean map}
+Names marked \coined{} were coined during formalization and are not the author's terminology; they may be renamed later.
+\begin{longtable}{p{0.37\textwidth}p{0.33\textwidth}p{0.2\textwidth}}\toprule
+Lean name & File & Repo @ commit\\\midrule
+\lean{periodicBKMHsControl_three}\coined & \texttt{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{periodicBKMCriterion}\coined & \texttt{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{clay_B_exact_of_integrability}\coined & \texttt{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{periodicBKMHsControl_three_of_lowFreq}\coined & \texttt{PeriodicNSContinuation/CommutatorAssembly.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{periodicPhysicalCommutatorBound}\coined & \texttt{PeriodicNSContinuation/CommutatorAssembly.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{periodicLowFreqVorticityBound}\coined & \texttt{PeriodicNSContinuation/LowFreqAssembly.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{periodicBKMCriterion_of_hsControl} & \texttt{PeriodicNSContinuation/Continuation.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{PeriodicBKMHsControl}\coined{} (def) & \texttt{PeriodicNSContinuation/Continuation.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{clay_B_exact_of_bkm}\coined & \texttt{PeriodicNSContinuation/LocalExistenceProof.lean} & pnscc @ \texttt{4ab624e}\\
+\lean{Clay_B_exact} (def) & \texttt{FeffermanClayNS/FeffermanStatements.lean} & dependency\\
+\lean{PeriodicBKMCriterion}, \lean{PeriodicBKMIntegrability} (defs) & \texttt{FeffermanClayNS/HighSetDepletionAndBKM.lean} & dependency\\\midrule
+\lean{field_uniform_ceiling_logLoss_cubicTether}\coined & \texttt{MetriplecticWorldModel/LogLossCeiling.lean} & mwm @ \texttt{2274a23}\\
+\lean{fieldNetRate_of_logLoss_cubicTether}\coined & \texttt{MetriplecticWorldModel/LogLossCeiling.lean} & mwm @ \texttt{2274a23}\\
+\lean{field_uniform_ceiling_of_netRate}\coined & \texttt{MetriplecticWorldModel/LogLossCeiling.lean} & mwm @ \texttt{2274a23}\\
+\lean{FieldStretchingLogLoss}\coined, \lean{FieldNetRate}\coined{} (defs) & \texttt{MetriplecticWorldModel/LogLossCeiling.lean} & mwm @ \texttt{2274a23}\\
+\lean{cubicTether}\coined, \lean{fieldTetherFeedback_cubicTether}\coined & \texttt{MetriplecticWorldModel/DiniCeiling.lean} & mwm @ \texttt{2274a23}\\
+\lean{ceiling} (def) & \texttt{MetriplecticWorldModel/Ceiling.lean} & mwm @ \texttt{2274a23}\\
+\lean{ModelVorticityPDE}\coined{} (def) & \texttt{MetriplecticWorldModel/SmoothOrbit.lean} & mwm @ \texttt{2274a23}\\\bottomrule
+\end{longtable}
+pnscc = \texttt{BenFrohman/periodic-ns-classical-continuation}; mwm = \texttt{metriplectic-world-model}.
+
+\section{Axiom audit}
+In each repository, \texttt{lake build} succeeds with 0 \texttt{sorry}, and \texttt{lake env lean AxiomAudit.lean} passes. Every audited theorem, including all those listed above, depends only on \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}. In pnscc, the audit prints ``AxiomAudit PASS: only propext, Classical.choice, Quot.sound''. In mwm, the audit throws an error if any theorem uses another axiom, and it completed without error.
+
+\section*{License}
+Copyright 2026 Benjamin Stanley Frohman. Apache License, Version 2.0.
+\end{document}

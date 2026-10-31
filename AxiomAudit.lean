@@ -406,3 +406,7 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.enn_trilinear
 #print axioms PeriodicNSContinuation.periodicH1TrilinearBound
 #print axioms PeriodicNSContinuation.periodicTstar_eq_top_of_smallH1_ladyzhenskaya
+#print axioms PeriodicNSContinuation.hsSq_bounded_of_rate
+#print axioms PeriodicNSContinuation.periodicH1BlowupCriterion_of_smoothing
+#print axioms PeriodicNSContinuation.periodicDirectionEnstrophyGrowthL1_of_holderStretching
+#print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_classical_bending

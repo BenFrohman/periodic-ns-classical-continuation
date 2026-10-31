@@ -51,3 +51,4 @@ import PeriodicNSContinuation.EnstrophyRate
 import PeriodicNSContinuation.DirectionCriterion
 import PeriodicNSContinuation.BendingRate
 import PeriodicNSContinuation.Ladyzhenskaya
+import PeriodicNSContinuation.ClassicalSteps

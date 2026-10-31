@@ -307,3 +307,7 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.cellWeight_inv_sq_le
 #print axioms PeriodicNSContinuation.integral_cellWeight_inv_sq_le
 #print axioms PeriodicNSContinuation.integral_norm_multKernel_sub_le
+#print axioms PeriodicNSContinuation.exists_secondDiff_bound
+#print axioms PeriodicNSContinuation.contDiff_blockF
+#print axioms PeriodicNSContinuation.hasCompactSupport_blockF
+#print axioms PeriodicNSContinuation.abs_blockF_le

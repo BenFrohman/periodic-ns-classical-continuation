@@ -91,3 +91,6 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.seriesVelocity_zero
 #print axioms PeriodicNSContinuation.fourierSeriesVelocity_of
 #print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_subProps'
+#print axioms PeriodicNSContinuation.hsNormField_extendG_mono
+#print axioms PeriodicNSContinuation.fourierHigherRegularity_of
+#print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_subProps''

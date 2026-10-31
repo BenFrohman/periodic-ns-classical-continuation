@@ -200,3 +200,29 @@ Coined names: `phase`, `seriesC`, `seriesVelocity`, `nonlinCoeff`, `pressureCoef
 
 Coined names: `compR`, `torusMk`, `torusComp`, `torusCompC`, `mFourier_torusMk`, `norm_le_aux`,
 `FourierSeriesVelocitySmooth`, and every theorem listed above.
+
+## Higher regularity (`PeriodicNSContinuation/HigherRegularity.lean`)
+
+This uses the tame Galerkin estimate now proved in torus-fourier-ns-lemmas (`TameTransport.lean`;
+the dependency pin is bumped to `2356dcb`).
+
+**Proved:**
+* `fourierHigherRegularity_of (0 ≤ ν) (5/2 < s)`:
+  `FourierGalerkinApproximation ν s → FourierHigherRegularity ν s`. The proof applies Grönwall with
+  the tame bound `‖·‖_{H^{s₀}}·‖·‖²_{H^r}` for every `r = max s' 2`, then truncation monotonicity,
+  then Fatou (`hs_of_tendsto`).
+* `hsNormField_extendG_mono`: Galerkin `H^s` norms are monotone in `s`.
+* `periodicGalerkinLimit_of_subProps'' (0 ≤ ν) (5/2 < s)`: `FourierGalerkinApproximation`,
+  `FourierSeriesVelocitySmooth` and `PeriodicPressureRecovery` imply `PeriodicGalerkinLimit`.
+
+**NOT proved:**
+* `FourierGalerkinApproximation ν s` (coined): the given `H^s` Fourier solution is a mode-wise limit
+  on `[0,T]` of Galerkin solutions from truncated data, with a uniform `H^s` bound.
+  This is a stability/uniqueness statement for the Fourier system.
+* `FourierSeriesVelocitySmooth ν` and `PeriodicPressureRecovery ν` (unchanged).
+
+Note: this route needs `s > 5/2` (the tame bound's `ℓ¹` factor), stronger than the `s > 2` used
+earlier. `PeriodicLocalExistence` is still conditional. Clay is not solved.
+
+Coined names: `FourierGalerkinApproximation`, `hsNormField_extendG_mono`,
+`fourierHigherRegularity_of`, `periodicGalerkinLimit_of_subProps''`.

@@ -388,6 +388,21 @@ Coined names: `modeSq_nonneg`, `tailWeight_le_rpow`, `fourier_split_log`, `vpWei
 
 Coined names: `ev`, `phase_shift`, `summable_mode_mul_coeff`, `norm_gradCoeff`, `hasSum_grad`, `abs_le_of_modeSq_le`, `lowGrad_eq`, `entry_le`, `opNorm_le_entries`, `grad_tail_le`, `lowGrad_norm_le`, `periodicLogSobolevBKMBound_of_lowFreq`, `periodicBKMHsControl_of_tame_lowFreq`, `nlField`, `fourierNSField_eq`, `rateOf`, `PeriodicFourierHsEnergyIdentity`, `PeriodicFourierCommutatorBound`, `visc_term_nonpos`, `periodicTameHsInequality_of_fourier`, `periodicBKMHsControl_of_fourier_lowFreq`.
 
+## Energy identity reduction (HsEnergyIdentity.lean)
+
+**Proved (no sorry, standard axioms only):**
+- `fourierCoeffVF_continuousOn`: every Fourier coefficient of a classical solution is continuous in time on `[0, T']` (from joint smoothness, as a parametric integral over the compact unit cell).
+- `hasDerivAt_normSq_complex`: `d/dt ‖z(t)‖² = 2 Re(conj z · z')`.
+- `periodicFourierHsEnergyIdentity_of_coeff`: for every real `s`, `PeriodicFourierHsEnergyIdentity ν s` follows from two narrower hypotheses, `PeriodicFourierCoeffODE ν` and `PeriodicFourierCoeffDecay ν`. The termwise differentiation (`hasDerivAt_tsum_of_isPreconnected`), the summability of the rate, and the continuity of `t ↦ ‖u(t)‖²_{H^s}` are proved.
+- `periodicBKMHsControl_of_coeff_lowFreq`: BKM `H^s` control from `PeriodicFourierCoeffODE`, `PeriodicFourierCoeffDecay`, `PeriodicFourierCommutatorBound` and `PeriodicLowFreqVorticityBound`.
+
+**New hypotheses (true classically, not proved here; they replace `PeriodicFourierHsEnergyIdentity`):**
+- `PeriodicFourierCoeffODE ν`: on `(0, T')`, each coefficient satisfies `û' = fourierNSField ν û`. This needs differentiation under the integral, integration by parts for the Laplacian and pressure, the convolution formula for `(u·∇)u`, and the Leray projection.
+- `PeriodicFourierCoeffDecay ν`: for every `r` there is one `B` with `‖û(t)_k‖, ‖fourierNSField ν û(t)_k‖ ≤ B⟨k⟩^{-2r}` for all `t ∈ [0, T']`. This needs `(1−Δ)^m` bounds for the jointly smooth `u` and `∂ₜu`.
+- `PeriodicBKMIntegrability` remains open. **The Clay problem is not solved by this repository.**
+
+Coined names: `hasDerivAt_normSq_complex`, `PeriodicFourierCoeffODE`, `PeriodicFourierCoeffDecay`, `fourierCoeffVF_continuousOn`, `hsSq_eq_tsum`, `summable_prod_fin3`, `sobW_mul_sobW`, `rate_term_le`, `sq_term_le`, `periodicFourierHsEnergyIdentity_of_coeff`, `periodicBKMHsControl_of_coeff_lowFreq`.
+
 ## Copyright, license and scope
 
 Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718)). Licensed under the Apache License, Version 2.0; see `LICENSE` and `NOTICE`.

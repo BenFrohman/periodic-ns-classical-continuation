@@ -148,3 +148,8 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.visc_term_nonpos
 #print axioms PeriodicNSContinuation.periodicTameHsInequality_of_fourier
 #print axioms PeriodicNSContinuation.periodicBKMHsControl_of_fourier_lowFreq
+#print axioms PeriodicNSContinuation.hasDerivAt_normSq_complex
+#print axioms PeriodicNSContinuation.fourierCoeffVF_continuousOn
+#print axioms PeriodicNSContinuation.hsSq_eq_tsum
+#print axioms PeriodicNSContinuation.periodicFourierHsEnergyIdentity_of_coeff
+#print axioms PeriodicNSContinuation.periodicBKMHsControl_of_coeff_lowFreq

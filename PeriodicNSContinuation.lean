@@ -27,3 +27,4 @@ import PeriodicNSContinuation.BKMGronwall
 import PeriodicNSContinuation.BKMPieces
 import PeriodicNSContinuation.BKMLog
 import PeriodicNSContinuation.BKMAssembly
+import PeriodicNSContinuation.HsEnergyIdentity

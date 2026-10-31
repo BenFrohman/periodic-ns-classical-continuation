@@ -1,47 +1,64 @@
+% Copyright (c) 2026 Benjamin Stanley Frohman. Apache-2.0.
 \documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,amsthm,hyperref,booktabs,longtable}
-\usepackage{xurl}\urlstyle{tt}
-\newcommand{\lean}[1]{\path{#1}}
-\renewcommand{\texttt}[1]{{\ttfamily\expandafter\path\expandafter{#1}}}
-\emergencystretch=3em
-\newcommand{\coined}{$^{\dagger}$}
-\newtheorem{theorem}{Theorem}\newtheorem{proposition}[theorem]{Proposition}
-\theoremstyle{definition}\newtheorem{hyp}{Hypothesis}\newtheorem{remark}{Remark}
-\title{Work in progress: A Lean-verified conditional reduction of periodic Navier--Stokes regularity on $\mathbb T^3$ to a single integrability hypothesis\\[4pt]\large (conditional results; draft)}
-\author{Benjamin Stanley Frohman\\ ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
-\date{Draft, October 31, 2026 --- public repository, not peer reviewed; DOI 10.5281/zenodo.23842296}
-\begin{document}\maketitle
-\begin{center}\fbox{\parbox{0.92\textwidth}{\textbf{Work in progress} --- draft, subject to change. DOI: \href{https://doi.org/10.5281/zenodo.23842296}{10.5281/zenodo.23842296}. Main paper: \href{https://doi.org/10.5281/zenodo.23842556}{10.5281/zenodo.23842556}}}\end{center}
-\begin{center}\fbox{\parbox{0.92\textwidth}{\textbf{Scope.} This paper reports a \emph{conditional} result. It does \textbf{not} solve the Clay Millennium Problem, and it does not prove global regularity of the 3D Navier--Stokes equations. The single remaining hypothesis, \lean{PeriodicBKMIntegrability}, is a named Prop that is \textbf{not proved}. It is equivalent in difficulty to Clay Statement~(B).}}\end{center}
-\begin{center}\fbox{\parbox{0.92\textwidth}{\textbf{How to cite / What is claimed.} In Lean~4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement~(B) (periodic Navier--Stokes on $\mathbb T^3$) to the single hypothesis \lean{PeriodicBKMIntegrability}. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and $H^3$ control are proved unconditionally, using only the standard axioms. \lean{PeriodicBKMIntegrability} remains open. The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale--Kato--Majda, 1984); the novelty here is the complete, \texttt{sorry}-free formalization. Cite as: B.~S.~Frohman, reduction paper, DOI \href{https://doi.org/10.5281/zenodo.23842296}{10.5281/zenodo.23842296}; main paper, DOI \href{https://doi.org/10.5281/zenodo.23842556}{10.5281/zenodo.23842556}.}}\end{center}
+\usepackage{frohman-paper}
+\renewcommand{\shorttitle}{Lean-verified conditional reduction on $\mathbb{T}^3$}
+\renewcommand{\papersubtitle}{Conditional results; draft --- public repository, not peer reviewed}
+\renewcommand{\paperdate}{Draft of 31 October 2026 \,(Lean development at commit \file{a35d13a})}
+\renewcommand{\paperdoi}{10.5281/zenodo.23842296}
+\renewcommand{\companiondoi}{10.5281/zenodo.23842556}
+\renewcommand{\companionlabel}{Main paper:}
+\begin{document}
+\frohmantitle{A Lean-Verified Conditional Reduction of Periodic Navier--Stokes Regularity on $\mathbb{T}^3$ to a Single Integrability Hypothesis}
+
+\begin{scopebox}
+\textbf{Scope.} This paper reports a \emph{conditional} result. It does \textbf{not} solve the Clay Millennium Problem, and it does not prove global regularity of the 3D Navier--Stokes equations. The single remaining hypothesis, \lean{PeriodicBKMIntegrability}, is a named Prop that is \textbf{not proved}. It is equivalent in difficulty to Clay Statement~(B).
+\end{scopebox}
+\begin{citebox}
+\textbf{How to cite / What is claimed.} In Lean~4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement~(B) (periodic Navier--Stokes on $\TT$) to the single hypothesis \lean{PeriodicBKMIntegrability}. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and $H^3$ control are proved unconditionally, using only the standard axioms. \lean{PeriodicBKMIntegrability} remains open. The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale--Kato--Majda, 1984~\cite{BKM1984}); the novelty here is the complete, \texttt{sorry}-free formalization. Cite as: B.~S.~Frohman, reduction paper, DOI \doi{10.5281/zenodo.23842296}; main paper, DOI \doi{10.5281/zenodo.23842556}.
+\end{citebox}
+
 \begin{abstract}
-In the Lean~4/Mathlib repository \texttt{BenFrohman/periodic-ns-classical-continuation} (commit \texttt{ea5133d}), we prove two results with no hypothesis Props:
+In the Lean~4/Mathlib~\cite{Lean4,Mathlib2020} repository \file{BenFrohman/periodic-ns-classical-continuation} (commit \file{a35d13a}), we prove two results with no hypothesis Props:
 \begin{itemize}
-\item $H^3$ Beale--Kato--Majda control on $\mathbb T^3$, \lean{periodicBKMHsControl_three};
-\item the periodic BKM blow-up criterion, \lean{periodicBKMCriterion}.
+\item $H^3$ Beale--Kato--Majda control on $\TT$, \lean{periodicBKMHsControl_three};
+\item the periodic BKM blow-up criterion~\cite{BKM1984}, \lean{periodicBKMCriterion}.
 \end{itemize}
-We deduce the exact periodic Clay Statement~(B), \lean{Clay_B_exact}, \emph{conditionally} on the single named Prop \lean{PeriodicBKMIntegrability} (\lean{clay_B_exact_of_integrability}). The axioms used are only \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}.
+We deduce the exact periodic Clay Statement~(B)~\cite{Fefferman2000}, \lean{Clay_B_exact}, \emph{conditionally} on the single named Prop \lean{PeriodicBKMIntegrability} (\lean{clay_B_exact_of_integrability}). The axioms used are only \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}.
 \end{abstract}
+\begin{mscblock}\msc
+\textit{Keywords.} Navier--Stokes equations; torus; Beale--Kato--Majda criterion; conditional regularity; Lean~4; formal verification; work in progress.
+\end{mscblock}
+
 \section{The periodic chain on $\mathbb T^3$}
-Throughout, $\nu>0$, $u_0$ is smooth, periodic and divergence-free, and $(u,p)$ is the maximal smooth solution with existence time $T^*$. The definitions \lean{Clay_B_exact}, \lean{PeriodicBKMCriterion} and \lean{PeriodicBKMIntegrability} come from the dependency \texttt{fefferman-clay-navier-stokes}.
+Throughout, $\nu>0$, $u_0$ is smooth, periodic and divergence-free, and $(u,p)$ is the maximal smooth solution of
+\begin{equation}\label{eq:ns}
+\partial_t u+(u\cdot\nabla)u+\nabla p=\nu\Delta u,\qquad \Div u=0,\qquad u(0)=u_0\quad\text{on }\TT,
+\end{equation}
+with existence time $\Tstar$; $\omega=\curl u$. The definitions \lean{Clay_B_exact}, \lean{PeriodicBKMCriterion} and \lean{PeriodicBKMIntegrability} come from the dependency \file{fefferman-clay-navier-stokes}.
 
 \begin{hyp}[\lean{PeriodicBKMIntegrability}~$\nu$; \textbf{open}]
-For every maximal solution and every $T$, $t\mapsto\|\omega(t)\|_\infty$ is integrable on $[0,T]$.
+For every maximal solution and every $T$, $t\mapsto\norm{\omega(t)}_{L^\infty}$ is integrable on $[0,T]$:
+\begin{equation}\label{eq:bkmint}\int_0^T\norm{\omega(t)}_{L^\infty}\dd t<\infty.\end{equation}
 \end{hyp}
 
 \begin{theorem}[\lean{periodicBKMHsControl_three}\coined; unconditional]
-For every $\nu$, \lean{PeriodicBKMHsControl}~$\nu$~$3$ holds. That is, if $T^*=T<\infty$ and $\int_0^T\|\omega\|_\infty<\infty$, then $\sup_{[0,T)}\|u(t)\|_{H^3}<\infty$.
+For every $\nu$, \lean{PeriodicBKMHsControl}~$\nu$~$3$ holds. That is,
+\[\Tstar=T<\infty\quad\text{and}\quad\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty\quad\Longrightarrow\quad\sup_{t\in[0,T)}\norm{u(t)}_{H^3}<\infty.\]
 \end{theorem}
 \emph{Proof route (all formalized).} The $H^3$ energy identity reduces the claim to a commutator bound and a low-frequency vorticity bound.
 \begin{itemize}
-\item The $s=3$ commutator bound is $-2\sum_i\int(1-\Delta/4\pi^2)^3v_i\,((v\cdot\nabla)v)_i\le C\|\nabla v\|_\infty\|v\|_{H^3}^2$ (\lean{periodicPhysicalCommutatorBound}\coined, \texttt{CommutatorAssembly.lean}).
-\item The low-frequency bound is $\|V_R\nabla v\|_\infty\le K(1+\log R)\|\omega\|_\infty$ for $R\ge2$ (\lean{periodicLowFreqVorticityBound}\coined, \texttt{LowFreqAssembly.lean}). It is proved through the Riesz form of Biot--Savart, a smooth dyadic decomposition with uniformly $L^1$-bounded block kernels, and a uniform $L^1$ bound for the de la Vall\'ee Poussin kernel.
+\item The $s=3$ commutator bound~\cite{KatoPonce1988} is
+\[-2\sum_i\int\Bigl(1-\frac{\Delta}{4\pi^2}\Bigr)^{3}v_i\,\bigl((v\cdot\nabla)v\bigr)_i\dd x\le C\norm{\nabla v}_{L^\infty}\norm{v}_{H^3}^2\]
+(\lean{periodicPhysicalCommutatorBound}\coined, \file{CommutatorAssembly.lean}).
+\item The low-frequency bound is
+\[\norm{V_R\nabla v}_{L^\infty}\le K(1+\log R)\norm{\omega}_{L^\infty}\qquad(R\ge2)\]
+(\lean{periodicLowFreqVorticityBound}\coined, \file{LowFreqAssembly.lean}). It is proved through the Riesz form of Biot--Savart, a smooth dyadic decomposition with uniformly $L^1$-bounded block kernels, and a uniform $L^1$ bound for the de la Vall\'ee Poussin kernel.
 \end{itemize}
 Gr\"onwall's inequality with the $\log$ splitting then closes the bound.
 
 \begin{theorem}[\lean{periodicBKMCriterion}\coined; unconditional]
-For every $\nu$, \lean{PeriodicBKMCriterion}~$\nu$ holds. If $\nu>0$ and $T^*=T<\infty$, then $\int_0^T\|\omega\|_\infty=\infty$.
+For every $\nu$, \lean{PeriodicBKMCriterion}~$\nu$ holds. If $\nu>0$ and $\Tstar=T<\infty$, then
+\[\int_0^T\norm{\omega(t)}_{L^\infty}\dd t=\infty.\]
 \end{theorem}
 
 \begin{theorem}[\lean{clay_B_exact_of_integrability}\coined; conditional]
@@ -49,12 +66,12 @@ For every $\nu$, \lean{PeriodicBKMCriterion}~$\nu$ holds. If $\nu>0$ and $T^*=T<
 \end{theorem}
 
 \begin{remark}[Equivalence in difficulty]
-The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\|\omega\|_\infty$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker or "technical" leftover. This converse, from (B) itself, is argued informally here. What \emph{is} proved in Lean (\lean{periodicBKMIntegrability_iff_globalLifespan}, \texttt{IntegrabilityAttack.lean}) is that \lean{PeriodicBKMIntegrability} is equivalent to \lean{PeriodicGlobalLifespan}, i.e.\ $T^*=\infty$ for all smooth data. Its proof uses \lean{integrableOn_vorticity_of_lt_tstar}: $\int_0^T\|\omega\|_\infty<\infty$ whenever $T<T^*$. this paper is therefore a verified reduction, not a proof of regularity.
+The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\norm{\omega}_{L^\infty}$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker or ``technical'' leftover. This converse, from (B) itself, is argued informally here. What \emph{is} proved in Lean (\lean{periodicBKMIntegrability_iff_globalLifespan}, \file{IntegrabilityAttack.lean}) is that \lean{PeriodicBKMIntegrability} is equivalent to \lean{PeriodicGlobalLifespan}, i.e.\ $\Tstar=\infty$ for all smooth data. Its proof uses \lean{integrableOn_vorticity_of_lt_tstar}: $\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty$ whenever $T<\Tstar$. This paper is therefore a verified reduction, not a proof of regularity.
 \end{remark}
 
 
-\section{Stated vs.\ proved}
-\begin{longtable}{p{0.42\textwidth}p{0.5\textwidth}}\toprule
+\section{Stated vs.\ proved}\label{sec:stated}
+{\small\begin{longtable}{>{\raggedright\arraybackslash}p{0.44\textwidth}>{\raggedright\arraybackslash}p{0.48\textwidth}}\toprule
 Statement & Status\\\midrule
 $H^3$ BKM control, \lean{periodicBKMHsControl_three} & proved unconditionally\\
 Commutator bound ($s=3$), \lean{periodicPhysicalCommutatorBound} & proved unconditionally\\
@@ -69,44 +86,46 @@ Small data, \lean{integrability_of_smallDataGlobal}\coined & proved from named \
 Prodi--Serrin, \lean{integrability_of_prodiSerrin}\coined & proved from named \lean{PeriodicProdiSerrinCriterion} (not formalized)\\
 $\kappa=0$ route, \lean{periodicBKMIntegrability_of_vorticityAPriori}\coined & proved from \lean{PeriodicVorticityAPrioriBound} (open)\\
 $H^1$ enstrophy identity, \lean{periodicEnstrophyIdentity}\coined & proved unconditionally\\
-Small zero-mean $H^1$ data, \lean{periodicTstar_eq_top_of_smallH1_of_rate}\coined & proved from named \lean{PeriodicEnstrophyRateBound} + \lean{PeriodicH1BlowupCriterion} (not formalized)\\
-Earlier small-$H^1$ route, \lean{integrability_of_smallH1}\coined & superseded: its hypothesis \lean{PeriodicEnstrophyRiccati} ($\alpha>0$) fails for constant flows (bug fixed in \texttt{ea5133d})\\
+Small zero-mean $H^1$ data, \lean{periodicTstar_eq_top_of_smallH1_of_rate}\coined & proved from named \lean{PeriodicEnstrophyRateBound} + \lean{PeriodicH1BlowupCriterion} (not formalized; \cite{Ladyzhenskaya1963,Leray1934})\\
+Earlier small-$H^1$ route, \lean{integrability_of_smallH1}\coined & superseded: its hypothesis \lean{PeriodicEnstrophyRiccati} ($\alpha>0$) fails for constant flows (bug fixed in \file{ea5133d})\\
 Tether cubic rate, \lean{clay_B_exact_of_tetherCubicRate}\coined & proved from \lean{PeriodicTetherCubicRate} (open)\\
 Uniform cubic rate vs.\ scaling, \lean{uniform_cubic_rate_false_of_scaling}\coined & proved (abstract scaling step)\\
 Direction route, \lean{periodicBKMIntegrability_of_direction}\coined & proved from \lean{PeriodicDirectionCriterion} (not formalized) + \lean{PeriodicDirectionRegularity} (open)\\
-Direction criterion, \lean{periodicDirectionCriterion_of_growth}\coined & proved from \lean{PeriodicDirectionEnstrophyGrowth} (CF 1993 / BdV--B 2002, open here) + \lean{PeriodicH1BlowupCriterion} (Leray, open here)\\
+Direction criterion, \lean{periodicDirectionCriterion_of_growth}\coined & proved from \lean{PeriodicDirectionEnstrophyGrowth} (CF 1993~\cite{CF1993} / BdV--B 2002~\cite{BdVB2002}, open here) + \lean{PeriodicH1BlowupCriterion} (Leray, open here)\\
 $\kappa=0$ tether, \lean{tetherImpliesDirection_zero_iff}\coined & proved: headline Prop at $\kappa=0$ $\Leftrightarrow$ \lean{PeriodicDirectionRegularity}\\
 Clay problem / NS global regularity & not proved, not claimed\\\bottomrule
-\end{longtable}
+\end{longtable}}
 
 \appendix
 \section{Theorem-to-Lean map}
-Names marked \coined{} were coined during formalization and are not the authors terminology; they may be renamed later.
-\begin{longtable}{p{0.37\textwidth}p{0.33\textwidth}p{0.2\textwidth}}\toprule
+Names marked \coined{} were coined during formalization and are not the author's terminology; they may be renamed later.
+{\small\begin{longtable}{>{\raggedright\arraybackslash}p{0.36\textwidth}>{\raggedright\arraybackslash}p{0.38\textwidth}>{\raggedright\arraybackslash}p{0.16\textwidth}}\toprule
 Lean name & File & Repo @ commit\\\midrule
-\lean{periodicBKMHsControl_three}\coined & \texttt{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicBKMCriterion}\coined & \texttt{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{clay_B_exact_of_integrability}\coined & \texttt{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicBKMHsControl_three_of_lowFreq}\coined & \texttt{PeriodicNSContinuation/CommutatorAssembly.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicPhysicalCommutatorBound}\coined & \texttt{PeriodicNSContinuation/CommutatorAssembly.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicLowFreqVorticityBound}\coined & \texttt{PeriodicNSContinuation/LowFreqAssembly.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicBKMCriterion_of_hsControl} & \texttt{PeriodicNSContinuation/Continuation.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{PeriodicBKMHsControl}\coined{} (def) & \texttt{PeriodicNSContinuation/Continuation.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{clay_B_exact_of_bkm}\coined & \texttt{PeriodicNSContinuation/LocalExistenceProof.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicBKMIntegrability_iff_globalLifespan}\coined & \texttt{PeriodicNSContinuation/IntegrabilityAttack.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicEnstrophyIdentity}\coined & \texttt{PeriodicNSContinuation/EnstrophyIdentity.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicTstar_eq_top_of_smallH1_of_rate}\coined & \texttt{PeriodicNSContinuation/EnstrophyIdentity.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{clay_B_exact_of_tetherCubicRate}\coined & \texttt{PeriodicNSContinuation/TetherClaimAttack.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{periodicBKMIntegrability_of_direction}\coined & \texttt{PeriodicNSContinuation/TetherClaimAttack.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{tetherImpliesDirection_zero_iff}\coined & \texttt{PeriodicNSContinuation/TetherKappaZero.lean} & pnscc @ \texttt{ea5133d}\\
-\lean{Clay_B_exact} (def) & \texttt{FeffermanClayNS/FeffermanStatements.lean} & dependency\\
-\lean{PeriodicBKMCriterion}, \lean{PeriodicBKMIntegrability} (defs) & \texttt{FeffermanClayNS/HighSetDepletionAndBKM.lean} & dependency\\\bottomrule
-\end{longtable}
-pnscc = \texttt{BenFrohman/periodic-ns-classical-continuation} (public). ``dependency'' = \texttt{fefferman-clay-navier-stokes}, as pinned in the lake manifest.
+\lean{periodicBKMHsControl_three}\coined & \file{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicBKMCriterion}\coined & \file{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \file{ea5133d}\\
+\lean{clay_B_exact_of_integrability}\coined & \file{PeriodicNSContinuation/BKMFinal.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicBKMHsControl_three_of_lowFreq}\coined & \file{PeriodicNSContinuation/CommutatorAssembly.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicPhysicalCommutatorBound}\coined & \file{PeriodicNSContinuation/CommutatorAssembly.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicLowFreqVorticityBound}\coined & \file{PeriodicNSContinuation/LowFreqAssembly.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicBKMCriterion_of_hsControl} & \file{PeriodicNSContinuation/Continuation.lean} & pnscc @ \file{ea5133d}\\
+\lean{PeriodicBKMHsControl}\coined{} (def) & \file{PeriodicNSContinuation/Continuation.lean} & pnscc @ \file{ea5133d}\\
+\lean{clay_B_exact_of_bkm}\coined & \file{PeriodicNSContinuation/LocalExistenceProof.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicBKMIntegrability_iff_globalLifespan}\coined & \file{PeriodicNSContinuation/IntegrabilityAttack.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicEnstrophyIdentity}\coined & \file{PeriodicNSContinuation/EnstrophyIdentity.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicTstar_eq_top_of_smallH1_of_rate}\coined & \file{PeriodicNSContinuation/EnstrophyIdentity.lean} & pnscc @ \file{ea5133d}\\
+\lean{clay_B_exact_of_tetherCubicRate}\coined & \file{PeriodicNSContinuation/TetherClaimAttack.lean} & pnscc @ \file{ea5133d}\\
+\lean{periodicBKMIntegrability_of_direction}\coined & \file{PeriodicNSContinuation/TetherClaimAttack.lean} & pnscc @ \file{ea5133d}\\
+\lean{tetherImpliesDirection_zero_iff}\coined & \file{PeriodicNSContinuation/TetherKappaZero.lean} & pnscc @ \file{ea5133d}\\
+\lean{Clay_B_exact} (def) & \file{FeffermanClayNS/FeffermanStatements.lean} & dependency\\
+\lean{PeriodicBKMCriterion}, \lean{PeriodicBKMIntegrability} (defs) & \file{FeffermanClayNS/HighSetDepletionAndBKM.lean} & dependency\\\bottomrule
+\end{longtable}}
+pnscc = \file{BenFrohman/periodic-ns-classical-continuation} (public). ``dependency'' = \file{fefferman-clay-navier-stokes}, as pinned in the lake manifest.
 
 \section{Axiom audit}
-At commit \texttt{ea5133d}, \texttt{lake build} succeeds with 0 \texttt{sorry}, and \texttt{lake env lean AxiomAudit.lean} prints ``AxiomAudit PASS: only propext, Classical.choice, Quot.sound''. Every theorem above is in the audit, including those of \texttt{SmallDataAttack}, \texttt{TetherClaimAttack}, \texttt{EnstrophyIdentity} and \texttt{TetherKappaZero} (commits \texttt{052cef1}, \texttt{ea5133d}).
+At commit \file{ea5133d}, \texttt{lake build} succeeds with 0 \texttt{sorry}, and \texttt{lake env lean AxiomAudit.lean} prints ``AxiomAudit PASS: only propext, Classical.choice, Quot.sound''. Every theorem above is in the audit, including those of \file{SmallDataAttack}, \file{TetherClaimAttack}, \file{EnstrophyIdentity} and \file{TetherKappaZero} (commits \file{052cef1}, \file{ea5133d}).
 
 \section*{License}
 \copyright\ 2026 Benjamin Stanley Frohman (ORCID 0009-0006-7068-3718). Apache License, Version 2.0.
+\bibliographystyle{amsplain}
+\bibliography{refs}
 \end{document}

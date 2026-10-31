@@ -94,3 +94,14 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.hsNormField_extendG_mono
 #print axioms PeriodicNSContinuation.hs_bound_of_galerkin
 #print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_velocity_pressure
+#print axioms PeriodicNSContinuation.CurveHyp.contDiffOn_infty
+#print axioms PeriodicNSContinuation.CurveHyp.contDiffOn_seriesVelocity
+#print axioms PeriodicNSContinuation.div_seriesVelocity
+#print axioms PeriodicNSContinuation.seriesC_mul
+#print axioms PeriodicNSContinuation.seriesC_convective
+#print axioms PeriodicNSContinuation.CurveHyp.contDiffOn_seriesPressure
+#print axioms PeriodicNSContinuation.CurveHyp.momentum
+#print axioms PeriodicNSContinuation.fourierSeriesVelocitySmooth_of_modeCont
+#print axioms PeriodicNSContinuation.periodicPressureRecovery_of_modeCont
+#print axioms PeriodicNSContinuation.modeContinuous_of_tendsto
+#print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_nonneg

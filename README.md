@@ -220,11 +220,38 @@ the dependency pin is bumped to `2356dcb`).
 The earlier Prop `FourierGalerkinApproximation` (and `fourierHigherRegularity_of`,
 `periodicGalerkinLimit_of_subProps''`) has been removed: it is no longer needed.
 
-**NOT proved:** `FourierSeriesVelocitySmooth ν` and `PeriodicPressureRecovery ν`.
+## Reconstruction of the smooth solution (`CoefSpace`, `TimeCurve`, `SpatialSeries`, `SeriesCalculus`, `PDE`, `SmoothReconstruction`)
 
-Note: this route needs `s > 5/2` (the tame bound's `ℓ¹` factor), stronger than the `s > 2` used
-earlier. `PeriodicGalerkinLimit`, and therefore `PeriodicLocalExistence`, is still conditional on
-those two Props. Clay is not solved.
+**Proved, no hypothesis Props:** `periodicGalerkinLimit_of_nonneg (0 ≤ ν) (5/2 < s) :
+PeriodicGalerkinLimit ν s`. The Galerkin limit inherits the equi-Lipschitz bound
+(`galerkinModeEquiLipschitz`), so each mode is continuous in time (`modeContinuous_of_tendsto`).
+Then the reconstruction below applies.
+
+**Proved, given mode continuity (`ModeContinuous T a`):**
+* `fourierSeriesVelocitySmooth_of_modeCont`: the conclusion of `FourierSeriesVelocitySmooth`
+  (joint `C^∞` on `[0,T] × T3`, zero divergence).
+* `periodicPressureRecovery_of_modeCont`: the conclusion of `PeriodicPressureRecovery` (joint
+  `C^∞` pressure and the momentum equation).
+
+Method: the weighted coefficients form a `C^∞` curve in an `ℓ¹` space (`CurveHyp.contDiffOn_infty`),
+evaluated by a `C^N` linear evaluation map (`contDiff_evOp`). The derivatives of the series are
+taken term by term, and the convective term is computed with a Cauchy product on `ℤ³`
+(`seriesC_mul`, `seriesC_convective`).
+
+**NOT proved:** `FourierSeriesVelocitySmooth ν` and `PeriodicPressureRecovery ν` *as stated*. Their
+hypothesis `IsSmoothFourierSolutionOn` does not include mode continuity. The integral equation alone
+does not force it, because a non-integrable integrand gives an interval integral of `0`. The theorem
+`periodicGalerkinLimit_of_nonneg` avoids this gap.
+
+`PeriodicLocalExistence` still needs `PeriodicGalerkinUniformTime` (see above) and stays
+conditional. `PeriodicBKMCriterion` and `PeriodicBKMIntegrability` are still hypotheses.
+Clay is not solved.
+
+Coined names (all new): `CoefL1`, `mkL1`, `mulOp`, `wt`, `unw`, `cterm`, `bilRaw`, `bilOp`,
+`viscMul`, `viscOp`, `lerayLin`, `lerayOp`, `pressLin`, `pressOp`, `emb`, `nsOp`, `evk`,
+`CurveHyp`, `coefCurve`, `coefField`, `lin`, `linS`, `coordB`, `evTerm`, `evOp`, `HS`,
+`AllHsBound`, `reVec`, `vecS`, `ModeContinuous`. Every lemma and theorem in these six files also
+has a coined name.
 
 Coined names: `hsNormField_extendG_mono`, `hs_bound_of_galerkin`,
 `periodicGalerkinLimit_of_velocity_pressure`.

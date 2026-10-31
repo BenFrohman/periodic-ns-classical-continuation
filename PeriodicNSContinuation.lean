@@ -15,3 +15,9 @@ import PeriodicNSContinuation.GalerkinLimitProof
 import PeriodicNSContinuation.Reconstruction
 import PeriodicNSContinuation.FourierInversion
 import PeriodicNSContinuation.HigherRegularity
+import PeriodicNSContinuation.CoefSpace
+import PeriodicNSContinuation.TimeCurve
+import PeriodicNSContinuation.SpatialSeries
+import PeriodicNSContinuation.SeriesCalculus
+import PeriodicNSContinuation.PDE
+import PeriodicNSContinuation.SmoothReconstruction

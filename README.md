@@ -28,7 +28,7 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 
 ## Still hypotheses (named Props)
 
-* `PeriodicLocalExistence` — classical local existence (Kato). Not formalized.
+* `PeriodicLocalExistence` — **now proved** for `ν ≥ 0` (`periodicLocalExistence_of_nonneg`, see below); no longer a hypothesis.
 * `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Not formalized.
 * `PeriodicBKMIntegrability` — open.
 
@@ -243,9 +243,19 @@ hypothesis `IsSmoothFourierSolutionOn` does not include mode continuity. The int
 does not force it, because a non-integrable integrand gives an interval integral of `0`. The theorem
 `periodicGalerkinLimit_of_nonneg` avoids this gap.
 
-`PeriodicLocalExistence` still needs `PeriodicGalerkinUniformTime` (see above) and stays
-conditional. `PeriodicBKMCriterion` and `PeriodicBKMIntegrability` are still hypotheses.
-Clay is not solved.
+## Local existence, proved (`PeriodicNSContinuation/LocalExistenceProof.lean`)
+
+**Proved, with no hypothesis Props:** `periodicLocalExistence_of_nonneg (hν : 0 ≤ ν) : PeriodicLocalExistence ν`.
+It combines `periodicGalerkinUniformTime_of_gt'` and `periodicGalerkinLimit_of_nonneg` at `s = 3`.
+`PeriodicLocalExistence` does not quantify over `s`. Its solution notion is
+`IsPeriodicSmoothSolutionOn` through `periodicTstar`, which is the notion used by `clay_B_exact_of_corrected_route'`.
+
+**Conditional reduction:** `clay_B_exact_of_bkm (ν) (hcrit : PeriodicBKMCriterion ν)
+(hint : PeriodicBKMIntegrability ν) : Clay_B_exact ν`. The only remaining hypotheses are
+`PeriodicBKMCriterion` (classical BKM, not formalized here) and `PeriodicBKMIntegrability`.
+`PeriodicBKMIntegrability` is **open**: it is the Millennium content. **Clay is not solved.**
+
+Coined names: `periodicLocalExistence_of_nonneg`, `clay_B_exact_of_bkm`.
 
 Coined names (all new): `CoefL1`, `mkL1`, `mulOp`, `wt`, `unw`, `cterm`, `bilRaw`, `bilOp`,
 `viscMul`, `viscOp`, `lerayLin`, `lerayOp`, `pressLin`, `pressOp`, `emb`, `nsOp`, `evk`,

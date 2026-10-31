@@ -105,3 +105,5 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicPressureRecovery_of_modeCont
 #print axioms PeriodicNSContinuation.modeContinuous_of_tendsto
 #print axioms PeriodicNSContinuation.periodicGalerkinLimit_of_nonneg
+#print axioms PeriodicNSContinuation.periodicLocalExistence_of_nonneg
+#print axioms PeriodicNSContinuation.clay_B_exact_of_bkm

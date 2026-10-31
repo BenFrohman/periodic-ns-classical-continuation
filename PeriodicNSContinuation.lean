@@ -21,3 +21,4 @@ import PeriodicNSContinuation.SpatialSeries
 import PeriodicNSContinuation.SeriesCalculus
 import PeriodicNSContinuation.PDE
 import PeriodicNSContinuation.SmoothReconstruction
+import PeriodicNSContinuation.LocalExistenceProof

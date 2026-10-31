@@ -2,7 +2,7 @@
 
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 >
-> **Reserved DOI (draft, not yet published):** [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296)
+> **Reserved DOIs (drafts, not yet published):** reduction paper [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296); main paper [10.5281/zenodo.23842556](https://doi.org/10.5281/zenodo.23842556)
 
 
 Lean 4 + Mathlib formalization of the classical continuation steps used by the Statement (B)

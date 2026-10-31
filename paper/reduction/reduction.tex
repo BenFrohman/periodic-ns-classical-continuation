@@ -7,7 +7,7 @@
 \theoremstyle{definition}\newtheorem{hyp}{Hypothesis}\newtheorem{remark}{Remark}
 \title{Work in progress: A Lean-verified conditional reduction of periodic Navier--Stokes regularity on $\mathbb T^3$ to a single integrability hypothesis\\[4pt]\large (conditional results; draft)}
 \author{Benjamin Stanley Frohman\\ ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}}
-\date{Draft, October 31, 2026 --- private, not peer reviewed, no DOI}
+\date{Draft, October 31, 2026 --- public repository, not peer reviewed; DOI reserved, not yet published}
 \begin{document}\maketitle
 \begin{center}\fbox{\textbf{Work in progress} --- draft, subject to change. Reserved DOI (not yet published): 10.5281/zenodo.23842296}\end{center}
 \begin{center}\fbox{\parbox{0.92\textwidth}{\textbf{Scope.} This paper reports a \emph{conditional} result. It does \textbf{not} solve the Clay Millennium Problem, and it does not prove global regularity of the 3D Navier--Stokes equations. The single remaining hypothesis, \lean{PeriodicBKMIntegrability}, is a named Prop that is \textbf{not proved}. It is equivalent in difficulty to Clay Statement~(B).}}\end{center}
@@ -84,11 +84,11 @@ Lean name & File & Repo @ commit\\\midrule
 \lean{Clay_B_exact} (def) & \texttt{FeffermanClayNS/FeffermanStatements.lean} & dependency\\
 \lean{PeriodicBKMCriterion}, \lean{PeriodicBKMIntegrability} (defs) & \texttt{FeffermanClayNS/HighSetDepletionAndBKM.lean} & dependency\\\bottomrule
 \end{longtable}
-pnscc = \texttt{BenFrohman/periodic-ns-classical-continuation} (private). ``dependency'' = \texttt{fefferman-clay-navier-stokes}, as pinned in the lake manifest.
+pnscc = \texttt{BenFrohman/periodic-ns-classical-continuation} (public). ``dependency'' = \texttt{fefferman-clay-navier-stokes}, as pinned in the lake manifest.
 
 \section{Axiom audit}
 At commit \texttt{4ab624e}, \texttt{lake build} succeeds with 0 \texttt{sorry}, and \texttt{lake env lean AxiomAudit.lean} prints ``AxiomAudit PASS: only propext, Classical.choice, Quot.sound''. Every theorem above is in the audit.
 
 \section*{License}
-Copyright 2026 Benjamin Stanley Frohman. Apache License, Version 2.0.
+\copyright\ 2026 Benjamin Stanley Frohman (ORCID 0009-0006-7068-3718). Apache License, Version 2.0.
 \end{document}

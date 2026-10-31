@@ -47,3 +47,4 @@ import PeriodicNSContinuation.SmallDataAttack
 import PeriodicNSContinuation.TetherClaimAttack
 import PeriodicNSContinuation.EnstrophyIdentity
 import PeriodicNSContinuation.TetherKappaZero
+import PeriodicNSContinuation.EnstrophyRate

@@ -374,6 +374,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicEnstrophyIdentity
 #print axioms PeriodicNSContinuation.riccati_barrier_Ioo
 #print axioms PeriodicNSContinuation.periodicTstar_eq_top_of_smallH1_of_rate
+#print axioms PeriodicNSContinuation.young_absorb
+#print axioms PeriodicNSContinuation.visc_term_le_H2
+#print axioms PeriodicNSContinuation.periodicEnstrophyRateBound_of_trilinear
+#print axioms PeriodicNSContinuation.periodicTstar_eq_top_of_smallH1_of_trilinear
 #print axioms PeriodicNSContinuation.tetherForm_zero
 #print axioms PeriodicNSContinuation.tetherGeometricControl_zero
 #print axioms PeriodicNSContinuation.tetherImpliesDirection_zero_iff

@@ -2,7 +2,7 @@
 
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 >
-> **DOIs:** reduction paper [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296); main paper [10.5281/zenodo.23842556](https://doi.org/10.5281/zenodo.23842556)
+> **DOIs:** reduction paper [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295); main paper [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555)
 
 
 ## How to cite / What is claimed
@@ -11,7 +11,7 @@ In Lean 4 with Mathlib, we give a machine-checked reduction of Clay Millennium S
 
 The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale–Kato–Majda, 1984); the novelty here is the complete, `sorry`-free formalization.
 
-Cite as: Benjamin Stanley Frohman, *A Lean-verified conditional reduction of periodic Navier–Stokes regularity on $\mathbb{T}^3$ to a single integrability hypothesis*, DOI [10.5281/zenodo.23842296](https://doi.org/10.5281/zenodo.23842296); main paper DOI [10.5281/zenodo.23842556](https://doi.org/10.5281/zenodo.23842556).
+Cite as: Benjamin Stanley Frohman, *A Lean-verified conditional reduction of periodic Navier–Stokes regularity on $\mathbb{T}^3$ to a single integrability hypothesis*, DOI [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295); main paper DOI [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555).
 
 
 Lean 4 + Mathlib formalization of the classical continuation steps used by the Statement (B)
@@ -540,8 +540,8 @@ All names below are coined.
 
 - **Proved:** `energy_hasDerivAt` (energy equality d/dt ‖u‖²_{L²} = −8π²ν(‖u‖²_{H¹} − ‖u‖²_{L²}) on (0, T*)) and `periodicEnstrophyTimeIntegrable_of_cancellation`, which discharges `PeriodicEnstrophyTimeIntegrable` from `PeriodicNonlinearEnergyCancellation`.
 - **Proved:** `periodicH1BlowupCriterion_of_smoothingStd`, which gives Leray's criterion from `PeriodicH2SmoothingRateStd`, `PeriodicH2RootTimeIntegrable` and `PeriodicH3SmoothingRate`. **Proved (conditional):** `periodicBKMIntegrability_of_classical_bending_std`.
-- **Open (named Props):**
-  - `PeriodicNonlinearEnergyCancellation`: the Fourier form of ⟨(u·∇)u, u⟩ = 0 (Leray 1934; Temam 1977, Ch. II, Lemma 1.3).
+- **Proved (EnergyCancellation.lean, no hypothesis Props):** `periodicNonlinearEnergyCancellation`, the Fourier form of ⟨(u·∇)u, u⟩ = 0 (Leray 1934; Temam 1977, Ch. II, Lemma 1.3), and hence `periodicEnstrophyTimeIntegrable` (`PeriodicEnstrophyTimeIntegrable` unconditionally).
+- **Open (named Props, each a single classical estimate with citation):**
   - `PeriodicH2SmoothingRateStd` and `PeriodicH2RootTimeIntegrable`: the standard 3D H² estimate and ∫‖u‖_{H²} < ∞ under bounded enstrophy (Temam 1995, §4; Robinson–Rodrigo–Sadowski 2016, Ch. 6–7).
   - `PeriodicH3SmoothingRate`.
 - **Mismatch reported:** the older `PeriodicH2SmoothingRate` (rate linear in ‖u‖²_{H²} with an H¹-only coefficient) is stronger than the standard estimate. The standard coefficient has an extra factor ‖u‖_{H²}. The older Prop is not known to hold, so it is kept but marked, and the Std pair replaces it. `PeriodicH3SmoothingRate` matches the standard estimate with m = 1.
@@ -552,4 +552,4 @@ Copyright 2026 Benjamin Stanley Frohman (ORCID [0009-0006-7068-3718](https://orc
 
 What is proved vs. conditional: Proved steps are listed above; the open step `PeriodicBKMIntegrability` (and any other named `Prop` listed above) remains an explicit hypothesis. Every hypothesis is a named `Prop` passed as an explicit argument. Nothing in this repository claims to solve the Clay Millennium problem or global regularity for unmodified 3D Navier–Stokes.
 
-**Final status:** Statement (B) (`Clay_B_exact ν`) is proven conditionally on `PeriodicBKMIntegrability` (`clay_B_exact_of_integrability`). `PeriodicBKMIntegrability` is open; it is the Clay core. The `H³` BKM control and the periodic BKM criterion are proved with no hypothesis Props. `PeriodicDirectionCriterion` is now reduced (proved) to `PeriodicDirectionEnstrophyGrowth` + `PeriodicH1BlowupCriterion`, both open here, and further to the weaker `PeriodicDirectionEnstrophyGrowthL1` (`periodicDirectionCriterion_of_growthL1`; CF depletion factor and L¹ Grönwall proved); `PeriodicDirectionRegularity` is open and follows from the open coined `PeriodicBendingRateHiddenProperty` (`periodicDirectionRegularity_of_bending`). `PeriodicH1BlowupCriterion` and `PeriodicDirectionEnstrophyGrowthL1` now reduce (proved, ClassicalSteps.lean, EnergyEquality.lean) to the open classical Props `PeriodicHolderStretchingEstimate`, `PeriodicNonlinearEnergyCancellation` (which proves `PeriodicEnstrophyTimeIntegrable` via the energy equality), `PeriodicH2SmoothingRateStd`, `PeriodicH2RootTimeIntegrable` and `PeriodicH3SmoothingRate`. The older pointwise `PeriodicH2SmoothingRate` is stronger than the standard estimate (discrepancy documented). 726 `theorem`/`lemma` declarations in the source (kernel audit: 833 theorem constants, including Lean-generated ones; the earlier figure 727 is withdrawn); 0 sorry; axioms only propext, Classical.choice, Quot.sound.
+**Final status:** Statement (B) (`Clay_B_exact ν`) is proven conditionally on `PeriodicBKMIntegrability` (`clay_B_exact_of_integrability`). `PeriodicBKMIntegrability` is open; it is the Clay core. The `H³` BKM control and the periodic BKM criterion are proved with no hypothesis Props. `PeriodicDirectionCriterion` is now reduced (proved) to `PeriodicDirectionEnstrophyGrowth` + `PeriodicH1BlowupCriterion`, both open here, and further to the weaker `PeriodicDirectionEnstrophyGrowthL1` (`periodicDirectionCriterion_of_growthL1`; CF depletion factor and L¹ Grönwall proved); `PeriodicDirectionRegularity` is open and follows from the open coined `PeriodicBendingRateHiddenProperty` (`periodicDirectionRegularity_of_bending`). `PeriodicH1BlowupCriterion` and `PeriodicDirectionEnstrophyGrowthL1` now reduce (proved, ClassicalSteps.lean, EnergyEquality.lean) to the open classical Props `PeriodicHolderStretchingEstimate`, `PeriodicH2SmoothingRateStd`, `PeriodicH2RootTimeIntegrable` and `PeriodicH3SmoothingRate`; `PeriodicNonlinearEnergyCancellation` and `PeriodicEnstrophyTimeIntegrable` are now proved unconditionally (EnergyCancellation.lean). The older pointwise `PeriodicH2SmoothingRate` is stronger than the standard estimate (discrepancy documented). 755 `theorem`/`lemma` declarations in the source (kernel audit: 867 theorem constants, including Lean-generated ones; the earlier figure 727 is withdrawn); 0 sorry; axioms only propext, Classical.choice, Quot.sound.

@@ -54,3 +54,4 @@ import PeriodicNSContinuation.Ladyzhenskaya
 import PeriodicNSContinuation.ClassicalSteps
 import PeriodicNSContinuation.EnergyEquality
 import PeriodicNSContinuation.EnergyCancellation
+import PeriodicNSContinuation.BendingRateTests

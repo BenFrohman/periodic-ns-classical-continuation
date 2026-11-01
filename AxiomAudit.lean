@@ -417,3 +417,9 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.periodicNonlinearEnergyCancellation
 #print axioms PeriodicNSContinuation.periodicEnstrophyTimeIntegrable
 #print axioms PeriodicNSContinuation.periodicBKMIntegrability_of_classical_bending_std'
+#print axioms PeriodicNSContinuation.fderiv_apply_e3_of_inv
+#print axioms PeriodicNSContinuation.strainAt_e3_planar
+#print axioms PeriodicNSContinuation.vorticity_planar
+#print axioms PeriodicNSContinuation.orthogonalStrain_planar
+#print axioms PeriodicNSContinuation.bendingRateHiddenProperty_of_noFiniteLifespan
+#print axioms PeriodicNSContinuation.orthogonalStrainToDirectionHolder_of_directionRegularity

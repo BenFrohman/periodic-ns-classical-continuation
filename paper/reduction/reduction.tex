@@ -3,7 +3,7 @@
 \usepackage{frohman-paper}
 \renewcommand{\shorttitle}{Lean-verified conditional reduction on $\mathbb{T}^3$}
 \renewcommand{\papersubtitle}{Conditional results; draft --- public repository, not peer reviewed}
-\renewcommand{\paperdate}{Draft of 31 October 2026 \,(Lean development at commit \file{a35d13a})}
+\renewcommand{\paperdate}{Draft of 31 October 2026 \,(Lean development at commit \file{f9a26c7})}
 \renewcommand{\paperdoi}{10.5281/zenodo.23842296}
 \renewcommand{\companiondoi}{10.5281/zenodo.23842556}
 \renewcommand{\companionlabel}{Main paper:}
@@ -19,7 +19,7 @@
 \end{citebox}
 
 \begin{abstract}
-In the Lean~4/Mathlib~\cite{Lean4,Mathlib2020} repository \file{BenFrohman/periodic-ns-classical-continuation} (commit \file{a35d13a}), we prove two results with no hypothesis Props:
+In the Lean~4/Mathlib~\cite{Lean4,Mathlib2020} repository \file{BenFrohman/periodic-ns-classical-continuation} (commit \file{f9a26c7}), we prove two results with no hypothesis Props:
 \begin{itemize}
 \item $H^3$ Beale--Kato--Majda control on $\TT$, \lean{periodicBKMHsControl_three};
 \item the periodic BKM blow-up criterion~\cite{BKM1984}, \lean{periodicBKMCriterion}.
@@ -29,6 +29,9 @@ We deduce the exact periodic Clay Statement~(B)~\cite{Fefferman2000}, \lean{Clay
 \begin{mscblock}\msc
 \textit{Keywords.} Navier--Stokes equations; torus; Beale--Kato--Majda criterion; conditional regularity; Lean~4; formal verification; work in progress.
 \end{mscblock}
+
+\section{Introduction}
+The Beale--Kato--Majda criterion~\cite{BKM1984} asserts that a smooth solution of the three-dimensional Navier--Stokes equations can cease to be smooth at a finite time $T$ only if $\int_0^T\norm{\omega(t)}_{L^\infty}\dd t=\infty$. Consequently, Statement~(B) of the Clay Millennium Problem~\cite{Fefferman2000} on the torus is equivalent to the time-integrability of the vorticity sup-norm for every smooth periodic initial field. In this paper we report a machine-checked version of this reduction in Lean~4: the criterion and the required $H^3$ control are proved with no hypothesis Props, and Statement~(B) is derived from the single named hypothesis \lean{PeriodicBKMIntegrability}, which remains open. Section~\ref{sec:stated} tabulates precisely what is stated and what is proved.
 
 \section{\texorpdfstring{The periodic chain on $\mathbb{T}^3$}{The periodic chain on 𝕋³}}
 Throughout, $\nu>0$, $u_0$ is smooth, periodic and divergence-free, and $(u,p)$ is the maximal smooth solution of
@@ -67,7 +70,7 @@ For every $\nu$, \lean{PeriodicBKMCriterion}~$\nu$ holds. If $\nu>0$ and $\Tstar
 \end{theorem}
 
 \begin{remark}[Equivalence in difficulty]
-The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\norm{\omega}_{L^\infty}$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker or ``technical'' leftover. This converse, from (B) itself, is argued informally here. What \emph{is} proved in Lean (\lean{periodicBKMIntegrability_iff_globalLifespan}, \file{IntegrabilityAttack.lean}) is that \lean{PeriodicBKMIntegrability} is equivalent to \lean{PeriodicGlobalLifespan}, i.e.\ $\Tstar=\infty$ for all smooth data. Its proof uses \lean{integrableOn_vorticity_of_lt_tstar}: $\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty$ whenever $T<\Tstar$. This paper is therefore a verified reduction, not a proof of regularity.
+The converse direction also holds. If Statement~(B) gives a global smooth solution, then by uniqueness the maximal solution is global and smooth, so $\norm{\omega}_{L^\infty}$ is continuous and integrable on every $[0,T]$. Hence \lean{PeriodicBKMIntegrability} is \emph{equivalent} to the periodic Clay Statement~(B); it is not a weaker, merely technical residue. This converse, from Statement~(B) itself, is argued informally here. What \emph{is} proved in Lean (\lean{periodicBKMIntegrability_iff_globalLifespan}, \file{IntegrabilityAttack.lean}) is that \lean{PeriodicBKMIntegrability} is equivalent to \lean{PeriodicGlobalLifespan}, i.e.\ $\Tstar=\infty$ for all smooth data. Its proof uses \lean{integrableOn_vorticity_of_lt_tstar}: $\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty$ whenever $T<\Tstar$. This paper is therefore a verified reduction, not a proof of regularity.
 \end{remark}
 
 
@@ -135,7 +138,9 @@ Lean name & File & Repo @ commit\\\midrule
 pnscc = \file{BenFrohman/periodic-ns-classical-continuation} (public). ``dependency'' = \file{fefferman-clay-navier-stokes}, as pinned in the lake manifest.
 
 \section{Axiom audit}
-At the current commit, \texttt{lake build} succeeds with 0 \texttt{sorry}, and \texttt{lake env lean AxiomAudit.lean} prints ``AxiomAudit PASS: only propext, Classical.choice, Quot.sound''. Every theorem above is in the audit, including those of \file{SmallDataAttack}, \file{TetherClaimAttack}, \file{EnstrophyIdentity} and \file{TetherKappaZero} (commits \file{052cef1}, \file{ea5133d}). The audit also covers \file{DirectionCriterion}, \file{BendingRate} and \file{ClassicalSteps}: the $L^1$ direction criterion \lean{periodicDirectionCriterion_of_growthL1}, the bending-rate identity \lean{hasDerivAt_vortDir_lagrangian}, the depletion bound \lean{abs_cfDepletion_le}, the reductions \lean{periodicDirectionRegularity_of_bending} (from the open bending-rate hypothesis \lean{PeriodicBendingRateHiddenProperty}), \lean{periodicH1BlowupCriterion_of_smoothing} and \lean{periodicDirectionEnstrophyGrowthL1_of_holderStretching}; all use only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound} (current commit; 726 theorems and lemmas, 0 \texttt{sorry}).
+At the current commit, \texttt{lake build} succeeds with 0 \texttt{sorry}, and \texttt{lake env lean AxiomAudit.lean} prints ``AxiomAudit PASS: only propext, Classical.choice, Quot.sound''. Every theorem above is in the audit, including those of \file{SmallDataAttack}, \file{TetherClaimAttack}, \file{EnstrophyIdentity} and \file{TetherKappaZero} (commits \file{052cef1}, \file{ea5133d}). The audit also covers \file{DirectionCriterion}, \file{BendingRate} and \file{ClassicalSteps}: the $L^1$ direction criterion \lean{periodicDirectionCriterion_of_growthL1}, the bending-rate identity \lean{hasDerivAt_vortDir_lagrangian}, the depletion bound \lean{abs_cfDepletion_le}, the reductions \lean{periodicDirectionRegularity_of_bending} (from the open bending-rate hypothesis \lean{PeriodicBendingRateHiddenProperty}), \lean{periodicH1BlowupCriterion_of_smoothing} and \lean{periodicDirectionEnstrophyGrowthL1_of_holderStretching}; all use only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound} (current commit; 0 \texttt{sorry}).
+
+\paragraph{Counting convention.} Two counts are reported, each with its method. (i)~\emph{Source count:} 726 declarations introduced by the keywords \texttt{theorem} or \texttt{lemma} (optionally preceded by attributes or modifiers) in the tracked \texttt{.lean} files of this repository, excluding \file{AxiomAudit.lean}. (ii)~\emph{Kernel count:} 833 non-internal theorem constants in the \texttt{PeriodicNSContinuation} module tree, as reported by \file{AxiomAudit.lean}; this includes theorems generated automatically by Lean. An earlier figure of 727 was not obtained by either method and is withdrawn; the figure 726 used in versions~$\le$7 is the source count.
 
 \section*{License}
 \copyright\ 2026 Benjamin Stanley Frohman (ORCID 0009-0006-7068-3718). Apache License, Version 2.0.

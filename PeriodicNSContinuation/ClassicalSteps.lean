@@ -60,13 +60,19 @@ theorem hsSq_bounded_of_rate {ν s A : ℝ} (hν : 0 < ν) {u₀ : VelocityField
   refine key.trans (mul_le_mul_of_nonneg_left ?_ (hsSq_nonneg s u₀))
   exact Real.exp_le_exp.2 (mul_le_mul_of_nonneg_left ht.2.le (le_max_right A 0))
 
-/-- Coined. **Hypothesis (OPEN here; classical `H¹ → H²` parabolic smoothing, not formalized).** -/
+/-- Coined. **Hypothesis (OPEN here; not formalized).** *Mismatch note (Oct 31 2026):* this
+pointwise form (rate linear in `‖u‖²_{H²}` with an `H¹`-only coefficient) is stronger than the
+standard 3D `H²` estimate (Temam 1995 §4; Robinson–Rodrigo–Sadowski 2016 Ch. 7), whose coefficient
+carries an extra factor `‖u‖_{H²}`. It is not known to hold as stated. The standard form is
+`PeriodicH2SmoothingRateStd` + `PeriodicH2RootTimeIntegrable` (EnergyEquality.lean). -/
 def PeriodicH2SmoothingRate (ν : ℝ) : Prop :=
   ∃ K m : ℝ, ∀ v : VelocityField, IsPeriodicSmoothInitialData v →
     rateOf 2 (fourierNSField ν (fourierCoeffVF v)) (fourierCoeffVF v) ≤
       K * (1 + h1Sq v) ^ m * hsSq 2 v
 
-/-- Coined. **Hypothesis (OPEN here; classical `H² → H³` smoothing, not formalized).** -/
+/-- Coined. **Hypothesis (OPEN here; classical `H² → H³` smoothing, not formalized).** Checked
+against the standard estimate: `|⟨[J³,u·∇]u, J³u⟩| ≲ ‖u‖_{H²}‖u‖_{H³}‖u‖_{H⁴}`, absorbed by the
+viscous `‖u‖²_{H⁴}` term, gives this form with `m = 1` (Temam 1995 §4). -/
 def PeriodicH3SmoothingRate (ν : ℝ) : Prop :=
   ∃ K m : ℝ, ∀ v : VelocityField, IsPeriodicSmoothInitialData v →
     rateOf 3 (fourierNSField ν (fourierCoeffVF v)) (fourierCoeffVF v) ≤

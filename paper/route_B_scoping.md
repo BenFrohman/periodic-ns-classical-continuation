@@ -72,3 +72,22 @@ I found no verified criterion stated purely in particle-trajectory coordinates. 
 - **The half-threshold buffer.** It keeps 91–100% of tracers up to 0.25 time units, 72–96% at 0.5, and 10–94% at 1.0. Retention is worse at lower $\nu$.
 - **Pair separation.** One-cell pairs separate by a median factor of 2–4 and a maximum of 18–35 over 2 time units.
 - **Hölder quotient.** The 99th-percentile Hölder-1/2 quotient measured with the initial (Lagrangian) separation is larger than the one measured with the current (Eulerian) separation, about 3.2 against 2–2.9. Pair stretching therefore makes the Eulerian quotient look better. The one-cell gaps reach $p_{99}\approx1$ at low $\nu$, so the direction field is under-resolved at grid scale there.
+
+## The scale-critical product $a\,T_*$ (`ScaleCriticalBuffer.lean`, Nov 2026)
+
+**Proved in Lean.**
+- Under NS scaling, the rate-to-threshold ratio $a/\Lambda$ is invariant (`rescalePath_rate`).
+- With $a\le c\Lambda$, the stay time is at least $\log 2/(c\Lambda)$ (`buffer_stay_time_ratio`).
+- $\langle\tau,\Delta\omega\rangle=\Delta|\omega|-|\omega||\nabla\tau|^2$ (`inner_viscous_along`). At a spatial maximum, therefore, the viscous term only pushes $|\omega|$ down.
+
+**Derivation.** What is needed is an absolute $c$ with
+$$\sup_{|\omega|\ge\theta\|\omega\|_\infty}\Big(-\alpha-\nu\,\tfrac{\Delta\omega\cdot\tau}{|\omega|}\Big)\le c\,\|\omega\|_\infty.$$
+Known results give only $\|S\|_\infty\lesssim\|\omega\|_\infty(1+\log^+\ldots)$ (Beale–Kato–Majda). There is no pointwise bound $|S|\le C|\omega|$. Even with an absolute $c$, the window lasts $\sim 1/\|\omega\|_\infty$. Chaining windows with the (A)-controlled drift (rate $2B$) costs $\sum_k 1\sim\int\|\omega\|_\infty\,dt$, which is the BKM integral. An absolute $c$ makes each window scale-critical, but it does not close (B). It is left unnamed (no drift).
+
+**Numerics** (`paper/rate_tests/`; 320 snapshots, 64³/96³, $\nu\in\{0.01,0.005,0.0025\}$; numerics, not proofs). Here $aT_*:=a/\|\omega\|_\infty$.
+- **$\theta=0.5$.** $aT_*\le 0.29$, median $0.145$. The fit in $\|\omega\|_\infty$ gives $p=-0.07\pm0.04$, which is flat (scale-critical, as predicted). The implied stay time is at least $2.4/\|\omega\|_\infty$.
+- **$\theta=0.7$.** $aT_*\le 0.25$, median $0.095$, with $p=+0.03\pm0.09$.
+- **$\theta=0.9$.** $aT_*\le 0.20$. The power-law fits there are meaningless, because $a$ is often about $0$.
+- **Strain.** $\|S\|_\infty/\|\omega\|_\infty\le 0.76$ throughout.
+- **Which term sets $a$.** Compression ($-\alpha$) dominates at low $\nu$ and the viscous term at high $\nu$.
+- **Caveat.** The range of $\|\omega\|_\infty$ is narrow (7–50) and the data come from a single family of initial conditions. This is no evidence of an absolute constant under blow-up scaling.

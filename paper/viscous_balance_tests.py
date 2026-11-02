@@ -15,7 +15,7 @@ with V = S or D, at the sampled high-set pair that maximises G/|x-y|.
 import numpy as np, sys
 rng = np.random.default_rng(0)
 MODE = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].isdigit() else 'basic'
-if MODE in ('scale', 'paths'):   # python viscous_balance_tests.py scale N nu seed T wallclock_s
+if MODE in ('scale', 'paths', 'rate'):   # python viscous_balance_tests.py scale N nu seed T wallclock_s
     N = int(sys.argv[2]); rng = np.random.default_rng(int(sys.argv[4]))
 elif MODE == 'fit':
     N = 8
@@ -222,7 +222,38 @@ def path_run(nu, seed, t_seed, T, npart=4000):
         k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
         uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
 
-if MODE == 'paths':   # python viscous_balance_tests.py paths N nu seed t_seed T
+def rate_diag(uh, nu):
+    # path rate of m=|w|: m'/m = alpha + nu (Lap w . tau)/m, where alpha = tau.S tau
+    # a := max over the high set of -(m'/m) (the decay rate the buffer lemma needs); report a / max|w| (= a T_*, T_* = 1/max|w|)
+    wh = curl_hat(uh); w = np.array([ifft(z) for z in wh]); m = np.sqrt((w**2).sum(0)); mmax = m.max()
+    gu = np.array([[ifft(1j*K[j]*uh[i]) for j in range(3)] for i in range(3)])
+    S = 0.5*(gu+gu.transpose(1, 0, 2, 3, 4)); t = w/np.maximum(m, 1e-300)
+    alpha = np.einsum('i...,ij...,j...->...', t, S, t)
+    visc = nu*np.einsum('i...,i...->...', np.array([ifft(-K2*z) for z in wh]), t)/np.maximum(m, 1e-300)
+    Snorm = np.sqrt((S**2).sum((0, 1)))
+    out = {}
+    for th in (0.5, 0.7, 0.9):
+        hi = m >= th*mmax; dec = -(alpha+visc)[hi]
+        out.update({f'a_{th}': float(max(dec.max(), 0)/mmax), f'a_p99_{th}': float(np.quantile(dec, .99)/mmax),
+                    f'negalpha_{th}': float(max((-alpha[hi]).max(), 0)/mmax), f'visc_{th}': float(max((-visc[hi]).max(), 0)/mmax),
+                    f'Smax_{th}': float(Snorm[hi].max()/mmax)})
+    out['Sinf_over_winf'] = float(Snorm.max()/mmax); out['mmax'] = float(mmax)
+    return out
+
+def rate_run(nu, seed, T, wall):
+    import json, time
+    t0 = time.time(); rhs = ns_rhs_factory(nu); uh = random_field(kpeak=3, amp=1.0); tnow, nextout = 0.0, 0.0
+    while tnow <= T+1e-9 and time.time()-t0 < wall:
+        if tnow >= nextout-1e-9:
+            r = rate_diag(uh, nu); r.update(N=N, nu=nu, seed=seed, t=round(tnow, 3)); print(json.dumps(r), flush=True); nextout += 0.1
+        umax = max(np.abs(ifft(z)).max() for z in uh); dt = min(0.4*(L/N)/umax, 0.02)
+        k1_ = rhs(uh); k2_ = rhs([uh[i]+dt/2*k1_[i] for i in range(3)])
+        k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
+        uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
+
+if MODE == 'rate':   # python viscous_balance_tests.py rate N nu seed T wall
+    rate_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))
+elif MODE == 'paths':   # python viscous_balance_tests.py paths N nu seed t_seed T
     path_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))
 elif MODE == 'scale':
     scale_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))

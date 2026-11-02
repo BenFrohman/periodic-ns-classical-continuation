@@ -61,3 +61,6 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 
 ## HighSetExit (Nov 2026, coined)
 `lower_gronwall_exp`, `buffer_stay_time`: both are proved lemmas. No new hypotheses.
+
+## ScaleCriticalBuffer (Nov 2026, coined)
+`rescalePath` (a definition), `rescalePath_rate`, `rescalePath_differentiable`, `buffer_stay_time_ratio`, `inner_viscous_along`: all are proved. No new hypotheses. The needed bound with an absolute constant is intentionally left unnamed (no drift).

@@ -1,0 +1,33 @@
+296 snapshots. NUMERICS, NOT PROOFS.
+
+== theta=0.5: power-law fits ratio ~ |w|max^p over snapshots with t>=0.5 ==
+N,nu=(64, 0.0025): n=66 |w|max in [13.1,40.3] | median ratio: p=+0.188+-0.057 (median 0.378) | max ratio: p=-0.229+-0.286 (median 24.7) | share drift>smooth: p=+0.274+-0.052 (median 0.15) | Bochner max-ratio median 6 | two-point dG_visc>0 in 18/66
+N,nu=(64, 0.005): n=66 |w|max in [8.54,28.2] | median ratio: p=+0.040+-0.035 (median 0.321) | max ratio: p=-0.537+-0.231 (median 26.6) | share drift>smooth: p=+0.162+-0.039 (median 0.128) | Bochner max-ratio median 6.12 | two-point dG_visc>0 in 13/66
+N,nu=(64, 0.01): n=66 |w|max in [3.96,20.1] | median ratio: p=-0.054+-0.019 (median 0.285) | max ratio: p=-0.570+-0.188 (median 36.5) | share drift>smooth: p=+0.080+-0.030 (median 0.112) | Bochner max-ratio median 3.72 | two-point dG_visc>0 in 17/66
+N,nu=(96, 0.0025): n=22 |w|max in [14.5,47.4] | median ratio: p=+0.268+-0.090 (median 0.342) | max ratio: p=-0.750+-0.469 (median 35.8) | share drift>smooth: p=+0.419+-0.062 (median 0.148) | Bochner max-ratio median 5.44 | two-point dG_visc>0 in 3/22
+N,nu=(96, 0.005): n=22 |w|max in [9.01,30.8] | median ratio: p=-0.018+-0.070 (median 0.289) | max ratio: p=-0.412+-0.217 (median 34.8) | share drift>smooth: p=+0.153+-0.080 (median 0.132) | Bochner max-ratio median 4.12 | two-point dG_visc>0 in 12/22
+N,nu=(96, 0.01): n=22 |w|max in [5.1,19.8] | median ratio: p=-0.173+-0.026 (median 0.289) | max ratio: p=-0.477+-0.270 (median 47.9) | share drift>smooth: p=-0.009+-0.054 (median 0.116) | Bochner max-ratio median 2.67 | two-point dG_visc>0 in 2/22
+N,nu=(128, 0.0025): n=2 |w|max in [14.4,20.7] | median ratio: p=+nan+-nan (median 0.228) | max ratio: p=+nan+-nan (median 219) | share drift>smooth: p=+nan+-nan (median 0.0928) | Bochner max-ratio median 6.55 | two-point dG_visc>0 in 1/2
+N,nu=(128, 0.005): n=2 |w|max in [14.1,19] | median ratio: p=+nan+-nan (median 0.249) | max ratio: p=+nan+-nan (median 60.9) | share drift>smooth: p=+nan+-nan (median 0.0941) | Bochner max-ratio median 3.27 | two-point dG_visc>0 in 1/2
+N,nu=('all', None): n=268 |w|max in [3.96,47.4] | median ratio: p=+0.112+-0.016 (median 0.309) | max ratio: p=-0.405+-0.077 (median 33.5) | share drift>smooth: p=+0.189+-0.015 (median 0.128) | Bochner max-ratio median 4.71 | two-point dG_visc>0 in 67/268
+
+== theta=0.7: power-law fits ratio ~ |w|max^p over snapshots with t>=0.5 ==
+N,nu=(64, 0.0025): n=66 |w|max in [13.1,40.3] | median ratio: p=+0.370+-0.075 (median 0.335) | max ratio: p=-0.606+-0.303 (median 5.34) | share drift>smooth: p=+0.433+-0.121 (median 0.135) | Bochner max-ratio median 0.876 | two-point dG_visc>0 in 18/66
+N,nu=(64, 0.005): n=66 |w|max in [8.54,28.2] | median ratio: p=+0.184+-0.062 (median 0.281) | max ratio: p=-0.475+-0.221 (median 6.28) | share drift>smooth: p=+0.390+-0.099 (median 0.106) | Bochner max-ratio median 1.43 | two-point dG_visc>0 in 16/66
+N,nu=(64, 0.01): n=66 |w|max in [3.96,20.1] | median ratio: p=-0.075+-0.049 (median 0.248) | max ratio: p=-0.641+-0.224 (median 10.1) | share drift>smooth: p=-0.140+-0.105 (median 0.0926) | Bochner max-ratio median 1.25 | two-point dG_visc>0 in 29/66
+N,nu=(96, 0.0025): n=22 |w|max in [14.5,47.4] | median ratio: p=+0.411+-0.155 (median 0.348) | max ratio: p=-0.556+-0.453 (median 7.21) | share drift>smooth: p=+0.439+-0.256 (median 0.138) | Bochner max-ratio median 1.61 | two-point dG_visc>0 in 2/22
+N,nu=(96, 0.005): n=22 |w|max in [9.01,30.8] | median ratio: p=+0.181+-0.154 (median 0.267) | max ratio: p=+0.654+-0.484 (median 5.95) | share drift>smooth: p=+0.624+-0.256 (median 0.126) | Bochner max-ratio median 1.72 | two-point dG_visc>0 in 4/22
+N,nu=(96, 0.01): n=22 |w|max in [5.1,19.8] | median ratio: p=-0.229+-0.084 (median 0.247) | max ratio: p=-0.996+-0.345 (median 10.8) | share drift>smooth: p=-0.468+-0.319 (median 0.114) | Bochner max-ratio median 1.1 | two-point dG_visc>0 in 7/22
+N,nu=(128, 0.0025): n=2 |w|max in [14.4,20.7] | median ratio: p=+nan+-nan (median 0.172) | max ratio: p=+nan+-nan (median 28) | share drift>smooth: p=+nan+-nan (median 0.0698) | Bochner max-ratio median 1.28 | two-point dG_visc>0 in 1/2
+N,nu=(128, 0.005): n=2 |w|max in [14.1,19] | median ratio: p=+nan+-nan (median 0.161) | max ratio: p=+nan+-nan (median 20.2) | share drift>smooth: p=+nan+-nan (median 0.0528) | Bochner max-ratio median 1.08 | two-point dG_visc>0 in 1/2
+N,nu=('all', None): n=268 |w|max in [3.96,47.4] | median ratio: p=+0.193+-0.025 (median 0.281) | max ratio: p=-0.568+-0.085 (median 7.06) | share drift>smooth: p=+0.244+-0.046 (median 0.112) | Bochner max-ratio median 1.22 | two-point dG_visc>0 in 78/268
+
+== resolution convergence: same (nu, seed) across N, matched t ==
+nu=0.0025 seed=1 t=0.00: N=64: |w|max=10.4 med=0.701 max=100 share=0.275 dG=+1.55  N=96: |w|max=10.4 med=0.697 max=60.6 share=0.274 dG=+1.81  N=128: |w|max=10.4 med=0.697 max=138 share=0.274 dG=+1.13
+nu=0.005 seed=1 t=0.00: N=64: |w|max=10.4 med=0.701 max=100 share=0.275 dG=+1.55  N=96: |w|max=10.4 med=0.697 max=60.6 share=0.274 dG=+1.81  N=128: |w|max=10.4 med=0.697 max=138 share=0.274 dG=+1.13
+nu=0.01 seed=1 t=0.00: N=64: |w|max=10.4 med=0.701 max=100 share=0.275 dG=+1.55  N=96: |w|max=10.4 med=0.697 max=60.6 share=0.274 dG=+1.81
+nu=0.01 seed=1 t=1.51: N=64: |w|max=18.8 med=0.279 max=42.1 share=0.147 dG=+103  N=96: |w|max=18.7 med=0.255 max=36.7 share=0.123 dG=-117
+nu=0.01 seed=1 t=2.51: N=64: |w|max=13.3 med=0.281 max=20.9 share=0.105 dG=-133  N=96: |w|max=13.4 med=0.272 max=37.5 share=0.114 dG=-230
+nu=0.01 seed=1 t=3.51: N=64: |w|max=8.21 med=0.303 max=42.5 share=0.125 dG=-64.7  N=96: |w|max=8.39 med=0.302 max=297 share=0.132 dG=-88.8
+nu=0.01 seed=1 t=4.51: N=64: |w|max=6.95 med=0.311 max=16.9 share=0.124 dG=-35.3  N=96: |w|max=7.02 med=0.307 max=36.6 share=0.126 dG=-41
+nu=0.01 seed=1 t=5.51: N=64: |w|max=5.29 med=0.305 max=255 share=0.107 dG=-73.2  N=96: |w|max=5.39 med=0.304 max=64 share=0.110 dG=-79.2

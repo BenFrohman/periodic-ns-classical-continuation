@@ -58,3 +58,4 @@ import PeriodicNSContinuation.BendingRateTests
 import PeriodicNSContinuation.DirectionEvolution
 import PeriodicNSContinuation.BiotSavartStrain
 import PeriodicNSContinuation.ConstantinKernel
+import PeriodicNSContinuation.FrohmanianDirectionCoercivity

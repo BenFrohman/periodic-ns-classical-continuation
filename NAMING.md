@@ -48,3 +48,9 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 - Helper-lemma names are not coined in public text.
 - No Lean upstream package exists: no leanprover / leanprover-community (Mathlib, Reservoir)
   package, PR or branch carries any of these names (checked 2026-11-02).
+
+## Coined November 2026
+
+| Name | Status | Location |
+|---|---|---|
+| `FrohmanianDirectionCoercivity` (with `OrthogonalStrainSublinear`) — the scale-invariant form of (A): bending $=o(|\omega|)$ on the high set | **OPEN**. (A) implies it (proved, `frohmanianDirectionCoercivity_of_A`). Whether it gives (B) or Hölder direction is an open target, not a theorem. | `PeriodicNSContinuation/FrohmanianDirectionCoercivity.lean`; flow tests `paper/fdc_flow_tests.py` |

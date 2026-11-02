@@ -36,3 +36,14 @@ The remaining failing steps for (A) ⇒ B_line are:
 (ii) the viscous term $\nu(I-\tau\otimes\tau)\Delta\omega/|\omega|$, which no hypothesis bounds;
 (iii) the conversion from Lagrangian to Eulerian distance, $|X(x,t)-X(y,t)|\gtrsim|x-y|^{?}$, which needs a Lipschitz or Hölder flow map, that is $\int\|\nabla u\|_\infty$ (BKM-strength);
 (iv) trajectories that leave the high set, where (A) gives no bending bound.
+
+## Step (ii): the viscous term (`ViscousDirection.lean`, Nov 2026)
+
+Proved in Lean, with 0 sorry: $\nu(I-\tau\otimes\tau)\Delta\omega/|\omega| = \nu\big[(I-\tau\otimes\tau)\Delta\tau + 2(\nabla\log|\omega|\cdot\nabla)\tau\big]$ (algebraic form). The projection kills $\tau\Delta|\omega|$. For a unit field, $\langle\tau,\partial_v\tau\rangle=0$. If $\langle\tau,L\rangle=-g$, then $(I-\tau\otimes\tau)L=L+g\tau$, which gives the harmonic-map form $\Delta\tau+|\nabla\tau|^2\tau$.
+
+The exact gap is still open:
+1. **No good-sign maximum principle.** Bochner gives $(\partial_t-\Delta)|\nabla\tau|^2\le-2|\nabla^2\tau|^2+C|\nabla\tau|^4$. The target $S^2$/$\mathbb{RP}^2$ has positive curvature, so the quartic term has the bad sign, and harmonic-map heat flow into spheres can blow up in finite time. A two-point maximum principle on the line gap gives dissipation only at an interior maximum, and only modulo the drift.
+2. **Drift.** $2\nu(\nabla\log|\omega|\cdot\nabla)\tau$ needs $\sup_{\text{high set}}|\nabla\log|\omega||$. That quantity is not controlled by (A), and a bound on it is not weaker than the regularity it would serve. So it is deliberately **not** named as a Prop (no-drift rule).
+3. **Coupling.** The $\tau$ equation is not closed: $|\omega|$, the bending terms and the drift all feed back through Biot–Savart.
+
+Conclusion: the viscous term is not an obstruction in sign at points where $|\nabla\tau|$ is small, but no estimate with constants bounded by (A) is known. Step (ii) stays open.

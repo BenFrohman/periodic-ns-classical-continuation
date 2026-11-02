@@ -55,3 +55,6 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 |---|---|---|
 | `FrohmanianDirectionCoercivity` (with `OrthogonalStrainSublinear`) — the scale-invariant form of (A): bending $=o(|\omega|)$ on the high set | **OPEN**. (A) implies it (proved, `frohmanianDirectionCoercivity_of_A`). Whether it gives (B) or Hölder direction is an open target, not a theorem. | `PeriodicNSContinuation/FrohmanianDirectionCoercivity.lean`; flow tests `paper/fdc_flow_tests.py` |
 | `lineGap`, `VortLineHolderHalf`, `OrthogonalStrainToLineHolder` = `FrohmanianTetherHypothesisB_line`, `FrohmanianTetherHypothesis_line` (A ∧ B_line), `PeriodicLineDirectionCriterion` (classical \|sin\| criterion, hypothesis) | Line-field version of (B), **added next to** the signed (B), which is unchanged. **OPEN.** Proved: signed ⇒ line; `sinShear` satisfies line (B); conditional chain to `PeriodicBKMIntegrability`. | `PeriodicNSContinuation/LineField.lean` |
+
+## ViscousDirection (Nov 2026, coined)
+`perpPart_smul_self`, `viscous_projection_decomposition`, `perpPart_of_inner_neg`, `inner_fderiv_of_unit`, `perpPart_fderiv_of_unit`: all are proved lemmas. No new hypotheses.

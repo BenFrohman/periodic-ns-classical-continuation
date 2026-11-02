@@ -278,6 +278,33 @@ theorem periodicDirectionRegularity_of_bending {ν : ℝ} (h : PeriodicBendingRa
     PeriodicDirectionRegularity ν :=
   fun hν u₀ hu₀ u p hm T hT => h.2 hν u₀ hu₀ u p hm T hT (h.1 hν u₀ hu₀ u p hm T hT)
 
+/-! ### Canonical names (see `NAMING.md`)
+
+The canonical name of the open statement is the **Frohmanian Tether Hypothesis** (`𝔉𝕋`, naming
+standard of 2026-06-03). `PeriodicBendingRateHiddenProperty` (Oct 31, 2026) is kept unchanged as the
+legacy name; nothing is renamed or deleted. These are **definitions of open statements only**; none
+is proved here. `FrohmanianTetherTheorem` is reserved for the result once it is proved and is
+deliberately not declared. -/
+
+/-- Canonical name. **OPEN.** Part (A) of the Frohmanian Tether Hypothesis: the bending
+(orthogonal) strain `(I - τ⊗τ)Sτ` stays bounded where `|ω|` is large, up to any finite lifespan.
+Same as `PeriodicOrthogonalStrainControl`. -/
+abbrev FrohmanianTetherHypothesisA (ν : ℝ) : Prop := PeriodicOrthogonalStrainControl ν
+
+/-- Canonical name. **OPEN.** Part (B) of the Frohmanian Tether Hypothesis: bounded bending strain
+gives `½`-Hölder vorticity direction. Same as `OrthogonalStrainToDirectionHolder`. -/
+abbrev FrohmanianTetherHypothesisB (ν : ℝ) : Prop := OrthogonalStrainToDirectionHolder ν
+
+/-- Canonical name. **OPEN.** The Frohmanian Tether Hypothesis = parts (A) and (B). Definitionally
+equal to the legacy `PeriodicBendingRateHiddenProperty`. -/
+abbrev FrohmanianTetherHypothesis (ν : ℝ) : Prop := PeriodicBendingRateHiddenProperty ν
+
+/-- **Proved (definitional).** The canonical name agrees with the legacy name and with (A) ∧ (B).
+This is a renaming fact only; it proves nothing about the hypothesis itself. -/
+theorem frohmanianTetherHypothesis_iff (ν : ℝ) :
+    FrohmanianTetherHypothesis ν ↔
+      FrohmanianTetherHypothesisA ν ∧ FrohmanianTetherHypothesisB ν := Iff.rfl
+
 /-- Coined. **Hypothesis (OPEN here; classical content: Constantin–Fefferman 1993 Biot–Savart
 stretching representation and geometric depletion + Beirão da Veiga–Berselli 2002
 interpolation).** Time-integrable form: the enstrophy rate is at most `g(t)·E` with `g = G'`,

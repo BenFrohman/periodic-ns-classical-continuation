@@ -47,3 +47,28 @@ The exact gap is still open:
 3. **Coupling.** The $\tau$ equation is not closed: $|\omega|$, the bending terms and the drift all feed back through Biot–Savart.
 
 Conclusion: the viscous term is not an obstruction in sign at points where $|\nabla\tau|$ is small, but no estimate with constants bounded by (A) is known. Step (ii) stays open.
+
+## Gaps (iv) exit from the high set and (iii) Lagrangian-to-Eulerian transfer (`HighSetExit.lean`, Nov 2026)
+
+**Exit along a path.** Write $m(t)=|\omega(X(t),t)|$. Then $\dot m=\alpha m+\nu\,\Delta\omega\cdot\tau$, where $\alpha=\tau\cdot S\tau$.
+
+Proved in Lean (`lower_gronwall_exp`, `buffer_stay_time`): if $\dot m\ge -a m$, then $m(t)\ge m(0)e^{-at}$. So a path starting in $\{m\ge 2\Lambda\}$ stays in $\{m\ge\Lambda\}$ for $t\le \log 2/a$.
+
+The required rate is $a\ge \sup(-\alpha)+\nu\sup|\Delta\omega\cdot\tau|/|\omega|$ on $\{m\ge\Lambda\}$.
+- Hypothesis (A) controls only the orthogonal strain $(I-\tau\otimes\tau)S\tau$. It does not control the longitudinal rate $\alpha$, and it does not control $\nu|\Delta\omega|/|\omega|$.
+- $|\alpha|\le|S|$ is a $\|\nabla u\|_\infty$ quantity, so it is at BKM level.
+- The buffer helps only if $a\cdot T_*\lesssim 1$ over the window $T_*$ that the direction argument needs. Under scaling, $a\sim\|\omega\|_\infty$ and $T_*\sim\|\omega\|_\infty^{-1}$, which is borderline. Closing it needs an absolute constant.
+- No Prop is named, per the no-drift rule.
+
+**Lagrangian versus Eulerian.** Only the following was checked against sources this turn:
+- Constantin–Fefferman (1993) is Eulerian, at fixed time. Its condition is $|\sin\theta(x,y,t)|\le C|y|$ on the high set.
+- Chae (Rev. Mat. Iberoam., EMS Press) is also Eulerian. It uses Triebel–Lizorkin regularity of $\xi=\omega/|\omega|$ together with integrability of $|\omega|$.
+- Deng–Hou–Yu (CPDE 2005/2006) is for **Euler**. It is "Lagrangian" in the sense of following a vortex-line segment near the maximum (its length, its curvature $\kappa$, $\nabla\cdot\xi$, and the tangential and normal velocities). It is not a statement about direction regularity along particle trajectories.
+
+I found no verified criterion stated purely in particle-trajectory coordinates. Any such statement would have to return to Eulerian separation through $|X_a-X_b|(t)\le|a-b|\exp\int\|\nabla u\|_\infty$, which is the BKM integral. Gap (iii) is therefore open, and the cost of the transfer is exactly that factor.
+
+**Numerics** (`paper/path_tests/`, numerics only, not proofs):
+- **Exit from the high set.** Tracers seeded at the enstrophy peak leave the fixed set $\{|\omega|\ge\theta\max\}$ quickly: 40–80% are gone within 0.1 time units, and almost all by 1.0.
+- **The half-threshold buffer.** It keeps 91–100% of tracers up to 0.25 time units, 72–96% at 0.5, and 10–94% at 1.0. Retention is worse at lower $\nu$.
+- **Pair separation.** One-cell pairs separate by a median factor of 2–4 and a maximum of 18–35 over 2 time units.
+- **Hölder quotient.** The 99th-percentile Hölder-1/2 quotient measured with the initial (Lagrangian) separation is larger than the one measured with the current (Eulerian) separation, about 3.2 against 2–2.9. Pair stretching therefore makes the Eulerian quotient look better. The one-cell gaps reach $p_{99}\approx1$ at low $\nu$, so the direction field is under-resolved at grid scale there.

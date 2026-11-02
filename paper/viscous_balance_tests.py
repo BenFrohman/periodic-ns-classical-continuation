@@ -15,7 +15,7 @@ with V = S or D, at the sampled high-set pair that maximises G/|x-y|.
 import numpy as np, sys
 rng = np.random.default_rng(0)
 MODE = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].isdigit() else 'basic'
-if MODE == 'scale':   # python viscous_balance_tests.py scale N nu seed T wallclock_s
+if MODE in ('scale', 'paths'):   # python viscous_balance_tests.py scale N nu seed T wallclock_s
     N = int(sys.argv[2]); rng = np.random.default_rng(int(sys.argv[4]))
 elif MODE == 'fit':
     N = 8
@@ -169,7 +169,62 @@ def fit(paths):
                 f"N={r['N']}: |w|max={r['mmax_0.5']:.3g} med={r['r_med_0.5']:.3g} max={r['r_max_0.5']:.3g} share={r['frac_drift_gt_smooth_0.5']:.3f} dG={r['tp_total_0.5']:+.3g}"
                 for r in row))
 
-if MODE == 'scale':
+def interp(F, P):
+    # trilinear periodic interpolation of fields F[c, N, N, N] at points P[n, 3]
+    g = P/(L/N); i0 = np.floor(g).astype(int); fr = g-i0; out = 0
+    for dx in (0, 1):
+        for dy in (0, 1):
+            for dz in (0, 1):
+                w = (fr[:, 0] if dx else 1-fr[:, 0])*(fr[:, 1] if dy else 1-fr[:, 1])*(fr[:, 2] if dz else 1-fr[:, 2])
+                out = out + w*F[:, (i0[:, 0]+dx) % N, (i0[:, 1]+dy) % N, (i0[:, 2]+dz) % N]
+    return out.T
+
+def path_run(nu, seed, t_seed, T, npart=4000):
+    # Gaps (iv) and (iii): seed tracers in the high set at t_seed, advect them, and record
+    # (iv) the fraction still inside {|w| >= Lam} for fixed Lam = theta * max|w|(t_seed), and inside the
+    #      half-threshold buffer {|w| >= Lam/2}
+    # (iii) for pairs that start one cell apart: Lagrangian line gap, pair separation growth, and the
+    #       Eulerian Holder-1/2 quotient lineGap/sqrt(|Xa-Xb|) at the current separation
+    import json
+    rhs = ns_rhs_factory(nu); uh = random_field(kpeak=3, amp=1.0); tnow = 0.0; P = None
+    def fields(uh):
+        u = np.array([ifft(a) for a in uh]); w = np.array([ifft(a) for a in curl_hat(uh)]); return u, w
+    def lg(a, b):
+        c = (a*b).sum(1, keepdims=True); return np.linalg.norm(a-c*b, axis=1)
+    while tnow <= T+1e-9:
+        u, w = fields(uh); m = np.sqrt((w**2).sum(0))
+        if P is None and tnow >= t_seed-1e-9:
+            mmax0 = m.max(); recs = {}
+            for th in (0.5, 0.7):
+                idx = np.argwhere(m >= th*mmax0); sel = idx[rng.integers(0, len(idx), npart)]
+                Pa = sel*(L/N) + 0.0; Pb = ((sel+np.eye(3, dtype=int)[rng.integers(0, 3, npart)]) % N)*(L/N)
+                recs[th] = (Pa, Pb)
+            P = recs; tseed_actual = tnow; d0 = L/N
+        if P is not None and (int(round((tnow-tseed_actual)/0.05)) % 2 == 0):
+            out = dict(t=round(tnow, 3), dt_since_seed=round(tnow-tseed_actual, 3), mmax_now=float(m.max()))
+            for th, (Pa, Pb) in P.items():
+                Lam = th*mmax0; ma = np.linalg.norm(interp(w, Pa), axis=1)
+                wa = interp(w, Pa); wb = interp(w, Pb)
+                ta = wa/np.linalg.norm(wa, axis=1, keepdims=True); tb = wb/np.linalg.norm(wb, axis=1, keepdims=True)
+                sep = np.linalg.norm((Pb-Pa+L/2) % L - L/2, axis=1)
+                gap = lg(ta, tb)
+                out[f'in_high_{th}'] = float((ma >= Lam).mean()); out[f'in_buffer_{th}'] = float((ma >= Lam/2).mean())
+                out[f'sep_ratio_med_{th}'] = float(np.median(sep/d0)); out[f'sep_ratio_max_{th}'] = float((sep/d0).max())
+                out[f'gap_med_{th}'] = float(np.median(gap)); out[f'gap_p99_{th}'] = float(np.quantile(gap, .99))
+                out[f'holder_lag_p99_{th}'] = float(np.quantile(gap/np.sqrt(d0), .99))      # Lagrangian distance
+                out[f'holder_eul_p99_{th}'] = float(np.quantile(gap/np.sqrt(np.maximum(sep, 1e-12)), .99))  # Eulerian distance
+            print(json.dumps(out), flush=True)
+        umax = np.abs(u).max(); dt = min(0.4*(L/N)/umax, 0.02)
+        if P is not None:   # RK2 (midpoint) for tracers with the frozen-in-step velocity, an approximation
+            for th, (Pa, Pb) in P.items():
+                P[th] = tuple(((X + dt*interp(u, (X + 0.5*dt*interp(u, X)) % L)) % L) for X in (Pa, Pb))
+        k1_ = rhs(uh); k2_ = rhs([uh[i]+dt/2*k1_[i] for i in range(3)])
+        k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
+        uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
+
+if MODE == 'paths':   # python viscous_balance_tests.py paths N nu seed t_seed T
+    path_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))
+elif MODE == 'scale':
     scale_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))
 elif MODE == 'fit':
     fit(sys.argv[2:])

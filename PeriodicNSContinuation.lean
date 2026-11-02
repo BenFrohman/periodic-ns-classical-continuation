@@ -63,3 +63,4 @@ import PeriodicNSContinuation.DirectionDrift
 import PeriodicNSContinuation.PlanarObstruction
 import PeriodicNSContinuation.LineField
 import PeriodicNSContinuation.ViscousDirection
+import PeriodicNSContinuation.HighSetExit

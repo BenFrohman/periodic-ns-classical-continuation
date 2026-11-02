@@ -58,3 +58,6 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 
 ## ViscousDirection (Nov 2026, coined)
 `perpPart_smul_self`, `viscous_projection_decomposition`, `perpPart_of_inner_neg`, `inner_fderiv_of_unit`, `perpPart_fderiv_of_unit`: all are proved lemmas. No new hypotheses.
+
+## HighSetExit (Nov 2026, coined)
+`lower_gronwall_exp`, `buffer_stay_time`: both are proved lemmas. No new hypotheses.

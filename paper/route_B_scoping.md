@@ -28,3 +28,11 @@ regularity of the vorticity **line field**, not of the signed direction $\tau$. 
 stated, ½-Hölder $\tau$, is stronger than those criteria need, and the planar obstruction refutes any
 pointwise route to it. A line-field version of (B) would be weaker and still sufficient. It is **suggested,
 not added**, pending your approval.
+
+## Update: line version (B_line), attack on (A) ⇒ B_line
+Signed and line versions are both kept. Along two trajectories, with (A) (bending $\le C$), the bending part of the drift is
+$\le 2CT^*$, which is finite, so failure (i) disappears for (A); it remains for `FrohmanianDirectionCoercivity`.
+The remaining failing steps for (A) ⇒ B_line are:
+(ii) the viscous term $\nu(I-\tau\otimes\tau)\Delta\omega/|\omega|$, which no hypothesis bounds;
+(iii) the conversion from Lagrangian to Eulerian distance, $|X(x,t)-X(y,t)|\gtrsim|x-y|^{?}$, which needs a Lipschitz or Hölder flow map, that is $\int\|\nabla u\|_\infty$ (BKM-strength);
+(iv) trajectories that leave the high set, where (A) gives no bending bound.

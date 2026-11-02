@@ -61,3 +61,4 @@ import PeriodicNSContinuation.ConstantinKernel
 import PeriodicNSContinuation.FrohmanianDirectionCoercivity
 import PeriodicNSContinuation.DirectionDrift
 import PeriodicNSContinuation.PlanarObstruction
+import PeriodicNSContinuation.LineField

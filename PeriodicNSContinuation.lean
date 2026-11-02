@@ -59,3 +59,4 @@ import PeriodicNSContinuation.DirectionEvolution
 import PeriodicNSContinuation.BiotSavartStrain
 import PeriodicNSContinuation.ConstantinKernel
 import PeriodicNSContinuation.FrohmanianDirectionCoercivity
+import PeriodicNSContinuation.DirectionDrift

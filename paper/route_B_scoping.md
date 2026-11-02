@@ -91,3 +91,13 @@ Known results give only $\|S\|_\infty\lesssim\|\omega\|_\infty(1+\log^+\ldots)$ 
 - **Strain.** $\|S\|_\infty/\|\omega\|_\infty\le 0.76$ throughout.
 - **Which term sets $a$.** Compression ($-\alpha$) dominates at low $\nu$ and the viscous term at high $\nu$.
 - **Caveat.** The range of $\|\omega\|_\infty$ is narrow (7–50) and the data come from a single family of initial conditions. This is no evidence of an absolute constant under blow-up scaling.
+
+## Window drift cancellation (Nov 2 2026, `WindowCancellation.lean`)
+Proved (abstract, Hilbert space): $\|\sum_{k<n}d_k\|\le nB$; $\|\sum d_k\|^2=\sum_{j,k}\langle d_j,d_k\rangle$;
+`WindowCorrelationSum` $C$ $\Rightarrow\|\sum d_k\|\le\sqrt{Cn}$; orthogonal increments $\Rightarrow\le B\sqrt n$.
+Structural point: $\sum d_k=\delta\tau_n-\delta\tau_0$ telescopes, so $|\cdot|\le2$ trivially. The real target is
+$|\delta\tau|/|x-y|^{1/2}$ uniform in $n$; $\sqrt n\sim(\int\|\omega\|_\infty)^{1/2}$ would still be unbounded.
+Numerics (`paper/window_tests/`): cumulative drift $\sim n^{0.46\text{–}0.64}$ (random-walk-like, not linear);
+$\mathrm{cum}/L^1\approx0.13$–$0.34$, $\mathrm{cum}/L^2\approx0.9$–$1.8$; lag-1 increment correlation is **positive** ($\approx+0.5$),
+so cancellation comes from longer lags. Hölder quotient at window end is $\approx0.65$–$1.13$, with no clear trend in $\|\omega\|_{\max}$ (20–48).
+Caveats: saturation at the ceiling 2, pairs leave the high set, small N, short time. Open: any bound on the correlation sum for NS.

@@ -64,3 +64,8 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 
 ## ScaleCriticalBuffer (Nov 2026, coined)
 `rescalePath` (a definition), `rescalePath_rate`, `rescalePath_differentiable`, `buffer_stay_time_ratio`, `inner_viscous_along`: all are proved. No new hypotheses. The needed bound with an absolute constant is intentionally left unnamed (no drift).
+
+## WindowCancellation.lean (Nov 2 2026)
+Coined: `window_drift_linear`, `window_drift_sq_eq_corr`, `window_drift_sqrt_of_corr`,
+`window_drift_sqrt_of_orthogonal`. Named hypothesis Prop: **`WindowCorrelationSum d C`**
+(abstract sequence; correlation double sum $\le Cn$). Not assumed for NS anywhere.

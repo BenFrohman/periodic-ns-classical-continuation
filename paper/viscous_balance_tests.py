@@ -15,7 +15,7 @@ with V = S or D, at the sampled high-set pair that maximises G/|x-y|.
 import numpy as np, sys
 rng = np.random.default_rng(0)
 MODE = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].isdigit() else 'basic'
-if MODE in ('scale', 'paths', 'rate'):   # python viscous_balance_tests.py scale N nu seed T wallclock_s
+if MODE in ('scale', 'paths', 'rate', 'windows'):   # python viscous_balance_tests.py scale N nu seed T wallclock_s
     N = int(sys.argv[2]); rng = np.random.default_rng(int(sys.argv[4]))
 elif MODE == 'fit':
     N = 8
@@ -251,7 +251,35 @@ def rate_run(nu, seed, T, wall):
         k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
         uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
 
-if MODE == 'rate':   # python viscous_balance_tests.py rate N nu seed T wall
+def window_run(nu, seed, t_seed, T, npart=3000, out='windows.npz'):
+    # Direction drift across consecutive buffer windows. Window k ends when int ||w||_inf dt first exceeds k.
+    # Tracer pairs (separation 1 and 4 cells) are seeded in {|w| >= 0.5 max} at t_seed.
+    # Stores delta = tau(Xa) - tau(Xb) (signed; tau is continuous along paths) at every window boundary,
+    # plus separation and whether both points are in the high set.
+    rhs = ns_rhs_factory(nu); uh = random_field(kpeak=3, amp=1.0); tnow = 0.0; P = None
+    D, SEP, INHI, TT, MM = [], [], [], [], []; acc = 0.0; k = 0
+    while tnow <= T+1e-9:
+        u = np.array([ifft(z) for z in uh]); w = np.array([ifft(z) for z in curl_hat(uh)]); m = np.sqrt((w**2).sum(0)); mx = m.max()
+        if P is None and tnow >= t_seed-1e-9:
+            idx = np.argwhere(m >= 0.5*mx); sel = idx[rng.integers(0, len(idx), npart)]
+            offs = np.eye(3, dtype=int)[rng.integers(0, 3, npart)]*np.where(np.arange(npart) % 2 == 0, 1, 4)[:, None]
+            P = [sel*(L/N)+0.0, ((sel+offs) % N)*(L/N)]
+        if P is not None and acc >= k:
+            wa, wb = interp(w, P[0]), interp(w, P[1]); ma, mb = np.linalg.norm(wa, axis=1), np.linalg.norm(wb, axis=1)
+            D.append(wa/ma[:, None]-wb/mb[:, None]); SEP.append(np.linalg.norm((P[1]-P[0]+L/2) % L-L/2, axis=1))
+            INHI.append((ma >= 0.5*mx) & (mb >= 0.5*mx)); TT.append(tnow); MM.append(mx); k += 1
+        umax = np.abs(u).max(); dt = min(0.4*(L/N)/umax, 0.02)
+        if P is not None:
+            P = [((X+dt*interp(u, (X+0.5*dt*interp(u, X)) % L)) % L) for X in P]; acc += mx*dt
+        k1_ = rhs(uh); k2_ = rhs([uh[i]+dt/2*k1_[i] for i in range(3)])
+        k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
+        uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
+    np.savez_compressed(out, D=np.array(D), SEP=np.array(SEP), INHI=np.array(INHI), T=np.array(TT), M=np.array(MM),
+                        off=np.where(np.arange(npart) % 2 == 0, 1, 4), N=N, nu=nu)
+
+if MODE == 'windows':   # python viscous_balance_tests.py windows N nu seed t_seed T out.npz
+    window_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), out=sys.argv[7])
+elif MODE == 'rate':   # python viscous_balance_tests.py rate N nu seed T wall
     rate_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))
 elif MODE == 'paths':   # python viscous_balance_tests.py paths N nu seed t_seed T
     path_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]))

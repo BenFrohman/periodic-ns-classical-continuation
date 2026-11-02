@@ -65,3 +65,4 @@ import PeriodicNSContinuation.LineField
 import PeriodicNSContinuation.ViscousDirection
 import PeriodicNSContinuation.HighSetExit
 import PeriodicNSContinuation.ScaleCriticalBuffer
+import PeriodicNSContinuation.WindowCancellation

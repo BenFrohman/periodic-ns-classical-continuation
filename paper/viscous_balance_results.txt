@@ -1,0 +1,14 @@
+NUMERICS, NOT PROOFS. N = 64 theta = 0.5
+ABC (Beltrami)               |w|max=2.45 nhi=195324 drift/smooth max=1 med=1 P(drift>smooth)=0.50 | |grad tau|^4/|grad^2 tau|^2 max=0.858 med=0.606 | two-point G*=0.695 dG_visc/nu: smooth=-0.536 drift=+0.536 total=+1.99e-14
+ABC + perturbation           |w|max=2.67 nhi=183469 drift/smooth max=145 med=0.287 P(drift>smooth)=0.10 | |grad tau|^4/|grad^2 tau|^2 max=1.38 med=0.297 | two-point G*=0.775 dG_visc/nu: smooth=-2.87 drift=+0.754 total=-2.12
+two-mode shear               |w|max=3.41 nhi=177440 drift/smooth max=18.9 med=0.539 P(drift>smooth)=0.04 | |grad tau|^4/|grad^2 tau|^2 max=1.23 med=0.0113 | two-point G*=0.994 dG_visc/nu: smooth=-6.41 drift=+5.49 total=-0.918
+random Fourier k~4 #0        |w|max=12.8 nhi=22026 drift/smooth max=68.9 med=0.722 P(drift>smooth)=0.28 | |grad tau|^4/|grad^2 tau|^2 max=1.9 med=0.12 | two-point G*=0.998 dG_visc/nu: smooth=-2.5 drift=+2.66 total=+0.165
+random Fourier k~4 #1        |w|max=11.4 nhi=39106 drift/smooth max=71.4 med=0.759 P(drift>smooth)=0.29 | |grad tau|^4/|grad^2 tau|^2 max=1.59 med=0.154 | two-point G*=0.942 dG_visc/nu: smooth=-13.5 drift=+11.1 total=-2.39
+random Fourier k~4 #2        |w|max=11.8 nhi=34610 drift/smooth max=173 med=0.76 P(drift>smooth)=0.29 | |grad tau|^4/|grad^2 tau|^2 max=1.68 med=0.147 | two-point G*=0.978 dG_visc/nu: smooth=-12 drift=+11.5 total=-0.537
+-- NS evolution, nu=0.005, random datum k~3, unit energy (eddy time ~ 1) --
+NS t=0.00                    |w|max=9.1 nhi=40660 drift/smooth max=47.7 med=0.67 P(drift>smooth)=0.25 | |grad tau|^4/|grad^2 tau|^2 max=1.65 med=0.163 | two-point G*=0.906 dG_visc/nu: smooth=-5.79 drift=+5.67 total=-0.129
+NS t=0.52                    |w|max=13.8 nhi=12252 drift/smooth max=78.5 med=0.229 P(drift>smooth)=0.06 | |grad tau|^4/|grad^2 tau|^2 max=5.87 med=0.0186 | two-point G*=0.746 dG_visc/nu: smooth=-69.3 drift=+23.7 total=-45.5
+NS t=1.02                    |w|max=20.7 nhi=4696 drift/smooth max=33.4 med=0.245 P(drift>smooth)=0.08 | |grad tau|^4/|grad^2 tau|^2 max=8.14 med=0.0152 | two-point G*=0.666 dG_visc/nu: smooth=-267 drift=+77.9 total=-189
+NS t=1.51                    |w|max=26.5 nhi=1540 drift/smooth max=11.9 med=0.292 P(drift>smooth)=0.13 | |grad tau|^4/|grad^2 tau|^2 max=4.13 med=0.0135 | two-point G*=0.997 dG_visc/nu: smooth=+18.7 drift=-1.94 total=+16.7
+NS t=2.01                    |w|max=24.5 nhi=2510 drift/smooth max=14.5 med=0.329 P(drift>smooth)=0.14 | |grad tau|^4/|grad^2 tau|^2 max=4.18 med=0.0153 | two-point G*=0.998 dG_visc/nu: smooth=-22.9 drift=+2.54 total=-20.3
+NS t=2.51                    |w|max=23.8 nhi=1814 drift/smooth max=24.2 med=0.342 P(drift>smooth)=0.13 | |grad tau|^4/|grad^2 tau|^2 max=2.56 med=0.0183 | two-point G*=0.996 dG_visc/nu: smooth=+43.9 drift=-33.2 total=+10.6

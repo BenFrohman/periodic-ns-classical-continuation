@@ -55,3 +55,4 @@ import PeriodicNSContinuation.ClassicalSteps
 import PeriodicNSContinuation.EnergyEquality
 import PeriodicNSContinuation.EnergyCancellation
 import PeriodicNSContinuation.BendingRateTests
+import PeriodicNSContinuation.DirectionEvolution

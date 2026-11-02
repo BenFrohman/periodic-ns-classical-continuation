@@ -423,3 +423,16 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.orthogonalStrain_planar
 #print axioms PeriodicNSContinuation.bendingRateHiddenProperty_of_noFiniteLifespan
 #print axioms PeriodicNSContinuation.orthogonalStrainToDirectionHolder_of_directionRegularity
+#print axioms PeriodicNSContinuation.real_inner_scalar
+#print axioms PeriodicNSContinuation.apply_coord
+#print axioms PeriodicNSContinuation.adjoint_coord
+#print axioms PeriodicNSContinuation.directionalCoord_eq_matEntry
+#print axioms PeriodicNSContinuation.apply_curlOfMat_eq_adjoint
+#print axioms PeriodicNSContinuation.vorticity_eq_curlOfMat
+#print axioms PeriodicNSContinuation.fderiv_vorticity_eq_strain
+#print axioms PeriodicNSContinuation.fderiv_vortDir_eq_strain
+#print axioms PeriodicNSContinuation.norm_strain_sq_split
+#print axioms PeriodicNSContinuation.norm_orthogonalStrain_le
+#print axioms PeriodicNSContinuation.hasDerivAt_norm_vorticity_lagrangian
+#print axioms PeriodicNSContinuation.hasDerivAt_vortDir_NS
+#print axioms PeriodicNSContinuation.orthogonalStrainBounded_of_gradientBounded

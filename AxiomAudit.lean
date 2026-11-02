@@ -436,3 +436,12 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.hasDerivAt_norm_vorticity_lagrangian
 #print axioms PeriodicNSContinuation.hasDerivAt_vortDir_NS
 #print axioms PeriodicNSContinuation.orthogonalStrainBounded_of_gradientBounded
+#print axioms PeriodicNSContinuation.ksq_ne_zero_of_ne
+#print axioms PeriodicNSContinuation.fourierCoeffVF_eq_biotSavart
+#print axioms PeriodicNSContinuation.strainCoeff_eq_symbol
+#print axioms PeriodicNSContinuation.vortCoeff_div
+#print axioms PeriodicNSContinuation.symApply_eq
+#print axioms PeriodicNSContinuation.symApply_aligned
+#print axioms PeriodicNSContinuation.stretch_symApply_parallel
+#print axioms PeriodicNSContinuation.strainCoeff_apply_aligned
+#print axioms PeriodicNSContinuation.symApply_misaligned_example

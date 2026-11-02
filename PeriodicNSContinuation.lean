@@ -56,3 +56,4 @@ import PeriodicNSContinuation.EnergyEquality
 import PeriodicNSContinuation.EnergyCancellation
 import PeriodicNSContinuation.BendingRateTests
 import PeriodicNSContinuation.DirectionEvolution
+import PeriodicNSContinuation.BiotSavartStrain

@@ -112,3 +112,6 @@ Numerics (`paper/offset_tests/`, offsets 1/2/4/8 cells): per-window line drift $
 $0.26$–$0.40$ in the high set. $\gamma$ falls as $\nu$ falls / $\|\omega\|_{\max}$ rises, below the needed $1/2$ at the most turbulent runs.
 The median Hölder quotient at offset 1 grows from 0.64 ($\|\omega\|_{\max}=20$) to 1.09–1.32 ($40$–$48$). Verdict: no evidence yet of a
 uniform small-separation gain. The trend is unfavourable, with grid-scale caveats.
+
+## JHTDB comparison (Nov 2 2026)
+See `paper/jhtdb_tests/summary.txt` (isotropic1024coarse, public testing token). Numerics only: $\beta\approx0.55$–$0.65$, high-set $\gamma\approx0.58$ at 2–17 Kolmogorov lengths (near-dissipative scales, so Taylor-like $\gamma$ is expected), one run. No proof claim.

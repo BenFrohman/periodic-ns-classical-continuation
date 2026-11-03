@@ -1,0 +1,37 @@
+JHTDB tests: window drift, small-separation gamma, Holder quotient (Nov 2 2026)
+Dataset: JHTDB "isotropic1024coarse" (forced isotropic turbulence, 1024^3 DNS, nu = 1.85e-4, Re_lambda ~ 433).
+Access: givernylocal (pip) + the public pyJHTDB testing token (limit 4096 points/query); no account used.
+Method: jhtdb_windows.py. omega_ref = max |omega| over 81,920 random samples at t0 (a LOWER bound on ||omega||_inf);
+window length 1/omega_ref; high set |omega| >= 0.5 omega_ref (only 42 samples qualified, so the top 64 samples were
+used as seeds; threshold actually 120.6); 2048 pairs, offsets 1/2/4/8 grid cells (dx = 2pi/1024 ~ 2.1 eta);
+JHTDB particle tracking (pchip/lag6); gradients fd4lag4.  Raw .npz archived on the box only: /workspace/archive/jhtdb/.
+Run completed: t0 = 1.0 (60 windows, t 1.000->1.228, about 5 Kolmogorov times). Run t0 = 5.0 died at window ~30
+(JHTDB server closed the connection, see t5.log; no checkpointing, so no data).
+
+
+== iso1024_t1.npz  omega_ref=263.2  high-set thr=120.6  windows=60  t 1.000->1.228  pairs=2048
+window test: offset | beta(cum~n^beta) | cum/L1 | cum/L2 | lag1 corr signed | lag1 corr line incr | beta line gap | end median cum | frac pairs both-high at end
+  1 | 0.56 | 0.159 | 1.00 | +0.340 | +0.112 | 0.73 | 0.398 | 0.08
+  2 | 0.55 | 0.207 | 1.24 | +0.253 | +0.140 | 0.58 | 0.827 | 0.06
+  4 | 0.55 | 0.212 | 1.32 | +0.246 | +0.158 | 0.47 | 1.181 | 0.01
+  8 | 0.65 | 0.255 | 1.48 | +0.197 | +0.132 | 0.50 | 1.404 | 0.00
+offset test: gamma_all=0.39  gamma_high=0.58 (n=11782)  median L=|d|/r high set=1.20 (r in box units)
+  first-window median |d| by offset 1/2/4/8: 0.013/0.026/0.027/0.033
+  Holder quotient G/sqrt(r) (box units) start / end / max-over-windows median, by offset:
+    1: 1.37 / 2.56 / 2.56   [grid units G/sqrt(r/dx): 0.107 / 0.200]   median sep growth 2.76x
+    2: 2.42 / 3.38 / 3.58   [grid units G/sqrt(r/dx): 0.189 / 0.265]   median sep growth 2.98x
+    4: 3.83 / 2.91 / 3.91   [grid units G/sqrt(r/dx): 0.300 / 0.228]   median sep growth 2.55x
+    8: 3.75 / 2.74 / 3.83   [grid units G/sqrt(r/dx): 0.294 / 0.215]   median sep growth 2.20x
+
+Comparison with our 64^3/96^3 runs (paper/window_tests, paper/offset_tests):
+- Window drift: beta 0.55-0.65 here vs 0.46-0.64 there. Random-walk-like in both; lag-1 correlation positive in both (+0.2..+0.34 here, ~+0.5 there).
+- Small-separation exponent: gamma_high = 0.58 here vs 0.26-0.40 there. Here it is above 1/2, but the offsets are near-dissipative-range
+  scales (1-8 dx = 2-17 eta), where smooth Taylor behaviour (gamma -> 1) is expected. So this does not show a gain uniform in Re.
+- Holder quotient (box units) is larger here (median 2.6-3.4 at the end) because sqrt(r) is much smaller; at offset 1 it nearly doubled
+  over 60 windows (1.37 -> 2.56), while it fell at offsets 4 and 8. Comparisons of absolute quotient values across resolutions are not meaningful.
+Caveats: one time origin only; omega_ref is a sampled lower bound, so windows may be too long; seeds come from the
+top 64 samples, not true near-max points; pairs leave the high set fast (<=8% both-high at the end); short duration.
+Citations: Y. Li, E. Perlman, M. Wan, Y. Yang, C. Meneveau, R. Burns, S. Chen, A. Szalay, G. Eyink, "A public turbulence database
+cluster and applications to study Lagrangian evolution of velocity increments in turbulence", J. Turbulence 9, N31 (2008).
+E. Perlman, R. Burns, Y. Li, C. Meneveau, "Data exploration of turbulence simulations using a database cluster", Proc. ACM/IEEE
+Supercomputing (SC07) (2007). JHTDB: https://turbulence.idies.jhu.edu

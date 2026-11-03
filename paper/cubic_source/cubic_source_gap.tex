@@ -68,20 +68,20 @@ S_{11}(u_K)(0)=\frac{16}{\pi^2}\sum_{i,j<N}\frac{1}{(2i+1)^2+(2j+1)^2}\ \ge\ \fr
 
 \emph{Step 2 (from data to solutions).} Suppose the solution-level bound held with constant $C$. Take any smooth periodic datum $u_0$. Local existence gives $T^*(u_0)>0$ (\texttt{periodicLocalExistence\_of\_nonneg}), and uniqueness gives a maximal solution $u$ (\texttt{periodicMaximalSolution\_of\_uniqueness}, \texttt{periodicEnergyDifferenceEstimate}). Choose $0<T<T^*$; the solution on $[0,T]$ satisfies $u(0)=u_0$. The bound at $t=0$ then reads $\|S(u_0)(x)\|\le C\|\omega(u_0)\|_{L^\infty}$, i.e.\ the static bound, contradicting Step~1 (Lean: \texttt{not\_periodicStrainLinfBound\_of\_static}).
 \end{proof}
-All inputs are theorems in the repository; no hypothesis Prop is used, and \texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. Only the sharp Gibbs constant $\approx1.39$ is numerical, and it is not needed. The counterexample is classical (Bahouri--Chemin type); the explicit periodic version is published as B.~S.~Frohman, \emph{Is $\|S\|_{L^\infty}\le C\|\omega\|_{L^\infty}$? A deep check of \texttt{PeriodicStrainLinfBound}}, Zenodo, doi:10.5281/zenodo.23904623 (Lean: \texttt{PeriodicNSContinuation/StrainLinf.lean}, commit \texttt{216ba1c}). The refutation concerns only the $t=0$ uniform bound; the $\nu,t$-dependent variant for $t>0$ is a different statement and is not addressed here.
+All inputs are theorems in the repository; no hypothesis Prop is used, and \texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. Only the sharp Gibbs constant $\approx1.39$ is numerical, and it is not needed. The counterexample is classical (Bahouri--Chemin type); the explicit periodic version is published as B.~S.~Frohman, \emph{Is $\|S\|_{L^\infty}\le C\|\omega\|_{L^\infty}$? A deep check of \texttt{PeriodicStrainLinfBound}}, Zenodo, doi:10.5281/zenodo.23904623 (that record's Lean source: \texttt{StrainLinf.lean} at commit \texttt{216ba1c}). In this repository the static counterexample is in \texttt{StrainLinf.lean} (\texttt{bcSum\_ge\_log}), \texttt{StrainLinfFamily.lean} (\texttt{strain00\_origin}), and \texttt{SineSumBound.lean} (\texttt{vorticity\_sup\_norm\_uK\_le}, \texttt{not\_staticStrainLinfBound}), and the solution-level refutation in \texttt{StrainLinfRefutation.lean}, all at the commit cited in the record description. The refutation concerns only the $t=0$ uniform bound; the $\nu,t$-dependent variant for $t>0$ is a different statement and is not addressed here.
 
 \section{What the ODEs give (proved in Lean)}
 All statements in this section are abstract real-analysis lemmas in \texttt{CubicSource.lean}, with no \texttt{sorry} and only the standard axioms.
 \begin{proposition}[\texttt{quadratic\_comparison}, \texttt{lifespan\_lower\_bound}]
-If $M>0$ is differentiable and $M'\le CM^2$, then $1/M(t)\ge 1/M_0-Ct$, so $M(t)\le M_0/(1-CM_0t)$ for $CM_0t<1$.
+If $M:\mathbb R\to\mathbb R$ is differentiable with $M>0$ everywhere and $M'\le CM^2$ everywhere, then for every $t\ge0$, $1/M(t)\ge 1/M_0-Ct$, so $M(t)\le M_0/(1-CM_0t)$ whenever $CM_0t<1$.
 \end{proposition}
 This is a lifespan lower bound $T^*\ge 1/(CM_0)$ only. The comparison solution $y_0/(1-Cy_0t)$ blows up at $1/(Cy_0)$, so this cannot close BKM.
 \begin{proposition}[\texttt{cubic\_comparison}]
-If $C\ge0$ and $M'\le CM^2(1+\log M)$, then $1/M(t)^2\ge 1/M_0^2-2Ct$.
+If $C\ge0$, $M:\mathbb R\to\mathbb R$ is differentiable with $M>0$ everywhere, and $M'\le CM^2(1+\log M)$ everywhere, then for every $t\ge0$, $1/M(t)^2\ge 1/M_0^2-2Ct$.
 \end{proposition}
 Again only a lifespan lower bound: $\int^\infty dM/(M^2\log M)<\infty$, so even a self-referential log correction does not prevent finite-time blowup of the comparison.
 \begin{proposition}[\texttt{fence\_ceiling}, \texttt{sink\_ceiling}]
-If $M$ is continuous with right derivative $M'\le M^2(C-\kappa M)$, $\kappa>0$, then $M\le\max(M_0,C/\kappa)$.
+Let $\kappa>0$. (\texttt{fence\_ceiling}) If $M$ is continuous on $[a,b]$ with right derivative $M'\le M^2(C-\kappa M)$ on $[a,b)$, and $c\ge0$ satisfies $c\ge C/\kappa$ and $c\ge M(a)$, then $M\le c$ on $[a,b]$; in particular $M\le\max(M(a),C/\kappa)$ there when this maximum is $\ge0$. (\texttt{sink\_ceiling}) If $M$ is differentiable with $M'\le M^2(C-\kappa M)$ everywhere and $0\le M_0\le C/\kappa$, then $M(t)\le C/\kappa$ for every $t\ge0$.
 \end{proposition}
 
 \section{The open gap: the quartic sink}

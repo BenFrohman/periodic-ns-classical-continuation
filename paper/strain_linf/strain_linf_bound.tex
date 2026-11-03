@@ -4,16 +4,16 @@
 \usepackage[T1]{fontenc}
 \title{Is $\|S\|_{L^\infty}\le C\|\omega\|_{L^\infty}$? A deep check of \texttt{PeriodicStrainLinfBound}}
 \author{Benjamin Stanley Frohman}
-\date{2 November 2026}
+\date{2 November 2026 (version 2)}
 \newtheorem{theorem}{Theorem}\newtheorem{proposition}{Proposition}
 \theoremstyle{definition}\newtheorem{definition}{Definition}
 \begin{document}\maketitle
 \begin{center}Copyright \copyright\ 2026 Benjamin Stanley Frohman. Released under CC BY 4.0.\\
-Lean record: \texttt{PeriodicNSContinuation/StrainLinf.lean} (Apache-2.0) in \texttt{github.com/BenFrohman/periodic-ns-classical-continuation}, commit \texttt{7b1bdbd}.\\
+Lean record: \texttt{PeriodicNSContinuation/\{StrainLinf,StrainLinfFamily,SineSumBound\}.lean} (Apache-2.0), repository \texttt{github.com/BenFrohman/periodic-ns-classical-continuation}, local commit \texttt{029a9b9} (not yet pushed; the Lean files are attached to this record).\\
 This document does not claim a solution of the Navier--Stokes Millennium Problem.\end{center}
 
 \begin{abstract}
-\texttt{PeriodicStrainLinfBound} asks for one constant $C$ with $\|S(t,x)\|\le C\|\omega(t)\|_{L^\infty}$ for every smooth periodic Navier--Stokes solution. We show it is false as stated, modulo classical local existence (not formalized), already at $t=0$. An explicit family of divergence-free trigonometric polynomials on $\mathbb{T}^3$ has $\|\omega_K\|_\infty$ bounded uniformly in $K$: numerically $\le1.403$ for all odd $K\ge7$ and $\le16/\pi^2\approx1.621$ for all $K$ (attained at $K=1$), rigorously $\le(6\operatorname{Si}(\pi)/\pi)^2\approx12.5$ for all $K$, with limit $(\tfrac2\pi\operatorname{Si}\pi)^2\approx1.390$. Meanwhile $\|S_K\|_\infty\to\infty$; the asymptotic $\|S_K\|_\infty\sim\tfrac2\pi\log K$ is classical and confirmed numerically. Lean proves only the divergence of the underlying double sum (\texttt{bcSum\_unbounded}, lower bound $\tfrac18\sum_{i<n}\tfrac1{i+1}$), not the sharp constant. The Fourier identity and the Gibbs bounds are classical and checked numerically. We record the conditional results that do give the bound, and what remains of it for Navier--Stokes solutions.
+Is there one constant $C$ with $\|S u(x)\|\le C\|\omega u\|_{L^\infty}$ for every smooth, divergence-free, $\mathbb{Z}^3$-periodic field $u$? We prove in Lean~4/Mathlib, with no \texttt{sorry} and only the standard axioms, that there is not (\texttt{not\_staticStrainLinfBound}). An explicit family $u_K$ of divergence-free trigonometric polynomials ($K$ odd) has the Fourier identity $S_{11}(0)=\tfrac{16}{\pi^2}\sum_{k,l\ \mathrm{odd}\le K}(k^2+l^2)^{-1}$ (proved), the uniform vorticity bound $\|\omega_K\|_\infty\le36$ (proved, via a formalized Gibbs/Fej\'er--Jackson-type bound $|\sum_{k\le n}\sin(kx)/k|\le3$; the sharper $(6\operatorname{Si}(\pi)/\pi)^2\approx12.5$ is classical), and $\|S_K\|_\infty\ge\tfrac1{\pi^2}\log K$ for all odd $K$ (proved). The sharp growth $\tfrac2\pi\log K$ is numerical only. The solution-level hypothesis \texttt{PeriodicStrainLinfBound} is false as stated only modulo classical local existence, which is not formalized. We record the conditional results that do give the bound.
 \end{abstract}
 
 \section{Literature}
@@ -29,17 +29,17 @@ Then $u_K$ is a divergence-free trigonometric polynomial with $\nabla\times u_K=
 S_{11}(0)=-\partial_{xy}\psi_K(0)=\frac{16}{\pi^2}\sum_{k,l\ \mathrm{odd}\le K}\frac1{k^2+l^2},\qquad S_{12}(0)=0,
 \]
 so $\|S_K(0)\|_{op}=S_{11}(0)$.
-\begin{theorem}[\texttt{bcSum\_unbounded}, proved in Lean]
-$\sum_{i,j<n}\frac{1}{(2i+1)^2+(2j+1)^2}\to\infty$. More precisely it is at least $\tfrac18\sum_{i<n}\tfrac1{i+1}$.
+\begin{theorem}[proved in Lean, commit \texttt{029a9b9}]
+\texttt{uK\_initialData}: $u_K$ is smooth, divergence-free and $\mathbb{Z}^3$-periodic. \texttt{vort\_eq}: $\omega_K=f_K(x)f_K(y)e_z$. \texttt{strain00\_origin}: the Fourier identity above, $\langle e_1,S_K(0)e_1\rangle=\tfrac{16}{\pi^2}\,\texttt{bcSum}\,n$, $n=(K+1)/2$. \texttt{strain\_norm\_origin\_ge}: $\|S_K(0)\|\ge\tfrac{16}{\pi^2}\texttt{bcSum}\,n$. \texttt{bcSum\_ge\_log}, \texttt{originStrain\_ge\_log}: $\texttt{bcSum}\,n\ge\tfrac18\log(n+1)$ and hence $\|S_K(0)\|\ge\tfrac1{\pi^2}\log K$ for all odd $K$. \texttt{bcSum\_unbounded}: divergence.
 \end{theorem}
-\paragraph{Vorticity bound.} Writing $f_K(x)=g_K(x)-\tfrac12g_{\lfloor K/2\rfloor}(2x)$ with $g_n(x)=\tfrac4\pi\sum_{k\le n}\sin(kx)/k$, the classical bound $|\sum_{k\le n}\sin(kx)/k|\le\operatorname{Si}(\pi)\approx1.852$ (Fej\'er--Jackson--Gronwall) gives the rigorous uniform bound $\sup|f_K|\le\tfrac6\pi\operatorname{Si}(\pi)$, so $\|\omega_K\|_\infty\le(6\operatorname{Si}(\pi)/\pi)^2\approx12.5$ for all $K$. Numerically $\sup|f_K|^2$ decreases in $K$: $1.621\ (K=1)$, $1.441\ (K=3)$, $1.412\ (K=5)$, $1.4024\ (K=7)$, so $\|\omega_K\|_\infty\le1.403$ for all odd $K\ge7$ (and $\le16/\pi^2$ for all $K$). The limit is $(\tfrac2\pi\operatorname{Si}\pi)^2\approx1.3900$ (Gibbs constant squared).
+\paragraph{Vorticity bound.} Writing $f_K(x)=g_K(x)-\tfrac12g_{\lfloor K/2\rfloor}(2x)$ with $g_n(x)=\tfrac4\pi\sum_{k\le n}\sin(kx)/k$, Lean proves $|\sum_{k\le n}\sin(kx)/k|\le3$ (\texttt{SineSumBound.abs\_g\_le\_three}, via Abel summation and the Dirichlet kernel), hence $|\sum_{k\ \mathrm{odd}\le K}\sin(kx)/k|\le\tfrac92$ (\texttt{abs\_odd\_sum\_le}), $|f_K|\le18/\pi<6$ (\texttt{abs\_F\_le}) and $\|\omega_K\|_\infty\le36$ (\texttt{norm\_vort\_le}, \texttt{vorticity\_sup\_norm\_uK\_le}). Classically, the sharp bound $|\sum_{k\le n}\sin(kx)/k|\le\operatorname{Si}(\pi)\approx1.852$ (Fej\'er--Jackson--Gronwall, not formalized) gives $\sup|f_K|\le\tfrac6\pi\operatorname{Si}(\pi)$, so $\|\omega_K\|_\infty\le(6\operatorname{Si}(\pi)/\pi)^2\approx12.5$ for all $K$. Numerically $\sup|f_K|^2$ decreases in $K$: $1.621\ (K=1)$, $1.441\ (K=3)$, $1.412\ (K=5)$, $1.4024\ (K=7)$, so $\|\omega_K\|_\infty\le1.403$ for all odd $K\ge7$ (and $\le16/\pi^2$ for all $K$). The limit is $(\tfrac2\pi\operatorname{Si}\pi)^2\approx1.3900$ (Gibbs constant squared).
 
-\paragraph{Strain growth.} $\|S_K\|_\infty\ge S_{11}(0)\to\infty$. The asymptotic $S_{11}(0)\sim\tfrac2\pi\log K$ is classical (the lattice sum $\sum_{k,l\ \mathrm{odd}\le K}(k^2+l^2)^{-1}\sim\tfrac\pi8\log K$) and is confirmed numerically below. Lean proves only divergence, with the non-sharp lower bound $\tfrac{16}{\pi^2}\cdot\tfrac18\sum_{i<n}\tfrac1{i+1}$, $n=(K+1)/2$; the sharp constant $\tfrac2\pi$ is not formalized.
+\paragraph{Strain growth.} $\|S_K\|_\infty\ge S_{11}(0)\to\infty$. The asymptotic $S_{11}(0)\sim\tfrac2\pi\log K$ is classical (the lattice sum $\sum_{k,l\ \mathrm{odd}\le K}(k^2+l^2)^{-1}\sim\tfrac\pi8\log K$) and is confirmed numerically below. Lean proves the non-sharp $\|S_K\|_\infty\ge\tfrac1{\pi^2}\log K$ for all odd $K$; the sharp constant $\tfrac2\pi$ is numerical only.
 The ratio $\|S\|_\infty/\|\omega\|_\infty$ is invariant under $u\mapsto\lambda u(\mu\,\cdot)$, so no rescaling removes the divergence.
 
 \paragraph{Numerics (complete; exact sums at the origin, grid sup of $\|S\|_{op}$ on an $8K\times8K$ grid up to $K=255$).}
 \input{tables.tex}
-The first table shows $\|\omega_K\|_\infty\to1.3900=(\tfrac2\pi\operatorname{Si}\pi)^2$, the sup of $\|S\|$ attained at the origin, and $S_{11}(0)-\tfrac2\pi\log K\to\approx0.332$: numerically consistent with the classical asymptotic $\tfrac2\pi\log K$ (Lean proves only divergence). The second table evolves the $K=31$ and $K=127$ data by 2D Navier--Stokes ($=$ $z$-independent 3D NS), $\nu=0.005$, to $t=1$: the ratio is largest near $t=0$ and is then quickly smoothed (to $\approx1.63$ by $t=1$).
+The first table shows $\|\omega_K\|_\infty\to1.3900=(\tfrac2\pi\operatorname{Si}\pi)^2$, the sup of $\|S\|$ attained at the origin, and $S_{11}(0)-\tfrac2\pi\log K\to\approx0.332$: numerically consistent with the classical asymptotic $\tfrac2\pi\log K$ (Lean proves $\tfrac1{\pi^2}\log K$). The second table evolves the $K=31$ and $K=127$ data by 2D Navier--Stokes ($=$ $z$-independent 3D NS), $\nu=0.005$, to $t=1$: the ratio is largest near $t=0$ and is then quickly smoothed (to $\approx1.63$ by $t=1$).
 
 \section{Conditional results that do give the bound}
 \begin{itemize}
@@ -48,13 +48,22 @@ The first table shows $\|\omega_K\|_\infty\to1.3900=(\tfrac2\pi\operatorname{Si}
 \item \textbf{Direction regularity} (Constantin--Fefferman): Lipschitz (or $\tfrac12$-H\"older, Beir\~ao da Veiga--Berselli) continuity of $\xi=\omega/|\omega|$ on the high-vorticity set controls the stretching $\xi\cdot S\xi$ through a local, cancelling kernel. It does not give $\|S\|_\infty\le C\|\omega\|_\infty$; the family above is two-dimensional, with constant direction $\xi=e_z$, and still violates the bound.
 \end{itemize}
 
+\section{The static bound is refuted in Lean}
+\begin{definition}[\texttt{StaticStrainLinfBound}]
+$\exists C\ \forall u$ smooth, divergence-free, $\mathbb{Z}^3$-periodic, $\forall x$: $\|S u(x)\|\le C\,\|\omega u\|_{L^\infty}$.
+\end{definition}
+\begin{theorem}[\texttt{not\_staticStrainLinfBound}, proved in Lean, no caveat]
+$\neg\,\texttt{StaticStrainLinfBound}$.
+\end{theorem}
+\noindent It involves no time, no Navier--Stokes equation and no local existence: $\|\omega_K\|_\infty\le36$ while $\|S_K(0)\|\to\infty$.
+
 \section{Could it hold for Navier--Stokes solutions?}
 \begin{enumerate}
-\item \textbf{Uniform constant: false as stated, modulo classical local existence (not formalized).} \texttt{PeriodicStrainLinfBound} quantifies over all smooth periodic data with one $C$, at all $t\ge0$ including $t=0$. Each $u_K$ is smooth periodic divergence-free data with a smooth local solution (classical local well-posedness; it is in fact global, being 2D). At $t=0$ the bound fails as $K\to\infty$. In Lean this is not yet a formal refutation: the repo has no local-existence theorem to produce \texttt{IsPeriodicMaximalSolution} for $u_K$, so the Prop remains an unassumed named hypothesis, now recorded as false modulo classical local existence.
+\item \textbf{Uniform constant: false as stated, modulo classical local existence (not formalized).} \texttt{PeriodicStrainLinfBound} quantifies over all smooth periodic data with one $C$, at all $t\ge0$ including $t=0$. Each $u_K$ is smooth periodic divergence-free data with a smooth local solution (classical local well-posedness; it is in fact global, being 2D). At $t=0$ the bound fails as $K\to\infty$. The static inequality at $t=0$ is refuted in Lean (\texttt{not\_staticStrainLinfBound}). The solution-level Prop is not formally refuted: the repo has no local-existence theorem to produce \texttt{IsPeriodicMaximalSolution} for $u_K$, so it remains an unassumed named hypothesis, false modulo classical local existence.
 \item \textbf{Constant depending on the solution, up to $T^*$: open, and not enough.} Any smooth solution satisfies $\|S\|_\infty\le C_T\|\omega\|_\infty$ on each $[0,T]$, $T<T^*$, trivially. Whether $C$ can be taken uniform up to a finite $T^*$ is open. Even if it could, it gives only $M'\le CM^2$, a lifespan bound, not regularity (cubic-source note, \S3).
 \item \textbf{Positive-time smoothing.} Viscosity regularises the data instantly, so a bound with $C$ depending on $\nu$, $t>0$ and the energy might hold away from $t=0$ (the numerics are consistent with this). Near a putative singularity this is exactly what is unknown.
 \end{enumerate}
 
 \section{Record}
-\textbf{Proved (Lean):} \texttt{bcSum\_unbounded} (divergence only, lower bound $\tfrac18\sum_{i<n}\tfrac1{i+1}$; not the sharp constant). \textbf{Classical, checked numerically:} Fourier identity for $S_{11}(0)$, Gibbs bounds, $\tfrac2\pi\log K$ asymptotic growth. \textbf{Conclusion:} \texttt{PeriodicStrainLinfBound} is false as stated, modulo classical local existence (not formalized). \textbf{Open:} solution-dependent constant up to $T^*$; not sufficient for regularity in any case.
+\textbf{Proved (Lean, commit \texttt{029a9b9}; standard axioms only):} the Fourier identity (\texttt{strain00\_origin}); $\|\omega_K\|_\infty\le36$ (\texttt{norm\_vort\_le}); $\|S_K\|_\infty\ge\tfrac1{\pi^2}\log K$ for all odd $K$ (\texttt{originStrain\_ge\_log}); $\neg$\texttt{StaticStrainLinfBound} (\texttt{not\_staticStrainLinfBound}), with no caveat. \textbf{Classical, not formalized:} $\|\omega_K\|_\infty\le(6\operatorname{Si}(\pi)/\pi)^2$; local existence. \textbf{Numerical only:} the $\tfrac2\pi\log K$ asymptotic. \textbf{Conclusion:} \texttt{PeriodicStrainLinfBound} (solution level) is false as stated, modulo classical local existence (not formalized). \textbf{Open:} solution-dependent constant up to $T^*$; not sufficient for regularity in any case.
 \end{document}

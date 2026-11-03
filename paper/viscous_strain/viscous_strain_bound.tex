@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\title{The viscous strain bound: what a $\nu,t$-dependent constant can and cannot give}
+\author{Benjamin Stanley Frohman}
+\date{2 November 2026}
+\newtheorem{theorem}{Theorem}\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}\newtheorem{definition}{Definition}
+\begin{document}\maketitle
+\begin{center}Copyright \copyright\ 2026 Benjamin Stanley Frohman. Released under CC BY 4.0.\\
+Lean record: \texttt{PeriodicNSContinuation/ViscousStrainBound.lean} (Apache-2.0) in \texttt{github.com/BenFrohman/periodic-ns-classical-continuation}.\\
+This document does not claim a solution of the Navier--Stokes Millennium Problem.\end{center}
+
+\begin{abstract}
+The uniform bound $\|S\|_\infty\le C\|\omega\|_\infty$ is false (Bahouri--Chemin family, Zenodo 10.5281/zenodo.23904623). We examine the surviving variant with a constant depending on $\nu$ and $t>0$. We separate (i) a classical log-corrected bound, provable by standard Littlewood--Paley and parabolic-smoothing arguments but carrying a solution-dependent logarithm; (ii) the pure form $\|S(t)\|_\infty\le c(\nu,t)\|\omega(t)\|_\infty$, which is open; and (iii) the consequence of (ii), proved in Lean: it yields only a lifespan (small-data) bound, and a bounded constant does not exclude blow-up of the comparison ODE. So the variant, even if true, reduces back to the Beale--Kato--Majda criterion. Numerics for the evolved family (2D slice, full runs) show the ratio follows $a+b\log(1/(\nu t))$ with $b$ close to the heat-flow value $1/\pi$.
+\end{abstract}
+
+\section{Statements}
+Let $u$ be a smooth solution on $\mathbb{T}^3\times[0,T^*)$, $\omega=\nabla\times u$, $S=\tfrac12(\nabla u+\nabla u^{\top})$, $M(t)=\|\omega(t)\|_\infty$.
+
+\paragraph{(V1) Log-corrected bound (classical).} For $\alpha\in(0,1)$ there is $C_\alpha$ with
+\[
+\|S\|_\infty\le C_\alpha\|\omega\|_\infty\Bigl(1+\log^+\frac{\|\omega\|_{C^\alpha}}{\|\omega\|_\infty}\Bigr)
+\]
+for mean-zero $\omega$ on $\mathbb{T}^3$ (dyadic splitting: low blocks $\lesssim\|\omega\|_\infty$ each, high blocks $\lesssim2^{-j\alpha}\|\omega\|_{C^\alpha}$; cf.\ Beale--Kato--Majda, Kozono--Taniuchi, Bahouri--Chemin--Danchin). \emph{Status: classical; not formalized here.}
+
+\paragraph{(V2) Smoothing.} Classical mild-solution theory gives, for $\tau\le\min(t/2,c_0/\bar M)$ with $\bar M=\sup_{[t-\tau,t]}M$,
+$\|\omega(t)\|_{C^\alpha}\le B(\nu\tau)^{-\alpha/2}\bar M$. The nonlinear time scale $c_0/\bar M$ is forced: vorticity has units of inverse time. Combining with (V1) and the identity
+\[
+\log\bigl(B(\nu\tau)^{-\alpha/2}R\bigr)=\log B-\tfrac\alpha2\log(\nu\tau)+\log R\qquad(\texttt{log\_smoothing\_split}, \text{ Lean})
+\]
+gives
+\[
+\|S(t)\|_\infty\le C\,M(t)\Bigl(1+\log^+\frac{\bar M}{M(t)}+\log^+\frac{1}{\nu t}+\log^+\frac{\bar M}{\nu}\Bigr).
+\]
+\emph{Status: classical modulo constants (not tracked, not formalized).} The constant depends on the solution through $\bar M/\nu$ and $\bar M/M(t)$; it is \emph{not} a function of $(\nu,t)$ alone. Inserted in $D^+M\le\|S\|_\infty M$ it gives $M'\lesssim M^2\log(e+M/\nu+1/(\nu t))$, which does not close; this is exactly the BKM situation.
+
+\paragraph{(V3) Pure viscous form (\texttt{ViscousStrainBound}).} There is $c(\nu,t)$, finite for $t>0$ and independent of the solution, with $\|S(t)\|_\infty\le c(\nu,t)M(t)$. \emph{Status: OPEN.} Heat smoothing alone does not give it, because it controls $\|\omega(t)\|_{C^\alpha}$ by $\omega$ at earlier times, not by $M(t)$, and (V2) shows the natural constant depends on $\bar M/\nu$.
+
+\section{What (V3) would give (proved in Lean)}
+\begin{definition}
+\texttt{VorticityMaxRiccati}: $M>0$, $M'=m$, $m\le\|S\|_\infty M$ on $[t_0,T]$ (an idealization of the classical Dini-derivative inequality). \texttt{ViscousStrainBound}: $\|S(t)\|_\infty\le c(t)M(t)$ on $[t_0,T]$.
+\end{definition}
+\begin{theorem}[\texttt{riccati\_comparison}, \texttt{bound\_of\_viscousStrainBound}]
+Under both hypotheses, with $C'=c$, the function $1/M+C$ is nondecreasing on $[t_0,T]$, and whenever $M(t_0)\int_{t_0}^tc<1$,
+\[
+M(t)\le\frac{M(t_0)}{1-M(t_0)\int_{t_0}^tc}.
+\]
+\end{theorem}
+\begin{theorem}[\texttt{riccati\_saturates}, \texttt{riccati\_saturates\_unbounded}]
+$M(t)=1/(1-t)$ satisfies $M'=1\cdot M^2$ on $t<1$ and $M\to\infty$ as $t\to1^-$.
+\end{theorem}
+So a constant $c(\nu,t)$, even bounded and integrable, gives a lifespan lower bound, not regularity. Regularity still requires $\int_0^{T^*}M<\infty$ (BKM), i.e.\ part (A) of the Frohmanian Tether Hypothesis or an equivalent input. \textbf{Verdict: (V1),(V2) classical; (V3) open; (V3)$\Rightarrow$ regularity is false at the ODE level, so the route reduces to BKM.}
+
+\section{Numerics (full runs only; 2D slice $u_3=0$, so no vortex stretching)}
+Data $\omega=A\,\omega_K$, pseudo-spectral, integrating-factor RK4, $2/3$ dealiasing, $N=\max(256,4K)$ (amplitude runs $N=512$), 26 log-spaced times on $[0,T]$. We fit ratio $=a+b\log(1/(\nu t))$ over times with $\nu tK^2>1$; ``heat'' is the same ratio for $e^{\nu t\Delta}\omega_K$. The heat prediction is $\|S\|_\infty\approx\tfrac2\pi\log(1/\sqrt{\nu t})\,M$, i.e.\ $b=1/\pi\approx0.318$. Rows with too few fit points are marked --.
+\input{tables.tex}
+Second table: $K=31$, $\nu=0.01$, $T=0.05$, amplitudes $A=1,4,16,32$. Larger amplitude \emph{lowers} the ratio in this window; no Reynolds-number growth of the ratio was seen. This is one 2D family over a short window and says nothing about near-singular 3D flows, which is exactly where (V3) is in question.
+
+\section{Caveats}
+2D slice only; one data family; grid sup of $\|S\|_{op}$; the fit is empirical. (V1),(V2) are cited, not formalized. The Lean statements are abstract scalar comparisons and are not assumed for Navier--Stokes anywhere.
+\end{document}

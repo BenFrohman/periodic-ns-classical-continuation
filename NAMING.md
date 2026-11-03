@@ -76,3 +76,13 @@ Coined: `window_drift_linear`, `window_drift_sq_eq_corr`, `window_drift_sqrt_of_
 Coined: `drift_le_lip_sum`, `holder_quotient_of_dominated`. Named hypothesis Prop: **`SeparationSumDominated r A`**
 ($\sum_{k<n} r_k \le A\,r_n$; abstract sequence; not assumed for NS). The per-window Lipschitz bound `L` is an explicit
 theorem hypothesis, equivalent in content to a part-(A) direction-gradient bound.
+
+## ViscousStrainBound.lean (Nov 2 2026, coined)
+Named hypothesis Props (abstract scalar functions; **never assumed for NS**):
+**`ViscousStrainBound M S c t₀ T`** ($\|S(t)\|_\infty\le c(t)\|\omega(t)\|_\infty$ on $[t_0,T]$, the $\nu,t$-dependent
+variant of the refuted `PeriodicStrainLinfBound`; **OPEN** for NS) and **`VorticityMaxRiccati M m S t₀ T`**
+($M>0$, $M'=m\le \|S\|_\infty M$; idealizes the classical Dini-derivative inequality).
+Proved: `riccati_comparison`, `bound_of_viscousStrainBound` (lifespan/small-data bound
+$M(t)\le M_0/(1-M_0\int c)$ only), `riccati_saturates`, `riccati_saturates_unbounded` (a bounded constant
+does not prevent ODE blow-up), `log_smoothing_split`. Verdict: even if true, the variant does not give
+regularity; closing it still needs BKM ($\int\|\omega\|_\infty<\infty$). Note `paper/viscous_strain/`.

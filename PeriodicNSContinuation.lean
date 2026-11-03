@@ -70,3 +70,4 @@ import PeriodicNSContinuation.SmallSeparationGain
 import PeriodicNSContinuation.CubicSource
 import PeriodicNSContinuation.StrainLinf
 import PeriodicNSContinuation.StrainLinfFamily
+import PeriodicNSContinuation.ViscousStrainBound

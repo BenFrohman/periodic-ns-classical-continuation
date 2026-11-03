@@ -43,4 +43,43 @@ theorem bcSum_unbounded : Tendsto bcSum atTop atTop := by
   have h := Real.tendsto_sum_range_one_div_nat_succ_atTop
   exact tendsto_atTop_mono bcSum_lb (Tendsto.const_mul_atTop (by norm_num) h)
 
+/-- `log (n+1) ≤ ∑_{i<n} 1/(i+1)`. -/
+lemma log_succ_le_harmonicSum (n : ℕ) : Real.log ((n:ℝ)+1) ≤ ∑ i ∈ range n, (1 / ((i:ℝ)+1)) := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    rw [sum_range_succ]
+    have h1 : (0:ℝ) < (n:ℝ)+1 := by positivity
+    have hstep : Real.log (((n+1:ℕ):ℝ)+1) - Real.log ((n:ℝ)+1) ≤ 1 / ((n:ℝ)+1) := by
+      rw [← Real.log_div (by positivity) h1.ne']
+      have := Real.log_le_sub_one_of_pos (x := (((n+1:ℕ):ℝ)+1) / ((n:ℝ)+1)) (by positivity)
+      have he : (((n+1:ℕ):ℝ)+1) / ((n:ℝ)+1) - 1 = 1 / ((n:ℝ)+1) := by
+        push_cast; field_simp; ring
+      linarith
+    linarith
+
+/-- **Explicit, for every `n`:** `bcSum n ≥ (1/8) log (n+1)`. -/
+theorem bcSum_ge_log (n : ℕ) : (1/8) * Real.log ((n:ℝ)+1) ≤ bcSum n :=
+  le_trans (by gcongr; exact log_succ_le_harmonicSum n) (bcSum_lb n)
+
+/-- **Explicit strain lower bound at the origin, every odd `K = 2n-1 ≥ 1`:**
+`(16/π²) · bcSum n ≥ (1/π²) log K` (uses `(K+1)/2 ≥ √K`). Combined with the (classical, not
+formalized here) identity `S₁₁(0) = (16/π²) bcSum n`, this gives `‖S_K‖_∞ ≥ (1/π²) log K`. -/
+theorem originStrain_ge_log (n : ℕ) (hn : 1 ≤ n) :
+    (1 / Real.pi^2) * Real.log (2*(n:ℝ)-1) ≤ (16 / Real.pi^2) * bcSum n := by
+  have hK : (1:ℝ) ≤ 2*(n:ℝ)-1 := by
+    have : (1:ℝ) ≤ n := by exact_mod_cast hn
+    linarith
+  have hK0 : (0:ℝ) < 2*(n:ℝ)-1 := by linarith
+  -- log K ≤ 2 log n ≤ 2 log (n+1)
+  have hlog : Real.log (2*(n:ℝ)-1) ≤ 2 * Real.log ((n:ℝ)+1) := by
+    rw [← Real.log_rpow (by positivity)]
+    apply Real.log_le_log hK0
+    have : (((n:ℝ)+1) ^ (2:ℝ)) = ((n:ℝ)+1)^2 := by norm_cast
+    rw [this]; nlinarith
+  have hb := bcSum_ge_log n
+  have hpi : 0 < Real.pi^2 := by positivity
+  rw [div_mul_eq_mul_div, div_mul_eq_mul_div, div_le_div_iff_of_pos_right hpi]
+  linarith
+
 end PeriodicNSContinuation.StrainLinf

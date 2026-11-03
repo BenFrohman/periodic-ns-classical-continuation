@@ -1,3 +1,4 @@
+import os
 """Numerical test of smoothing versus drift in the viscous part of D tau/Dt on T^3.
 These are NUMERICS, NOT PROOFS. Author: Benjamin Stanley Frohman.
 
@@ -251,6 +252,7 @@ def rate_run(nu, seed, T, wall):
         k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
         uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
 
+OFFS = np.array([int(x) for x in os.environ.get('WIN_OFFS', '1,4').split(',')])
 def window_run(nu, seed, t_seed, T, npart=3000, out='windows.npz'):
     # Direction drift across consecutive buffer windows. Window k ends when int ||w||_inf dt first exceeds k.
     # Tracer pairs (separation 1 and 4 cells) are seeded in {|w| >= 0.5 max} at t_seed.
@@ -262,7 +264,7 @@ def window_run(nu, seed, t_seed, T, npart=3000, out='windows.npz'):
         u = np.array([ifft(z) for z in uh]); w = np.array([ifft(z) for z in curl_hat(uh)]); m = np.sqrt((w**2).sum(0)); mx = m.max()
         if P is None and tnow >= t_seed-1e-9:
             idx = np.argwhere(m >= 0.5*mx); sel = idx[rng.integers(0, len(idx), npart)]
-            offs = np.eye(3, dtype=int)[rng.integers(0, 3, npart)]*np.where(np.arange(npart) % 2 == 0, 1, 4)[:, None]
+            offs = np.eye(3, dtype=int)[rng.integers(0, 3, npart)]*OFFS[np.arange(npart) % len(OFFS)][:, None]
             P = [sel*(L/N)+0.0, ((sel+offs) % N)*(L/N)]
         if P is not None and acc >= k:
             wa, wb = interp(w, P[0]), interp(w, P[1]); ma, mb = np.linalg.norm(wa, axis=1), np.linalg.norm(wb, axis=1)
@@ -275,7 +277,7 @@ def window_run(nu, seed, t_seed, T, npart=3000, out='windows.npz'):
         k3_ = rhs([uh[i]+dt/2*k2_[i] for i in range(3)]); k4_ = rhs([uh[i]+dt*k3_[i] for i in range(3)])
         uh = [uh[i]+dt/6*(k1_[i]+2*k2_[i]+2*k3_[i]+k4_[i]) for i in range(3)]; tnow += dt
     np.savez_compressed(out, D=np.array(D), SEP=np.array(SEP), INHI=np.array(INHI), T=np.array(TT), M=np.array(MM),
-                        off=np.where(np.arange(npart) % 2 == 0, 1, 4), N=N, nu=nu)
+                        off=OFFS[np.arange(npart) % len(OFFS)], N=N, nu=nu)
 
 if MODE == 'windows':   # python viscous_balance_tests.py windows N nu seed t_seed T out.npz
     window_run(float(sys.argv[3]), int(sys.argv[4]), float(sys.argv[5]), float(sys.argv[6]), out=sys.argv[7])

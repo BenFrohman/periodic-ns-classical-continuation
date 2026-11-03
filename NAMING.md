@@ -69,3 +69,8 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 Coined: `window_drift_linear`, `window_drift_sq_eq_corr`, `window_drift_sqrt_of_corr`,
 `window_drift_sqrt_of_orthogonal`. Named hypothesis Prop: **`WindowCorrelationSum d C`**
 (abstract sequence; correlation double sum $\le Cn$). Not assumed for NS anywhere.
+
+## SmallSeparationGain.lean (Nov 2 2026)
+Coined: `drift_le_lip_sum`, `holder_quotient_of_dominated`. Named hypothesis Prop: **`SeparationSumDominated r A`**
+($\sum_{k<n} r_k \le A\,r_n$; abstract sequence; not assumed for NS). The per-window Lipschitz bound `L` is an explicit
+theorem hypothesis, equivalent in content to a part-(A) direction-gradient bound.

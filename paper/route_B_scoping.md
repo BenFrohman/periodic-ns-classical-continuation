@@ -101,3 +101,14 @@ Numerics (`paper/window_tests/`): cumulative drift $\sim n^{0.46\text{–}0.64}$
 $\mathrm{cum}/L^1\approx0.13$–$0.34$, $\mathrm{cum}/L^2\approx0.9$–$1.8$; lag-1 increment correlation is **positive** ($\approx+0.5$),
 so cancellation comes from longer lags. Hölder quotient at window end is $\approx0.65$–$1.13$, with no clear trend in $\|\omega\|_{\max}$ (20–48).
 Caveats: saturation at the ceiling 2, pairs leave the high set, small N, short time. Open: any bound on the correlation sum for NS.
+
+## Small-separation gain (Nov 2 2026, `SmallSeparationGain.lean`)
+Derivation: by Taylor expansion, one window of length $\sim1/\|\omega\|_\infty$ changes $\delta\tau$ by roughly $r\,\sup_{\text{window}}|\nabla\tau|$,
+so the per-window constant $L$ is a direction-gradient bound. That is the quantity part (A)/FDC must control (Constantin–Fefferman
+needs $|\sin\theta|\le C|y|$ in the high set). Proved: `drift_le_lip_sum` ($\|\delta_n-\delta_0\|\le L\sum_{k<n}r_k$) and
+`holder_quotient_of_dominated`: with `SeparationSumDominated r A` ($\sum_{k<n}r_k\le A r_n$, e.g. geometric separation growth),
+$\|\delta_n\|\le(K_0+LA\sqrt R)\sqrt{r_n}$, uniform in $n$. This is a reduction to (A), not a proof of (A).
+Numerics (`paper/offset_tests/`, offsets 1/2/4/8 cells): per-window line drift $\sim r^\gamma$ with $\gamma\approx0.28$–$0.70$ overall and
+$0.26$–$0.40$ in the high set. $\gamma$ falls as $\nu$ falls / $\|\omega\|_{\max}$ rises, below the needed $1/2$ at the most turbulent runs.
+The median Hölder quotient at offset 1 grows from 0.64 ($\|\omega\|_{\max}=20$) to 1.09–1.32 ($40$–$48$). Verdict: no evidence yet of a
+uniform small-separation gain. The trend is unfavourable, with grid-scale caveats.

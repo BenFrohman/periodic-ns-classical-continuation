@@ -1,0 +1,12 @@
+file | ||w||max | windows | gamma_all (|d_k| ~ r_k^gamma, binned medians, r<0.5) | gamma_high (both in high set) | first-window median |d| by offset 1/2/4/8 | median L=|d|/r (high set) | end Holder quotient G/sqrt(r) by offset | max over windows of median quotient, offset 1
+N64_nu0.0025_s1 | 40.2 | 76 | 0.28 | 0.26 (n=1012) | 0.052/0.115/0.077/0.069 | 0.14 | 1.09/0.99/0.86/0.77 | 1.32
+N64_nu0.005_s1 | 29.2 | 62 | 0.46 | 0.27 (n=3631) | 0.032/0.067/0.065/0.053 | 0.12 | 0.87/0.87/0.86/0.73 | 0.91
+N64_nu0.005_s2 | 28.8 | 61 | 0.51 | 0.36 (n=5353) | 0.022/0.059/0.057/0.051 | 0.10 | 0.92/0.93/0.81/0.74 | 0.92
+N64_nu0.01_s1 | 20.2 | 40 | 0.70 | 0.40 (n=6958) | 0.017/0.036/0.056/0.049 | 0.07 | 0.64/0.82/0.80/0.74 | 0.64
+N96_nu0.0025_s1 | 47.5 | 100 | 0.32 | 0.26 (n=2867) | 0.031/0.069/0.069/0.060 | 0.18 | 1.05/1.02/0.91/0.84 | 1.23
+N96_nu0.005_s1 | 30.8 | 69 | 0.54 | 0.39 (n=9014) | 0.019/0.039/0.057/0.047 | 0.12 | 0.80/0.89/0.88/0.80 | 0.80
+
+Caveats: r in box units (L=2*pi), cell = 2*pi/N; offsets at 1-2 cells are at grid scale, where trilinear
+interpolation makes differences artificially smooth; pairs separate quickly, so the high-set sample is
+small; 64^3/96^3 only (128^3 hit the wall-time cap earlier); 1-2 seeds; ~3 time units.
+Raw .npz kept on the box only (gitignored); archive copy in /workspace/archive/offset_tests_npz/.

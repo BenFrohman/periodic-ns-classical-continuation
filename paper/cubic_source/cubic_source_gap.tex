@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\title{A cubic source for the vorticity maximum,\\ and a recorded gap in the periodic continuation criterion}
+\author{Benjamin Stanley Frohman}
+\date{7 October 2026; corrected 2 November 2026}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\begin{document}
+\maketitle
+\begin{center}
+Copyright \copyright\ 2026 Benjamin Stanley Frohman.\\
+This note is released under the Creative Commons Attribution 4.0 International license (CC BY 4.0).\\
+The accompanying Lean record (\texttt{PeriodicNSContinuation/CubicSource.lean}) is released under Apache-2.0.\\
+This document does not claim a solution of the Navier--Stokes Millennium Problem.
+\end{center}
+
+\begin{abstract}
+For a smooth divergence-free solution of the unforced periodic Navier--Stokes equations, let $M(t)=\|\omega(t)\|_{L^\infty}$. At a spatial maximum of $|\omega|$, transport vanishes and viscosity only lowers $M$, so $M'\le \omega\cdot S\omega/M$. The 7 October version claimed $\omega\cdot S\omega\le C_{\mathrm{CZ}}M^3$ from Calder\'on--Zygmund theory. That step is \emph{not} proved: it needs $\|\nabla u\|_{L^\infty}\le C\|\omega\|_{L^\infty}$, which Calder\'on--Zygmund theory does not give. This corrected version replaces it by the classical log-corrected bound, and separately records the uncorrected inequality as a named hypothesis. The comparison ODEs, the ceiling under a quartic sink $\kappa M^4$, and the implication from that sink to a finite Beale--Kato--Majda integral are checked in Lean. The sink itself remains open. Numerics at the vorticity maximum are reported and show no sign of a sink.
+\end{abstract}
+
+\section{Setting}
+Let $u$ be a smooth divergence-free solution of the unforced periodic Navier--Stokes equations on $\mathbb{T}^3$, with viscosity $\nu>0$, and let $\omega=\nabla\times u$, $S=\tfrac12(\nabla u+\nabla u^{\top})$. Write $M(t)=\|\omega(t)\|_{L^\infty}$. The vorticity equation is
+\[
+\partial_t\omega+(u\cdot\nabla)\omega=(\omega\cdot\nabla)u+\nu\Delta\omega,
+\qquad \omega\cdot(\omega\cdot\nabla)u=\omega\cdot S\omega .
+\]
+
+\section{The pairing at the maximum, and the corrected source bound}
+\paragraph{Proved (classical).} At a spatial maximum $x$ of $|\omega|$, $\omega\cdot(u\cdot\nabla)\omega=\tfrac12u\cdot\nabla|\omega|^2=0$, and $\omega\cdot\Delta\omega=\tfrac12\Delta|\omega|^2-|\nabla\omega|^2\le0$. Hence, in the sense of upper Dini derivatives,
+\begin{equation}\label{eq:pairing}
+M\,M'\le \omega(x)\cdot S(x)\omega(x)\le \|S\|_{L^\infty}M^2 .
+\end{equation}
+
+\paragraph{The inconsistency in the 7 October version.} That version stated that Biot--Savart is a Calder\'on--Zygmund operator bounded from $L^\infty$ to $\mathrm{BMO}$ and \emph{not} on $L^\infty$, and in the next line used $\omega\cdot S\omega\le C_{\mathrm{CZ}}M^3$. The second statement requires $\|S\|_{L^\infty}\le C_{\mathrm{CZ}}\|\omega\|_{L^\infty}$, which is exactly the $L^\infty$ bound the first statement denies. The Riesz transforms are unbounded on $L^\infty$, so the bound $M'\le C_{\mathrm{CZ}}M^2$ was not proved and is withdrawn as a proved statement.
+
+\paragraph{Replacement (a): the log-corrected bound (classical, not formalized here).} The Beale--Kato--Majda / Kato--Ponce estimate gives, for $s>3/2$,
+\[
+\|\nabla u\|_{L^\infty}\le C\,M\Bigl(1+\log^+\frac{\|\omega\|_{H^s}}{M}\Bigr)+C\|\omega\|_{L^2},
+\]
+so
+\begin{equation}\label{eq:logsource}
+M'\le C M^2\Bigl(1+\log^+\frac{\|\omega\|_{H^s}}{M}\Bigr)+C\|\omega\|_{L^2}M .
+\end{equation}
+The logarithm involves a higher norm, which is controlled only through the BKM integral itself; \eqref{eq:logsource} is therefore an ingredient of the BKM argument, not a closed ODE for $M$.
+
+\paragraph{Replacement (b): conditional, under a named hypothesis.}
+\begin{definition}[\texttt{PeriodicStrainLinfBound}, open]
+There is $C\ge0$ with $\|S(t,x)\|\le C\|\omega(t)\|_{L^\infty}$ for all smooth maximal solutions, all $t$ below the lifespan, and all $x$.
+\end{definition}
+This is not known and is likely false as a uniform statement. Under it, $\omega\cdot S\omega\le CM^3$ (Lean: \texttt{pairing\_le\_of\_periodicStrainLinfBound}) and therefore $M'\le CM^2$.
+
+\section{What the ODEs give (proved in Lean)}
+All statements in this section are abstract real-analysis lemmas in \texttt{CubicSource.lean}, with no \texttt{sorry} and only the standard axioms.
+\begin{proposition}[\texttt{quadratic\_comparison}, \texttt{lifespan\_lower\_bound}]
+If $M>0$ is differentiable and $M'\le CM^2$, then $1/M(t)\ge 1/M_0-Ct$, so $M(t)\le M_0/(1-CM_0t)$ for $CM_0t<1$.
+\end{proposition}
+This is a lifespan lower bound $T^*\ge 1/(CM_0)$ only. The comparison solution $y_0/(1-Cy_0t)$ blows up at $1/(Cy_0)$, so this cannot close BKM.
+\begin{proposition}[\texttt{cubic\_comparison}]
+If $C\ge0$ and $M'\le CM^2(1+\log M)$, then $1/M(t)^2\ge 1/M_0^2-2Ct$.
+\end{proposition}
+Again only a lifespan lower bound: $\int^\infty dM/(M^2\log M)<\infty$, so even a self-referential log correction does not prevent finite-time blowup of the comparison.
+\begin{proposition}[\texttt{fence\_ceiling}, \texttt{sink\_ceiling}]
+If $M$ is continuous with right derivative $M'\le M^2(C-\kappa M)$, $\kappa>0$, then $M\le\max(M_0,C/\kappa)$.
+\end{proposition}
+
+\section{The open gap: the quartic sink}
+\begin{definition}[\texttt{PeriodicQuarticVorticitySink}, open, never assumed]
+For every smooth maximal solution there are $C$ and $\kappa>0$ such that, below the lifespan, $M$ is continuous with right derivative $M'\le M^2(C-\kappa M)$; equivalently, at the maximum, $\omega\cdot S\omega+\nu\,\omega\cdot\Delta\omega\le CM^3-\kappa M^4$.
+\end{definition}
+\begin{theorem}[\texttt{bkm\_bound\_of\_quarticSink}, proved]
+The quartic sink gives $c$ with $M\le c$ and $\int_0^T M\,dt\le cT$ for every $T$ below the lifespan. In particular the BKM integral is finite on $[0,T^*)$ whenever $T^*<\infty$, which by Beale--Kato--Majda would contradict finite lifespan.
+\end{theorem}
+The sink is not derived from the unmodified vorticity equation. It is at least as strong as a uniform bound on the vorticity maximum, i.e.\ it is the problem restated as an inequality.
+
+\section{Three false fixes (unchanged)}
+(i) A formal certificate that expands the assumed rate $M(CM-\kappa M^2)$ into $CM^2-\kappa M^3$ is ring arithmetic on a hypothesis. (ii) The weight $1+\kappa M^2$ turns the source into $CM^3+C\kappa M^5$: a degree-five source, not a sink. (iii) The logarithmic repair needs control of $\|\omega\|_{H^s}$ and is an integral criterion, not a derivation of the sink.
+
+\section{Numerics at the vorticity maximum (not proofs)}
+Pseudo-spectral RK4 runs on $\mathbb{T}^3$ (solver of \texttt{paper/viscous\_balance\_tests.py}; script \texttt{paper/cubic\_source/cubic\_source\_tests.py}), random datum peaked at $|k|=3$, snapshots every $0.05$. At $x^*=\arg\max|\omega|$ we record $\sigma=\omega\cdot S\omega$, $\sigma/M^3$, $\|S\|_{L^\infty}/M$, $\nu\,\omega\cdot\Delta\omega/M^2$, and the proxy $\kappa_{\mathrm{eff}}=(C_{\mathrm{run}}M^3-\sigma)/M^4$ with $C_{\mathrm{run}}=\max\sigma/M^3$.
+\input{numerics_table.tex}
+\paragraph{Reading.} (1) $\|S\|_{L^\infty}/M$ stays in about $[0.33,0.61]$ over the observed range. This is consistent with \texttt{PeriodicStrainLinfBound} on these flows, and says nothing about it in general. (2) $\sigma/M^3$ is mostly positive, with a maximum of $0.12$--$0.21$ per run. Fitting $\log(\sigma/M^3)$ against $\log M$ over the positive snapshots gives slopes between $-0.84$ and $+0.12$. So the source is roughly cubic, or somewhat weaker than cubic, at the maximum. (3) $\sigma$ is negative at some snapshots (0--22\% of them; vortex compression at the maximum). These snapshots are intermittent: the fraction in the top quartile of $M$ (0--20\%) is comparable to the overall fraction, with no systematic trend with $M$. A sink $\kappa M^4$ would require $\sigma/M^3\le C-\kappa M$ at every large $M$; the data show no such ordering. (4) $\kappa_{\mathrm{eff}}$ is nonnegative only by the choice of $C_{\mathrm{run}}$. Its minimum over the top quartile shrinks toward $0$ (down to $3\times10^{-4}$ at the finest run), which is the opposite of a uniform $\kappa>0$. (5) The viscous term at the maximum is negative, of order $10$--$30\,\nu M^2$: a quadratic, not quartic, sink. \emph{Caveats:} grids $64^3$ and $96^3$, with the $96^3$ runs stopped by wall clock before $t=8$; peak vorticity only up to about $50$; one or two seeds; decaying, unforced flow; snapshots every $0.05$; the $\arg\max$ is taken on the grid. Nothing here bears on behaviour near a putative singularity.
+
+\section{Record}
+\textbf{Proved:} the pairing \eqref{eq:pairing}; the comparison lemmas; the sink ceiling; sink $\Rightarrow$ finite BKM integral. \textbf{Conditional:} $M'\le CM^2$ under \texttt{PeriodicStrainLinfBound}; the log-corrected source \eqref{eq:logsource} is classical and not formalized here. \textbf{Open:} \texttt{PeriodicQuarticVorticitySink}. No theorem in this note proves global regularity for the periodic Navier--Stokes equations.
+\end{document}

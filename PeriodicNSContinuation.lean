@@ -67,3 +67,4 @@ import PeriodicNSContinuation.HighSetExit
 import PeriodicNSContinuation.ScaleCriticalBuffer
 import PeriodicNSContinuation.WindowCancellation
 import PeriodicNSContinuation.SmallSeparationGain
+import PeriodicNSContinuation.CubicSource

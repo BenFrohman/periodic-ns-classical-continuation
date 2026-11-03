@@ -68,3 +68,4 @@ import PeriodicNSContinuation.ScaleCriticalBuffer
 import PeriodicNSContinuation.WindowCancellation
 import PeriodicNSContinuation.SmallSeparationGain
 import PeriodicNSContinuation.CubicSource
+import PeriodicNSContinuation.StrainLinf

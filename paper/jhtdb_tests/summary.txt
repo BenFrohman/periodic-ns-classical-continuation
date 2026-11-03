@@ -35,3 +35,50 @@ Citations: Y. Li, E. Perlman, M. Wan, Y. Yang, C. Meneveau, R. Burns, S. Chen, A
 cluster and applications to study Lagrangian evolution of velocity increments in turbulence", J. Turbulence 9, N31 (2008).
 E. Perlman, R. Burns, Y. Li, C. Meneveau, "Data exploration of turbulence simulations using a database cluster", Proc. ACM/IEEE
 Supercomputing (SC07) (2007). JHTDB: https://turbulence.idies.jhu.edu
+
+=====================================================================================================
+RUN 2 (Nov 2 2026): t0 = 1, 3, 5, 7, 9 -- ALL FIVE RUNS COMPLETE (60 windows each, "DONE" in every log)
+Changes vs run 1: retry/backoff + checkpoint every 5 windows; omega_ref from 100*4096 random samples PLUS
+3 rounds of local search (16 jittered neighbours within 3 dx of the top 256 points), 421,888 samples total;
+high set |omega| >= 0.5 omega_ref (>= 64 seeds available in every run, no fallback); 2046 pairs, offsets
+1/2/4/8/16/32 cells (341 pairs each). Analysis: analyze2.py (statistics on the high set = both ends of a
+window in the high set). Raw .npz on the box only: /workspace/archive/jhtdb/r2_t*.npz.
+
+||omega||_inf estimate (all are LOWER bounds):
+ t0 | random-only max | omega_ref after local search | max |omega| seen along trajectories in 60 windows
+  1 | 278.9 | 361.3 | 540.4
+  3 | 305.8 | 509.8 | 741.9
+  5 | 314.0 | 446.3 | 486.3
+  7 | 303.4 | 459.7 | 465.7
+  9 | 321.9 | 425.0 | 566.4
+Local search raised the estimate by 30-67%; trajectories found still larger values, so omega_ref is still
+an underestimate and the windows 1/omega_ref are somewhat too long.
+
+Window drift beta (median cum drift ~ n^beta), offsets 1..32:
+ t0=1: 0.44-0.60   t0=3: 0.41-0.64   t0=5: 0.49-0.64   t0=7: 0.42-0.67   t0=9: 0.42-0.60
+ -> overall 0.41-0.67, random-walk-like (~1/2); no sign of a cancellation better than sqrt(n).
+
+gamma on the high set (log-log fit of median high-set |d_k| vs offset; offsets with >= 20 samples, <= 8 cells):
+ t0=1: 0.26 (1-4 cells: 0.47)  t0=3: 0.57 (0.67)  t0=5: 0.53 (0.56)  t0=7: 0.40 (0.45)  t0=9: 0.51 (0.44)
+ -> 0.26-0.57 (fits over 1-4 cells: 0.44-0.67). Spread straddles 1/2; no consistent gain above 1/2.
+ Offsets 16 and 32 cells have too few high-set samples (0-148) for a fit; pairs leave the high set fast.
+
+Holder quotient G/sqrt(r) on the high set, median first third / last third of windows (box units):
+ off |   t0=1    |   t0=3    |   t0=5    |   t0=7    |   t0=9
+   1 | 1.53/1.94 | 1.76/2.09 | 1.84/0.87*| 1.51/1.55 | 1.48/1.52
+   2 | 2.14/2.16 | 2.64/2.54 | 2.25/2.07*| 1.85/2.48 | 1.71/1.66
+   4 | 2.94/3.02 | 2.68/2.01 | 4.11/2.03*| 3.00/ -   | 1.68/1.45
+   8 | 3.87/2.50*| 2.20/2.20 | 2.40/ -   | 3.05/ -   | 5.21/2.22*
+  16 | 3.78/3.88*| 1.26/2.08 |  -  / -   | 4.49/3.33*|  -  /2.48*
+  32 |  -  / -   | 1.63/ -   |  -  / -   |  -  / -   | 2.37/ -
+ (* = fewer than 30 samples in one third; '-' = none.) Quotient grows with offset at fixed time (as expected
+ if gamma < 1/2 near these scales) and stays O(1-5) over the run; the run-1 near-doubling at offset 1
+ (1.37 -> 2.56) is NOT reproduced robustly: 1.53->1.94, 1.76->2.09, 1.51->1.55, 1.48->1.52, and it fell at t0=5.
+
+Conclusions / caveats:
+- Offsets 1-8 cells = 2-17 eta are near-dissipative scales where smooth (Taylor, gamma -> 1) behaviour is expected;
+  even so gamma_high is mostly ~1/2 or below. Nothing here indicates a gain uniform in Re; one Re only.
+- 60 windows ~ 0.12-0.17 time units per run; five start times of ONE statistically stationary forced flow
+  (not independent flows, not near-singular).
+- omega_ref is a sampled lower bound (see table). High-set statistics thin out quickly at larger offsets.
+- This is numerical evidence only; it proves nothing and does not bear on any claim of regularity.

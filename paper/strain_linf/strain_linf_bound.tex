@@ -9,11 +9,11 @@
 \theoremstyle{definition}\newtheorem{definition}{Definition}
 \begin{document}\maketitle
 \begin{center}Copyright \copyright\ 2026 Benjamin Stanley Frohman. Released under CC BY 4.0.\\
-Lean record \texttt{PeriodicNSContinuation/StrainLinf.lean} (Apache-2.0).\\
+Lean record: \texttt{PeriodicNSContinuation/StrainLinf.lean} (Apache-2.0) in \texttt{github.com/BenFrohman/periodic-ns-classical-continuation}, commit \texttt{7b1bdbd}.\\
 This document does not claim a solution of the Navier--Stokes Millennium Problem.\end{center}
 
 \begin{abstract}
-\texttt{PeriodicStrainLinfBound} asks for one constant $C$ with $\|S(t,x)\|\le C\|\omega(t)\|_{L^\infty}$ for every smooth periodic Navier--Stokes solution. We show it is false as stated, already at $t=0$: an explicit family of divergence-free trigonometric polynomials on $\mathbb{T}^3$ has $\|\omega_K\|_\infty\le 1.403$ and $\|S_K\|_\infty\ge\tfrac2\pi\log K$. The arithmetic divergence is proved in Lean; the Fourier identity and the Gibbs bound are classical and are checked numerically. We record the conditional results that do give the bound, and what remains of it for Navier--Stokes solutions.
+\texttt{PeriodicStrainLinfBound} asks for one constant $C$ with $\|S(t,x)\|\le C\|\omega(t)\|_{L^\infty}$ for every smooth periodic Navier--Stokes solution. We show it is false as stated, modulo classical local existence (not formalized), already at $t=0$. An explicit family of divergence-free trigonometric polynomials on $\mathbb{T}^3$ has $\|\omega_K\|_\infty$ bounded uniformly in $K$: numerically $\le1.403$ for all odd $K\ge7$ and $\le16/\pi^2\approx1.621$ for all $K$ (attained at $K=1$), rigorously $\le(6\operatorname{Si}(\pi)/\pi)^2\approx12.5$ for all $K$, with limit $(\tfrac2\pi\operatorname{Si}\pi)^2\approx1.390$. Meanwhile $\|S_K\|_\infty\to\infty$; the asymptotic $\|S_K\|_\infty\sim\tfrac2\pi\log K$ is classical and confirmed numerically. Lean proves only the divergence of the underlying double sum (\texttt{bcSum\_unbounded}, lower bound $\tfrac18\sum_{i<n}\tfrac1{i+1}$), not the sharp constant. The Fourier identity and the Gibbs bounds are classical and checked numerically. We record the conditional results that do give the bound, and what remains of it for Navier--Stokes solutions.
 \end{abstract}
 
 \section{Literature}
@@ -32,7 +32,10 @@ so $\|S_K(0)\|_{op}=S_{11}(0)$.
 \begin{theorem}[\texttt{bcSum\_unbounded}, proved in Lean]
 $\sum_{i,j<n}\frac{1}{(2i+1)^2+(2j+1)^2}\to\infty$. More precisely it is at least $\tfrac18\sum_{i<n}\tfrac1{i+1}$.
 \end{theorem}
-The Gibbs bound $\sup|f_K|\le \tfrac2\pi\operatorname{Si}(\pi)\approx1.1790$, uniform in $K$, is classical; so $\|\omega_K\|_\infty\lesssim1.39$ while $\|S_K\|_\infty\ge S_{11}(0)\sim\tfrac2\pi\log K$. The ratio $\|S\|_\infty/\|\omega\|_\infty$ is invariant under $u\mapsto\lambda u(\mu\,\cdot)$, so no rescaling removes the divergence.
+\paragraph{Vorticity bound.} Writing $f_K(x)=g_K(x)-\tfrac12g_K(2x)$ with $g_n(x)=\tfrac4\pi\sum_{k\le n}\sin(kx)/k$, the classical bound $|\sum_{k\le n}\sin(kx)/k|\le\operatorname{Si}(\pi)\approx1.852$ (Fej\'er--Jackson--Gronwall) gives the rigorous uniform bound $\sup|f_K|\le\tfrac6\pi\operatorname{Si}(\pi)$, so $\|\omega_K\|_\infty\le(6\operatorname{Si}(\pi)/\pi)^2\approx12.5$ for all $K$. Numerically $\sup|f_K|^2$ decreases in $K$: $1.621\ (K=1)$, $1.441\ (K=3)$, $1.412\ (K=5)$, $1.4024\ (K=7)$, so $\|\omega_K\|_\infty\le1.403$ for all odd $K\ge7$ (and $\le16/\pi^2$ for all $K$). The limit is $(\tfrac2\pi\operatorname{Si}\pi)^2\approx1.3900$ (Gibbs constant squared).
+
+\paragraph{Strain growth.} $\|S_K\|_\infty\ge S_{11}(0)\to\infty$. The asymptotic $S_{11}(0)\sim\tfrac2\pi\log K$ is classical (the lattice sum $\sum_{k,l\ \mathrm{odd}\le K}(k^2+l^2)^{-1}\sim\tfrac\pi8\log K$) and is confirmed numerically below. Lean proves only divergence, with the non-sharp lower bound $\tfrac{16}{\pi^2}\cdot\tfrac18\sum_{i<n}\tfrac1{i+1}$, $n=(K+1)/2$; the sharp constant $\tfrac2\pi$ is not formalized.
+The ratio $\|S\|_\infty/\|\omega\|_\infty$ is invariant under $u\mapsto\lambda u(\mu\,\cdot)$, so no rescaling removes the divergence.
 
 \paragraph{Numerics (complete; exact sums at the origin, grid sup of $\|S\|_{op}$ on an $8K\times8K$ grid up to $K=255$).}
 \input{tables.tex}
@@ -47,11 +50,11 @@ The first table shows $\|\omega_K\|_\infty\to1.3900=(\tfrac2\pi\operatorname{Si}
 
 \section{Could it hold for Navier--Stokes solutions?}
 \begin{enumerate}
-\item \textbf{Uniform constant: false.} \texttt{PeriodicStrainLinfBound} quantifies over all smooth periodic data with one $C$, at all $t\ge0$ including $t=0$. Each $u_K$ is smooth periodic divergence-free data with a smooth local solution (classical local well-posedness; it is in fact global, being 2D). At $t=0$ the bound fails as $K\to\infty$. In Lean this is not yet a formal refutation: the repo has no local-existence theorem to produce \texttt{IsPeriodicMaximalSolution} for $u_K$, so the Prop remains an unassumed named hypothesis, now recorded as false modulo classical local existence.
+\item \textbf{Uniform constant: false as stated, modulo classical local existence (not formalized).} \texttt{PeriodicStrainLinfBound} quantifies over all smooth periodic data with one $C$, at all $t\ge0$ including $t=0$. Each $u_K$ is smooth periodic divergence-free data with a smooth local solution (classical local well-posedness; it is in fact global, being 2D). At $t=0$ the bound fails as $K\to\infty$. In Lean this is not yet a formal refutation: the repo has no local-existence theorem to produce \texttt{IsPeriodicMaximalSolution} for $u_K$, so the Prop remains an unassumed named hypothesis, now recorded as false modulo classical local existence.
 \item \textbf{Constant depending on the solution, up to $T^*$: open, and not enough.} Any smooth solution satisfies $\|S\|_\infty\le C_T\|\omega\|_\infty$ on each $[0,T]$, $T<T^*$, trivially. Whether $C$ can be taken uniform up to a finite $T^*$ is open. Even if it could, it gives only $M'\le CM^2$, a lifespan bound, not regularity (cubic-source note, \S3).
 \item \textbf{Positive-time smoothing.} Viscosity regularises the data instantly, so a bound with $C$ depending on $\nu$, $t>0$ and the energy might hold away from $t=0$ (the numerics are consistent with this). Near a putative singularity this is exactly what is unknown.
 \end{enumerate}
 
 \section{Record}
-\textbf{Proved (Lean):} \texttt{bcSum\_unbounded}. \textbf{Classical, checked numerically:} Fourier identity for $S_{11}(0)$, Gibbs bound, $\tfrac2\pi\log K$ growth. \textbf{Conclusion:} \texttt{PeriodicStrainLinfBound} as stated is false (modulo local existence, not formalized). \textbf{Open:} solution-dependent constant up to $T^*$; not sufficient for regularity in any case.
+\textbf{Proved (Lean):} \texttt{bcSum\_unbounded} (divergence only, lower bound $\tfrac18\sum_{i<n}\tfrac1{i+1}$; not the sharp constant). \textbf{Classical, checked numerically:} Fourier identity for $S_{11}(0)$, Gibbs bounds, $\tfrac2\pi\log K$ asymptotic growth. \textbf{Conclusion:} \texttt{PeriodicStrainLinfBound} is false as stated, modulo classical local existence (not formalized). \textbf{Open:} solution-dependent constant up to $T^*$; not sufficient for regularity in any case.
 \end{document}

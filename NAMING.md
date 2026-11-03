@@ -55,7 +55,7 @@ Dates for May/June items are folder labels, not server timestamps; git history s
 |---|---|---|
 | `FrohmanianDirectionCoercivity` (with `OrthogonalStrainSublinear`) — the scale-invariant form of (A): bending $=o(|\omega|)$ on the high set | **OPEN**. (A) implies it (proved, `frohmanianDirectionCoercivity_of_A`). Whether it gives (B) or Hölder direction is an open target, not a theorem. | `PeriodicNSContinuation/FrohmanianDirectionCoercivity.lean`; flow tests `paper/fdc_flow_tests.py` |
 | `lineGap`, `VortLineHolderHalf`, `OrthogonalStrainToLineHolder` = `FrohmanianTetherHypothesisB_line`, `FrohmanianTetherHypothesis_line` (A ∧ B_line), `PeriodicLineDirectionCriterion` (classical \|sin\| criterion, hypothesis) | Line-field version of (B), **added next to** the signed (B), which is unchanged. **OPEN.** Proved: signed ⇒ line; `sinShear` satisfies line (B); conditional chain to `PeriodicBKMIntegrability`. | `PeriodicNSContinuation/LineField.lean` |
-| `PeriodicStrainLinfBound` — $\|S\|_\infty\le C\|\omega\|_\infty$ uniformly (the step the 7 Oct cubic-source note wrongly called CZ-proved) | **FALSE as stated (modulo classical local existence, not formalized); never assumed.** Bahouri–Chemin family $\|\omega_K\|_\infty\le1.403$, $\|S_K\|_\infty\ge\frac2\pi\log K$; arithmetic core `bcSum_unbounded` in `StrainLinf.lean`; note `paper/strain_linf/`. Conditional: `pairing_le_of_periodicStrainLinfBound` ($\omega\cdot S\omega\le CM^3$). CZ does not give it (Riesz transforms unbounded on $L^\infty$). | `PeriodicNSContinuation/CubicSource.lean`; note `paper/cubic_source/` |
+| `PeriodicStrainLinfBound` — $\|S\|_\infty\le C\|\omega\|_\infty$ uniformly (the step the 7 Oct cubic-source note wrongly called CZ-proved) | **REFUTED in Lean for every $\nu>0$ (`not_periodicStrainLinfBound`, `StrainLinfRefutation.lean`, Nov 3 2026); never assumed.** Bahouri–Chemin family $\|\omega_K\|_\infty\le1.403$, $\|S_K\|_\infty\ge\frac2\pi\log K$; arithmetic core `bcSum_unbounded` in `StrainLinf.lean`; note `paper/strain_linf/`. Conditional: `pairing_le_of_periodicStrainLinfBound` ($\omega\cdot S\omega\le CM^3$). CZ does not give it (Riesz transforms unbounded on $L^\infty$). | `PeriodicNSContinuation/CubicSource.lean`; note `paper/cubic_source/` |
 | `PeriodicQuarticVorticitySink` — $M'\le M^2(C-\kappa M)$, $\kappa>0$, below the lifespan | **OPEN, never assumed**; restates the problem. Proved: it implies a uniform ceiling and the BKM bound (`bkm_bound_of_quarticSink`). Numerics show no sink. | `PeriodicNSContinuation/CubicSource.lean`; tests `paper/cubic_source/cubic_source_tests.py` |
 
 ## ViscousDirection (Nov 2026, coined)
@@ -86,3 +86,10 @@ Proved: `riccati_comparison`, `bound_of_viscousStrainBound` (lifespan/small-data
 $M(t)\le M_0/(1-M_0\int c)$ only), `riccati_saturates`, `riccati_saturates_unbounded` (a bounded constant
 does not prevent ODE blow-up), `log_smoothing_split`. Verdict: even if true, the variant does not give
 regularity; closing it still needs BKM ($\int\|\omega\|_\infty<\infty$). Note `paper/viscous_strain/`.
+
+## StrainLinfRefutation.lean (Nov 3 2026, coined)
+Proved, no new hypothesis Props: **`not_periodicStrainLinfBound_of_static`** (local existence + maximal
+solutions + failure of the static bound $\Rightarrow$ `PeriodicStrainLinfBound ν` fails, by evaluating at $t=0$) and
+**`not_periodicStrainLinfBound`** ($\nu>0\Rightarrow\neg$`PeriodicStrainLinfBound ν`, unconditional: inputs
+`periodicLocalExistence_of_nonneg`, `periodicMaximalSolution_of_uniqueness`, `periodicEnergyDifferenceEstimate`,
+`StrainLinfFamily.not_staticStrainLinfBound`). Status of `PeriodicStrainLinfBound`: **REFUTED**.

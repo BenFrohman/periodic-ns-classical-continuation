@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \title{A cubic source for the vorticity maximum,\\ and a recorded gap in the periodic continuation criterion}
 \author{Benjamin Stanley Frohman}
-\date{7 October 2026; corrected 2 November 2026}
+\date{7 October 2026; corrected 3 November 2026}
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 \theoremstyle{definition}
@@ -13,6 +13,7 @@
 \newtheorem{remark}{Remark}
 \begin{document}
 \maketitle
+\sloppy
 \begin{center}
 Copyright \copyright\ 2026 Benjamin Stanley Frohman.\\
 This note is released under the Creative Commons Attribution 4.0 International license (CC BY 4.0).\\
@@ -50,10 +51,24 @@ M'\le C M^2\Bigl(1+\log^+\frac{\|\omega\|_{H^s}}{M}\Bigr)+C\|\omega\|_{L^2}M .
 The logarithm involves a higher norm, which is controlled only through the BKM integral itself; \eqref{eq:logsource} is therefore an ingredient of the BKM argument, not a closed ODE for $M$.
 
 \paragraph{Replacement (b): conditional, under a named hypothesis.}
-\begin{definition}[\texttt{PeriodicStrainLinfBound}, open]
+\begin{definition}[\texttt{PeriodicStrainLinfBound}, false]
 There is $C\ge0$ with $\|S(t,x)\|\le C\|\omega(t)\|_{L^\infty}$ for all smooth maximal solutions, all $t$ below the lifespan, and all $x$.
 \end{definition}
-This is not known and is likely false as a uniform statement. Under it, $\omega\cdot S\omega\le CM^3$ (Lean: \texttt{pairing\_le\_of\_periodicStrainLinfBound}) and therefore $M'\le CM^2$.
+This hypothesis is \emph{false} for every $\nu>0$ (Remark~\ref{rem:refuted}); it is recorded only to show what it would have given. Under it, $\omega\cdot S\omega\le CM^3$ (Lean: \texttt{pairing\_le\_of\_periodicStrainLinfBound}) and therefore $M'\le CM^2$.
+
+\begin{remark}[\texttt{PeriodicStrainLinfBound} is false]\label{rem:refuted}
+For every $\nu>0$ there is no $C\ge0$ with $\|S(t,x)\|\le C\|\omega(t)\|_{L^\infty}$ along all smooth maximal solutions (Lean: \texttt{not\_periodicStrainLinfBound}, file \texttt{StrainLinfRefutation.lean}).
+\end{remark}
+\begin{proof}
+\emph{Step 1 (static failure).} Let $f_K(s)=\frac4\pi\sum_{i<N}\frac{\sin(2\pi(2i+1)s)}{2i+1}$, $K=2N-1$, and let $u_K$ be the smooth, divergence-free, $\mathbb Z^3$-periodic, $z$-independent field with $\omega_K=\operatorname{curl}u_K=f_K(x)f_K(y)\,e_z$. Then $|f_K|\le 6$, so $\|\omega_K\|_{L^\infty}\le36$ for all $K$ (Lean: \texttt{vorticity\_sup\_norm\_uK\_le}; numerically $\|\omega_K\|_\infty\le1.403$ for odd $K\ge7$). The Fourier identity gives
+\[
+S_{11}(u_K)(0)=\frac{16}{\pi^2}\sum_{i,j<N}\frac{1}{(2i+1)^2+(2j+1)^2}\ \ge\ \frac{2}{\pi^2}\log(N+1)
+\]
+(Lean: \texttt{strain00\_origin}, \texttt{bcSum\_ge\_log}), and the sum diverges (\texttt{bcSum\_unbounded}); asymptotically $\|S(u_K)(0)\|\sim\frac2\pi\log K$. Hence no $C$ satisfies $\|S(u)(x)\|\le C\|\omega(u)\|_{L^\infty}$ for all smooth periodic divergence-free $u$ (\texttt{not\_staticStrainLinfBound}).
+
+\emph{Step 2 (from data to solutions).} Suppose the solution-level bound held with constant $C$. Take any smooth periodic datum $u_0$. Local existence gives $T^*(u_0)>0$ (\texttt{periodicLocalExistence\_of\_nonneg}), and uniqueness gives a maximal solution $u$ (\texttt{periodicMaximalSolution\_of\_uniqueness}, \texttt{periodicEnergyDifferenceEstimate}). Choose $0<T<T^*$; the solution on $[0,T]$ satisfies $u(0)=u_0$. The bound at $t=0$ then reads $\|S(u_0)(x)\|\le C\|\omega(u_0)\|_{L^\infty}$, i.e.\ the static bound, contradicting Step~1 (Lean: \texttt{not\_periodicStrainLinfBound\_of\_static}).
+\end{proof}
+All inputs are theorems in the repository; no hypothesis Prop is used, and \texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. Only the sharp Gibbs constant $\approx1.39$ is numerical, and it is not needed. The counterexample is classical (Bahouri--Chemin type); the explicit periodic version is published as B.~S.~Frohman, \emph{Is $\|S\|_{L^\infty}\le C\|\omega\|_{L^\infty}$? A deep check of \texttt{PeriodicStrainLinfBound}}, Zenodo, doi:10.5281/zenodo.23904623 (Lean: \texttt{PeriodicNSContinuation/StrainLinf.lean}, commit \texttt{216ba1c}). The refutation concerns only the $t=0$ uniform bound; the $\nu,t$-dependent variant for $t>0$ is a different statement and is not addressed here.
 
 \section{What the ODEs give (proved in Lean)}
 All statements in this section are abstract real-analysis lemmas in \texttt{CubicSource.lean}, with no \texttt{sorry} and only the standard axioms.
@@ -84,8 +99,8 @@ The sink is not derived from the unmodified vorticity equation. It is at least a
 \section{Numerics at the vorticity maximum (not proofs)}
 Pseudo-spectral RK4 runs on $\mathbb{T}^3$ (solver of \texttt{paper/viscous\_balance\_tests.py}; script \texttt{paper/cubic\_source/cubic\_source\_tests.py}), random datum peaked at $|k|=3$, snapshots every $0.05$. At $x^*=\arg\max|\omega|$ we record $\sigma=\omega\cdot S\omega$, $\sigma/M^3$, $\|S\|_{L^\infty}/M$, $\nu\,\omega\cdot\Delta\omega/M^2$, and the proxy $\kappa_{\mathrm{eff}}=(C_{\mathrm{run}}M^3-\sigma)/M^4$ with $C_{\mathrm{run}}=\max\sigma/M^3$.
 \input{numerics_table.tex}
-\paragraph{Reading.} (1) $\|S\|_{L^\infty}/M$ stays in about $[0.33,0.61]$ over the observed range. This is consistent with \texttt{PeriodicStrainLinfBound} on these flows, and says nothing about it in general. (2) $\sigma/M^3$ is mostly positive, with a maximum of $0.12$--$0.21$ per run. Fitting $\log(\sigma/M^3)$ against $\log M$ over the positive snapshots gives slopes between $-0.84$ and $-0.13$. So the source is roughly cubic, or somewhat weaker than cubic, at the maximum. (3) $\sigma$ is negative at some snapshots (0--22\% of them; vortex compression at the maximum). These snapshots are intermittent: the fraction in the top quartile of $M$ (0--20\%) is comparable to the overall fraction, with no systematic trend with $M$. A sink $\kappa M^4$ would require $\sigma/M^3\le C-\kappa M$ at every large $M$; the data show no such ordering. (4) $\kappa_{\mathrm{eff}}$ is nonnegative only by the choice of $C_{\mathrm{run}}$. Its minimum over the top quartile shrinks toward $0$ (down to $4\times10^{-4}$ at the finest run), which is the opposite of a uniform $\kappa>0$. (5) The viscous term at the maximum is negative, of order $10$--$35\,\nu M^2$: a quadratic, not quartic, sink. \emph{Caveats:} grids $64^3$ and $96^3$, all six runs complete to $t=8$; peak vorticity only up to about $50$; one or two seeds; decaying, unforced flow; snapshots every $0.05$; the $\arg\max$ is taken on the grid. Nothing here bears on behaviour near a putative singularity.
+\paragraph{Reading.} (1) $\|S\|_{L^\infty}/M$ stays in about $[0.33,0.61]$ over the observed range. So a ratio bound holds on these particular flows; the uniform bound \texttt{PeriodicStrainLinfBound} is nonetheless false in general (Remark~\ref{rem:refuted}). (2) $\sigma/M^3$ is mostly positive, with a maximum of $0.12$--$0.21$ per run. Fitting $\log(\sigma/M^3)$ against $\log M$ over the positive snapshots gives slopes between $-0.84$ and $-0.13$. So the source is roughly cubic, or somewhat weaker than cubic, at the maximum. (3) $\sigma$ is negative at some snapshots (0--22\% of them; vortex compression at the maximum). These snapshots are intermittent: the fraction in the top quartile of $M$ (0--20\%) is comparable to the overall fraction, with no systematic trend with $M$. A sink $\kappa M^4$ would require $\sigma/M^3\le C-\kappa M$ at every large $M$; the data show no such ordering. (4) $\kappa_{\mathrm{eff}}$ is nonnegative only by the choice of $C_{\mathrm{run}}$. Its minimum over the top quartile shrinks toward $0$ (down to $4\times10^{-4}$ at the finest run), which is the opposite of a uniform $\kappa>0$. (5) The viscous term at the maximum is negative, of order $10$--$35\,\nu M^2$: a quadratic, not quartic, sink. \emph{Caveats:} grids $64^3$ and $96^3$, all six runs complete to $t=8$; peak vorticity only up to about $50$; one or two seeds; decaying, unforced flow; snapshots every $0.05$; the $\arg\max$ is taken on the grid. Nothing here bears on behaviour near a putative singularity.
 
 \section{Record}
-\textbf{Proved:} the pairing \eqref{eq:pairing}; the comparison lemmas; the sink ceiling; sink $\Rightarrow$ finite BKM integral. \textbf{Conditional:} $M'\le CM^2$ under \texttt{PeriodicStrainLinfBound}; the log-corrected source \eqref{eq:logsource} is classical and not formalized here. \textbf{Open:} \texttt{PeriodicQuarticVorticitySink}. No theorem in this note proves global regularity for the periodic Navier--Stokes equations.
+\textbf{Proved:} the pairing \eqref{eq:pairing}; the comparison lemmas; the sink ceiling; sink $\Rightarrow$ finite BKM integral. \textbf{Refuted (proved in Lean):} \texttt{PeriodicStrainLinfBound} (Remark~\ref{rem:refuted}), so the conditional $M'\le CM^2$ under it is vacuous as a route; the log-corrected source \eqref{eq:logsource} is classical and not formalized here. \textbf{Open:} \texttt{PeriodicQuarticVorticitySink}. No theorem in this note proves global regularity for the periodic Navier--Stokes equations.
 \end{document}

@@ -17,8 +17,8 @@ Companion to `paper/cubic_source/cubic_source_gap.tex`. Coined names (Nov 2026):
   for `t < 1/(C M₀)`; this is only a lifespan lower bound. The log-corrected rate
   `M' ≤ C M² (1 + log M)` is weakened to `M' ≤ C M³`, which gives `1/M(t)² ≥ 1/M₀² − 2 C t`: again only a
   lifespan lower bound. `M' ≤ M² (C − κ M)` with `κ > 0` gives `M ≤ max(M₀, C/κ)` for all time.
-* **Conditional.** `PeriodicStrainLinfBound` (OPEN, likely false as a uniform statement: Riesz
-  transforms are unbounded on `L^∞`) gives the pointwise pairing bound `ω·Sω ≤ C M³`.
+* **Conditional.** `PeriodicStrainLinfBound` (**REFUTED** for every `ν > 0`:
+  `not_periodicStrainLinfBound` in `StrainLinfRefutation.lean`) gives the pointwise pairing bound `ω·Sω ≤ C M³`.
 * **Open.** `PeriodicQuarticVorticitySink` is never assumed. `bkm_bound_of_quarticSink` proves that
   it would bound `M` and the BKM integral `∫₀ᵀ M` uniformly for `T` below the lifespan.
 -/
@@ -150,7 +150,8 @@ theorem pairing_le_of_strain_bound {S : T3 →L[ℝ] T3} {w : T3} {M C : ℝ}
         exact mul_le_mul hS hw hn (le_trans (norm_nonneg _) hS)
     _ = C * M ^ 3 := by ring
 
-/-- Coined (Nov 2026). **OPEN, and likely false as stated.** A uniform pointwise `L^∞` strain bound
+/-- Coined (Nov 2026). **FALSE for every `ν > 0`** (proved: `not_periodicStrainLinfBound`,
+`StrainLinfRefutation.lean`, via the Bahouri–Chemin-type family at `t = 0`). A uniform pointwise `L^∞` strain bound
 `‖S(t,x)‖ ≤ C ‖ω(t)‖_∞` along smooth maximal solutions. Calderón–Zygmund theory does not give it
 (Riesz transforms are unbounded on `L^∞`); the classical bound carries a factor
 `1 + log⁺(‖ω‖_{H^s}/‖ω‖_∞)`. Never assumed anywhere. -/

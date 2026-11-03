@@ -7,8 +7,10 @@ Family on `T³` (z-independent, `u₃ = 0`): `ω_K = f_K(x) f_K(y) e_z`, with `f
 sum of `sgn(sin x)`. Then `‖ω_K‖_∞ → ((2/π) Si π)² ≈ 1.39` (Gibbs; classical, checked numerically),
 and the strain at the origin is `S₁₁(0) = (16/π²) · bcSum n`, `n = (K+1)/2` (Fourier computation,
 checked numerically in `paper/strain_linf/`). This file proves only the arithmetic core:
-`bcSum` is unbounded. Not formalized here: the Fourier identity, the Gibbs bound, and the local
-existence that would turn the family into a Lean refutation of `PeriodicStrainLinfBound`.
+`bcSum` is unbounded. The Fourier identity and a uniform (non-sharp) vorticity bound are proved in
+`StrainLinfFamily.lean`, and the full Lean refutation of `PeriodicStrainLinfBound` is
+`not_periodicStrainLinfBound` in `StrainLinfRefutation.lean`. The sharp Gibbs constant is not
+formalized.
 -/
 
 open Finset Filter Topology

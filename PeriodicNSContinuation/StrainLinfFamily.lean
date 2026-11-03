@@ -1,5 +1,6 @@
 import PeriodicNSContinuation.BendingRate
 import PeriodicNSContinuation.StrainLinf
+import PeriodicNSContinuation.SineSumBound
 
 open Finset Filter Topology FeffermanClayNS NavierStokes3D
 open scoped RealInnerProductSpace
@@ -230,5 +231,55 @@ theorem strain_norm_origin_ge (N : ℕ) :
     _ ≤ 1 * (‖strainAt (uK N) 0‖ * 1) := by
         rw [h1]; gcongr; simpa [h1] using (strainAt (uK N) 0).le_opNorm (EuclideanSpace.single 0 1)
     _ = _ := by ring
+
+/-- **Milestone 2.** Uniform profile bound `|F_N(a)| ≤ 18/π`. -/
+theorem abs_F_le (N : ℕ) (a : ℝ) : |F N a| ≤ 18 / Real.pi := by
+  have e : F N a = (4 / Real.pi) *
+      ∑ i ∈ range N, Real.sin ((2*(i:ℝ)+1) * (2 * Real.pi * a)) / (2*(i:ℝ)+1) := by
+    rw [F, mul_sum]; apply sum_congr rfl; intro i _; simp only [kk]; ring_nf
+  rw [e, abs_mul, abs_of_pos (by positivity : (0:ℝ) < 4 / Real.pi)]
+  have := SineSumBound.abs_odd_sum_le N (2 * Real.pi * a)
+  calc _ ≤ 4 / Real.pi * (9/2) := by gcongr
+    _ = 18 / Real.pi := by ring
+
+lemma eighteen_div_pi_le : 18 / Real.pi ≤ 6 := by
+  rw [div_le_iff₀ Real.pi_pos]; linarith [Real.pi_gt_three]
+
+/-- **Milestone 2.** Uniform vorticity bound `|ω_K(x)| ≤ 36` for every `N`, `x`. -/
+theorem norm_vort_le (N : ℕ) (x : T3) : ‖vorticity (uK N) x‖ ≤ 36 := by
+  rw [vort_eq, EuclideanSpace.norm_single, Real.norm_eq_abs, abs_mul]
+  have h1 := (abs_F_le N (x 0)).trans eighteen_div_pi_le
+  have h2 := (abs_F_le N (x 1)).trans eighteen_div_pi_le
+  calc _ ≤ 6 * 6 := mul_le_mul h1 h2 (abs_nonneg _) (by norm_num)
+    _ = 36 := by norm_num
+
+theorem vorticity_sup_norm_uK_le (N : ℕ) : vorticity_sup_norm (vorticity (uK N)) ≤ 36 :=
+  ciSup_le (norm_vort_le N)
+
+/-- Coined. The **static** `L^∞` strain bound: one constant `C` with `‖S u(x)‖ ≤ C ‖ω u‖_∞` for
+every smooth, divergence-free, `ℤ³`-periodic field `u` and every point `x`. No time, no
+Navier–Stokes, no local existence. -/
+def StaticStrainLinfBound : Prop :=
+  ∃ C : ℝ, ∀ u : VelocityField, IsPeriodicSmoothInitialData u → ∀ x : T3,
+    ‖strainAt u x‖ ≤ C * vorticity_sup_norm (vorticity u)
+
+/-- **Milestone 3 (Proved).** The static `L^∞` strain bound is false: the explicit family `u_K`
+is smooth, periodic and divergence-free with `‖ω_K‖_∞ ≤ 36`, while
+`‖S_K(0)‖ ≥ (16/π²) bcSum N → ∞`. -/
+theorem not_staticStrainLinfBound : ¬ StaticStrainLinfBound := by
+  rintro ⟨C, hC⟩
+  have hev := (StrainLinf.bcSum_unbounded).eventually_gt_atTop (max C 0 * 36 * Real.pi ^ 2 / 16)
+  obtain ⟨N, hN⟩ := hev.exists
+  have hS := (strain_norm_origin_ge N).trans (hC (uK N) (uK_initialData N) 0)
+  have hsup := vorticity_sup_norm_uK_le N
+  have h0 := vorticity_sup_norm_nonneg (vorticity (uK N))
+  have hCs : C * vorticity_sup_norm (vorticity (uK N)) ≤ max C 0 * 36 :=
+    (mul_le_mul_of_nonneg_right (le_max_left C 0) h0).trans
+      (mul_le_mul_of_nonneg_left hsup (le_max_right C 0))
+  have hp : 0 < Real.pi ^ 2 := by positivity
+  rw [div_lt_iff₀ (by norm_num : (0:ℝ) < 16)] at hN
+  have : 16 / Real.pi ^ 2 * StrainLinf.bcSum N ≤ max C 0 * 36 := hS.trans hCs
+  rw [div_mul_eq_mul_div, div_le_iff₀ hp] at this
+  linarith
 
 end PeriodicNSContinuation.StrainLinfFamily

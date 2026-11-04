@@ -251,7 +251,7 @@ Coined names: `compR`, `torusMk`, `torusComp`, `torusCompC`, `mFourier_torusMk`,
 ## Higher regularity (`PeriodicNSContinuation/HigherRegularity.lean`)
 
 This uses the tame Galerkin estimate now proved in torus-fourier-ns-lemmas (`TameTransport.lean`;
-the dependency pin is bumped to `2356dcb`).
+the dependency pin is bumped to `e63af4e`).
 
 **Proved:**
 * `hs_bound_of_galerkin (0 ≤ ν) (5/2 < s)`: a mode-wise limit of Galerkin solutions from smooth

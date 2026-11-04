@@ -462,3 +462,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.norm_bendKernel_perp_le
 #print axioms PeriodicNSContinuation.norm_bendKernel_sub_aligned_le
 #print axioms PeriodicNSContinuation.norm_bending_sum_le
+
+-- ViscousStrainBound (note: The viscous strain bound)
+#print axioms PeriodicNSContinuation.ViscousStrain.riccati_comparison
+#print axioms PeriodicNSContinuation.ViscousStrain.bound_of_viscousStrainBound
+#print axioms PeriodicNSContinuation.ViscousStrain.riccati_saturates
+#print axioms PeriodicNSContinuation.ViscousStrain.riccati_saturates_unbounded
+#print axioms PeriodicNSContinuation.ViscousStrain.log_smoothing_split

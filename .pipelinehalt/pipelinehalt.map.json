@@ -1,0 +1,93 @@
+{
+  "claims": {
+    "theorem-1": {
+      "lean": [
+        "periodicLocalExistence_of_nonneg"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-2": {
+      "lean": [
+        "periodicEnergyDifferenceEstimate",
+        "eq_zero_of_deriv_le_mul",
+        "periodicVelocityUniqueness_of_energy"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "eq:hs-identity": {
+      "lean": [
+        "periodicFourierCoeffODE",
+        "periodicFourierCoeffDecay",
+        "periodicFourierHsEnergyIdentity",
+        "PeriodicFourierCoeffODE",
+        "PeriodicFourierCoeffDecay",
+        "PeriodicFourierHsEnergyIdentity",
+        "periodicFourierHsEnergyIdentity_of_coeff"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-4": {
+      "lean": [
+        "hasSum_prod_cubeCoeff",
+        "torusLift"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-5": {
+      "lean": [
+        "hasSum_rate_three"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-6": {
+      "lean": [
+        "cellI_ibp",
+        "cellI_ibp'",
+        "DL_mul",
+        "gagliardoNirenberg_cell",
+        "cellI_sq_mul_abs_le",
+        "lower_term_bound",
+        "physQ",
+        "top_term_zero"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-7": {
+      "lean": [
+        "periodicBKMCriterion_of_hsControl",
+        "PeriodicBKMHsControl"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "proposition-8": {
+      "lean": [
+        "periodicFourierCommutatorBound_of_physical",
+        "PeriodicPhysicalCommutatorBound",
+        "PeriodicFourierCommutatorBound",
+        "periodicBKMHsControl_of_physical_lowFreq",
+        "PeriodicLowFreqVorticityBound",
+        "PeriodicBKMHsControl",
+        "periodicBKMHsControl_three_of_lowFreq"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "theorem-9": {
+      "lean": [
+        "periodicBKMHsControl_three",
+        "PeriodicBKMHsControl",
+        "periodicBKMCriterion"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    },
+    "proposition-10": {
+      "lean": [
+        "clay_B_exact_of_hsControl",
+        "PeriodicBKMHsControl",
+        "clay_B_exact_of_corrected_route'",
+        "clay_B_exact_of_bkm",
+        "clay_B_exact_of_integrability"
+      ],
+      "note": "auto: \\lean/\\texttt names cited in the claim that exist as declarations"
+    }
+  }
+}

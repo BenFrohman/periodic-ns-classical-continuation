@@ -9,14 +9,20 @@ import PeriodicNSContinuation.Energy
 /-!
 # Corrected route to Statement (B)
 
-`clay_B_exact_of_corrected_route` is a **conditional reduction**. Its hypotheses:
+`clay_B_exact_of_corrected_route` / `clay_B_exact_of_corrected_route'` are **conditional
+reductions**. Their remaining open input is:
 
-* `PeriodicLocalExistence ν` — classical (Kato), not formalized here;
-* `PeriodicBKMCriterion ν` — classical (Beale–Kato–Majda), not formalized here;
 * `PeriodicBKMIntegrability ν` — **OPEN** (this is the Millennium content).
 
-`PeriodicEnergyDifferenceEstimate`, `PeriodicMaximalSolution` and `PeriodicGlobalOfTstarTop` are no longer hypotheses: they are proved
-(`Energy.lean` for `ν ≥ 0` and `Maximal.lean` here, and `periodicGlobalOfTstarTop` in `FeffermanClayNS`). This file does not prove Statement (B).
+Local existence and the BKM criterion are formalized elsewhere in this package and can be
+discharged: `periodicLocalExistence_of_nonneg` (`LocalExistenceProof.lean`) and
+`periodicBKMCriterion` (`BKMFinal.lean`). The theorems below still take those Props as
+arguments for modularity; the headline reduction that needs only integrability is
+`clay_B_exact_of_integrability` in `BKMFinal.lean`.
+
+`PeriodicEnergyDifferenceEstimate`, `PeriodicMaximalSolution` and `PeriodicGlobalOfTstarTop`
+are proved (`Energy.lean` for `ν ≥ 0`, `Maximal.lean` here, and `periodicGlobalOfTstarTop` in
+`FeffermanClayNS`). This file does not prove Statement (B).
 -/
 
 open FeffermanClayNS NavierStokes3D
@@ -31,8 +37,10 @@ theorem clay_B_exact_of_corrected_route (ν : ℝ)
     (periodicMaximalSolution_of_uniqueness (periodicVelocityUniqueness_of_energy ν henergy))
     hcrit hint
 
-/-- The route with the energy inequality discharged (`periodicEnergyDifferenceEstimate`). Still
-conditional on local existence, the BKM criterion and the open `PeriodicBKMIntegrability`. -/
+/-- The route with the energy inequality discharged (`periodicEnergyDifferenceEstimate`).
+Still takes local existence and the BKM criterion as arguments (both proved elsewhere:
+`periodicLocalExistence_of_nonneg`, `periodicBKMCriterion`); the remaining open hypothesis is
+`PeriodicBKMIntegrability`. -/
 theorem clay_B_exact_of_corrected_route' (ν : ℝ)
     (hloc : PeriodicLocalExistence ν) (hcrit : PeriodicBKMCriterion ν)
     (hint : PeriodicBKMIntegrability ν) : Clay_B_exact ν := fun hν =>

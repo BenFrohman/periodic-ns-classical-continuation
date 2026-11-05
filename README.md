@@ -20,10 +20,24 @@ definitions). It does **not** solve the Clay Navier–Stokes problem; the open s
 `PeriodicBKMIntegrability` remains a hypothesis.
 
 Build: `lake build`. Axiom check: `lake env lean AxiomAudit.lean` (only `propext`,
-`Classical.choice`, `Quot.sound`; no `sorry`).
+`Classical.choice`, `Quot.sound`; no `sorry`). Audit at commit `33e0cbf`: **1048** theorems and
+**285** definitions in `PeriodicNSContinuation`; headline `#print axioms` results are in
+[`AXIOMS.md`](AXIOMS.md).
 
 Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 `weighted-enstrophy-identities` @ `1df4652` (for `torusIntegral` and its derivative).
+
+## Modeling (T³ as ℝ³ + ℤ³-periodicity)
+
+Clay Statement (B) and the BKM statements in this repository are stated for smooth
+$\mathbb{Z}^3$-periodic fields on $\mathbb{R}^3$, not for a native $\mathbb{T}^3$ manifold type.
+In the pinned dependency `fefferman-clay-navier-stokes`, `T3 := EuclideanSpace ℝ (Fin 3)` stands in
+for $\mathbb{T}^3$ at the type level, with `IsZ3Periodic` enforcing periodicity. Momentum is
+`navier_stokes_eq_Ici`; solutions are `IsPeriodicSmoothSolution` (smooth periodic $(u,p)$,
+divergence-free, $u(0)=u_0$). Energy and related estimates use the unit-cell integral
+`torusIntegral` over $[0,1]^3$, not $\int_{\mathbb{R}^3}$, because a nonzero periodic field is not
+in $L^2(\mathbb{R}^3)$. This model is the setting of every Clay claim below, including
+`Clay_B_exact` and `clay_B_exact_of_integrability`.
 
 ## Fully proved
 
@@ -42,16 +56,26 @@ Dependencies: Mathlib, `fefferman-clay-navier-stokes` @ `ebcf109`,
 
 ## Still hypotheses (named Props)
 
-* `PeriodicLocalExistence` — **now proved** for `ν ≥ 0` (`periodicLocalExistence_of_nonneg`, see below); no longer a hypothesis.
-* `PeriodicBKMCriterion` — classical Beale–Kato–Majda. Now reduced to `PeriodicBKMHsControl` (see below); the blow-up alternative is proved.
-* `PeriodicBKMIntegrability` — open.
-* `PeriodicBendingRateHiddenProperty`, `PeriodicDirectionEnstrophyGrowthL1` — open (BendingRate.lean).
+* `PeriodicLocalExistence` — **proved** for `ν ≥ 0` by `periodicLocalExistence_of_nonneg` (LocalExistenceProof.lean); no longer a hypothesis of the headline Clay reduction.
+* `PeriodicBKMCriterion` — **proved** unconditionally as `periodicBKMCriterion` (BKMFinal.lean); earlier sections reduce it to `PeriodicBKMHsControl`, which is also proved at $s=3$.
+* `PeriodicBKMIntegrability` — **open**. This is the **only** hypothesis of `clay_B_exact_of_integrability`. It is equivalent to `PeriodicGlobalLifespan` and carries the Clay core.
+* Side-route open Props (tether / direction / Riccati / classical citations such as
+  `PeriodicTetherCubicRate`, `PeriodicVorticityAPrioriBound`, `PeriodicDirectionCriterion`,
+  `PeriodicDirectionRegularity`, `PeriodicBendingRateHiddenProperty`,
+  `PeriodicDirectionEnstrophyGrowthL1`, `PeriodicH1BlowupCriterion`,
+  `PeriodicHolderStretchingEstimate`, `PeriodicH2SmoothingRateStd`,
+  `PeriodicH2RootTimeIntegrable`, `PeriodicH3SmoothingRate`, and similar named Props in
+  IntegrabilityAttack / BendingRate / ClassicalSteps) remain **open** and are **not** used by
+  `clay_B_exact_of_integrability`. They label alternative attack routes only.
 * `PeriodicPhysicalCommutatorBound C` (s = 3, coined) — proved sufficient for `PeriodicFourierCommutatorBound 3 C`, and now **proved** (`periodicPhysicalCommutatorBound`, CommutatorAssembly.lean), with C = 2·64·315·64·(4π²)³.
 
 ## Attacking `PeriodicBKMIntegrability` (`PeriodicNSContinuation/IntegrabilityAttack.lean`)
 
 Work in progress. This section does **not** prove `PeriodicBKMIntegrability`. **Clay is not solved.**
-Names are coined unless they come from FeffermanClayNS.
+Names are coined unless they come from FeffermanClayNS. Side-route open Props introduced below
+(tether cubic rate, direction regularity, Riccati / Ladyzhenskaya routes, classical citations, …)
+are **open** and are **not** inputs to `clay_B_exact_of_integrability`; that theorem uses only
+`PeriodicBKMIntegrability`.
 
 | Statement (Lean name) | Status |
 |---|---|
@@ -94,9 +118,10 @@ weights `(1 + |k|²)ˢ`. Everything below is **proved**, with no hypotheses:
 * **Sobolev embedding** `sobolev_embedding_continuous`: for `s > 3/2`, every `f ∈ L² ∩ Hˢ` equals
   a.e. a continuous function, and its Fourier series converges to it uniformly.
 
-Not yet done: vector-valued fields, the triangle inequality for the `Hˢ` norm, algebra/product
-estimates and commutator estimates. These are still needed before `PeriodicLocalExistence`
-can be discharged, so that hypothesis remains open.
+Not yet done in this Sobolev-on-torus section: vector-valued fields, the triangle inequality for
+the `Hˢ` norm, and some algebra/product estimates. Those gaps do **not** block local existence:
+`PeriodicLocalExistence` is proved for `ν ≥ 0` by `periodicLocalExistence_of_nonneg`
+(LocalExistenceProof.lean), independently of completing every item listed here.
 
 ## LocalExistence (concrete Galerkin link)
 
@@ -129,9 +154,11 @@ with no named-Prop inputs. Method: integration by parts on the unit cell `[0,1]�
 `(1 - Δ/4π²)`, the trivial bound `|ĝ(k)| ≤ sup |g|`, and the Galerkin continuation theorem
 from `TorusFourierNS` (pin bumped to `878ce97`).
 
-**NOT proved (explicit named-Prop input):** `PeriodicGalerkinLimit` (compactness, passage to the
-limit, smoothness, pressure). `GalerkinTransportBound` for `3/2 < s ≤ 5/2` is not covered. So
-`PeriodicLocalExistence` (Kato) is still conditional, and Clay is not solved.
+**NOT proved in this file (explicit named-Prop input):** `PeriodicGalerkinLimit` (compactness, passage to the
+limit, smoothness, pressure). `GalerkinTransportBound` for `3/2 < s ≤ 5/2` is not covered here.
+Local existence itself is nevertheless **proved** later: `periodicLocalExistence_of_nonneg`
+discharges `PeriodicLocalExistence` for `ν ≥ 0` (LocalExistenceProof.lean). Clay is not solved:
+the open step remains `PeriodicBKMIntegrability`.
 
 Coined names in `FourierData`: `cubeCoeff`, `pdC`, `insertNth_one_eq`, `integral_pdC_eq_zero`,
 `charK`, `cubeCoeff_eq`, `phaseCLM`, `phaseCLM_apply`, `charK_eq`, `charK_contDiff`,
@@ -187,7 +214,10 @@ Coined names: `fourierCoeffVF`, `IsGalerkinSolutionOn`, `GalerkinUniformBoundNS`
   `galerkin_component`, and `tendsto_fourierNSField` (Tannery's theorem). The limit equation uses the
   FTC for each `N` and dominated convergence.
 
-So `PeriodicGalerkinLimit`, and hence `PeriodicLocalExistence`, is still conditional, now only on `FourierSolutionReconstruction` (for `s > 2`). Clay is not solved.
+So the Galerkin-limit route in this file remains conditional on `FourierSolutionReconstruction` (for `s > 2`).
+That does **not** leave `PeriodicLocalExistence` open: it is proved for `ν ≥ 0` by
+`periodicLocalExistence_of_nonneg` (LocalExistenceProof.lean). Clay is not solved; the open
+headline hypothesis is `PeriodicBKMIntegrability`.
 
 Coined names: `fourierNSField`, `GalerkinModeConvergence`, `GalerkinLimitEquation`,
 `FourierSolutionReconstruction`, `GalerkinModeEquiLipschitz`, `convTerm`, `PtBound`, `bse`,
@@ -216,8 +246,10 @@ Coined names: `fourierNSField`, `GalerkinModeConvergence`, `GalerkinLimitEquatio
   `fourierNSField ν a k i = -visc·a k i - N̂ k i - 2πi kᵢ p̂ k`. This is the Fourier-side form of
   `∂ₜu + (u·∇)u = νΔu - ∇p`, i.e. pressure recovery at the coefficient level.
 
-So `PeriodicLocalExistence` is still conditional, now on these three Props (for `s > 2`).
-Clay is not solved.
+So this reconstruction split remains conditional on those three Props (for `s > 2`).
+`PeriodicLocalExistence` itself is **proved** for `ν ≥ 0` by `periodicLocalExistence_of_nonneg`
+(LocalExistenceProof.lean). Clay is not solved; the open headline hypothesis is
+`PeriodicBKMIntegrability`.
 
 Coined names: `phase`, `seriesC`, `seriesVelocity`, `nonlinCoeff`, `pressureCoeff`, `seriesPressure`,
 `IsFourierSolutionOn`, `IsSmoothFourierSolutionOn`, `FourierHigherRegularity`,
@@ -243,7 +275,10 @@ Coined names: `phase`, `seriesC`, `seriesVelocity`, `nonlinCoeff`, `pressureCoef
 * `PeriodicPressureRecovery ν`.
 * `FourierHigherRegularity ν s` (the tame `H^{s'}` estimate).
 
-`PeriodicLocalExistence` is still conditional. Clay is not solved.
+`PeriodicLocalExistence` is **proved** for `ν ≥ 0` by `periodicLocalExistence_of_nonneg`
+(LocalExistenceProof.lean); the remaining open Props in this Fourier-inversion split are not
+needed for that theorem. Clay is not solved; the open headline hypothesis is
+`PeriodicBKMIntegrability`.
 
 Coined names: `compR`, `torusMk`, `torusComp`, `torusCompC`, `mFourier_torusMk`, `norm_le_aux`,
 `FourierSeriesVelocitySmooth`, and every theorem listed above.
@@ -297,10 +332,10 @@ It combines `periodicGalerkinUniformTime_of_gt'` and `periodicGalerkinLimit_of_n
 `PeriodicLocalExistence` does not quantify over `s`. Its solution notion is
 `IsPeriodicSmoothSolutionOn` through `periodicTstar`, which is the notion used by `clay_B_exact_of_corrected_route'`.
 
-**Conditional reduction:** `clay_B_exact_of_bkm (ν) (hcrit : PeriodicBKMCriterion ν)
-(hint : PeriodicBKMIntegrability ν) : Clay_B_exact ν`. The only remaining hypotheses are
-`PeriodicBKMCriterion` (classical BKM, not formalized here) and `PeriodicBKMIntegrability`.
-`PeriodicBKMIntegrability` is **open**: it is the Millennium content. **Clay is not solved.**
+**Conditional reduction:** `clay_B_exact_of_bkm` still takes `PeriodicBKMCriterion` as an
+argument; that criterion is now **proved** unconditionally as `periodicBKMCriterion`
+(BKMFinal.lean). The headline reduction `clay_B_exact_of_integrability` is therefore conditional
+**only** on the open `PeriodicBKMIntegrability` (the Millennium content). **Clay is not solved.**
 
 Coined names: `periodicLocalExistence_of_nonneg`, `clay_B_exact_of_bkm`.
 
@@ -574,7 +609,7 @@ What is proved vs. conditional: Proved steps are listed above; the open step `Pe
 
 See [`NAMING.md`](NAMING.md) for the canonical names (Frohmanian Tether Hypothesis, symbol 𝔉𝕋) and the old-name glossary.
 
-**Final status:** Statement (B) (`Clay_B_exact ν`) is proven conditionally on `PeriodicBKMIntegrability` (`clay_B_exact_of_integrability`). `PeriodicBKMIntegrability` is open; it is the Clay core. The `H³` BKM control and the periodic BKM criterion are proved with no hypothesis Props. `PeriodicDirectionCriterion` is now reduced (proved) to `PeriodicDirectionEnstrophyGrowth` + `PeriodicH1BlowupCriterion`, both open here, and further to the weaker `PeriodicDirectionEnstrophyGrowthL1` (`periodicDirectionCriterion_of_growthL1`; CF depletion factor and L¹ Grönwall proved); `PeriodicDirectionRegularity` is open and follows from the open coined `PeriodicBendingRateHiddenProperty` (`periodicDirectionRegularity_of_bending`). `PeriodicH1BlowupCriterion` and `PeriodicDirectionEnstrophyGrowthL1` now reduce (proved, ClassicalSteps.lean, EnergyEquality.lean) to the open classical Props `PeriodicHolderStretchingEstimate`, `PeriodicH2SmoothingRateStd`, `PeriodicH2RootTimeIntegrable` and `PeriodicH3SmoothingRate`; `PeriodicNonlinearEnergyCancellation` and `PeriodicEnstrophyTimeIntegrable` are now proved unconditionally (EnergyCancellation.lean). The older pointwise `PeriodicH2SmoothingRate` is stronger than the standard estimate (discrepancy documented). 755 `theorem`/`lemma` declarations in the source (kernel audit: 867 theorem constants, including Lean-generated ones; the earlier figure 727 is withdrawn); 0 sorry; axioms only propext, Classical.choice, Quot.sound.
+**Final status:** Statement (B) (`Clay_B_exact ν`) is proven conditionally on `PeriodicBKMIntegrability` (`clay_B_exact_of_integrability`), in the $\mathbb{R}^3$+$\mathbb{Z}^3$-periodicity / unit-cell model above. This is a conditional reduction: it does **not** solve the Clay Millennium problem or prove Navier–Stokes regularity. `PeriodicBKMIntegrability` is open; it is the Clay core and the **only** hypothesis of that headline theorem. Side-route open Props (direction / tether / Riccati / classical citations) are not used by it. The `H³` BKM control and the periodic BKM criterion are proved with no hypothesis Props. Local existence is proved for `ν ≥ 0` by `periodicLocalExistence_of_nonneg`. `PeriodicDirectionCriterion` is now reduced (proved) to `PeriodicDirectionEnstrophyGrowth` + `PeriodicH1BlowupCriterion`, both open here, and further to the weaker `PeriodicDirectionEnstrophyGrowthL1` (`periodicDirectionCriterion_of_growthL1`; CF depletion factor and L¹ Grönwall proved); `PeriodicDirectionRegularity` is open and follows from the open coined `PeriodicBendingRateHiddenProperty` (`periodicDirectionRegularity_of_bending`). `PeriodicH1BlowupCriterion` and `PeriodicDirectionEnstrophyGrowthL1` now reduce (proved, ClassicalSteps.lean, EnergyEquality.lean) to the open classical Props `PeriodicHolderStretchingEstimate`, `PeriodicH2SmoothingRateStd`, `PeriodicH2RootTimeIntegrable` and `PeriodicH3SmoothingRate`; `PeriodicNonlinearEnergyCancellation` and `PeriodicEnstrophyTimeIntegrable` are now proved unconditionally (EnergyCancellation.lean). The older pointwise `PeriodicH2SmoothingRate` is stronger than the standard estimate (discrepancy documented). Kernel audit (`lake env lean AxiomAudit.lean` at `33e0cbf`): **1048** theorems, **285** definitions in `PeriodicNSContinuation`; 0 sorry; axioms only `propext`, `Classical.choice`, `Quot.sound` (see [`AXIOMS.md`](AXIOMS.md)).
 
 ## Zenodo archive
 

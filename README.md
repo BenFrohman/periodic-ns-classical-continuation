@@ -2,7 +2,7 @@
 
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 >
-> **DOIs:** reduction paper [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295); main paper [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555)
+> **DOIs:** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23842555.svg)](https://doi.org/10.5281/zenodo.23842555) main paper concept [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555), this version (v10) [10.5281/zenodo.23986023](https://doi.org/10.5281/zenodo.23986023); reduction paper [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295)
 
 
 ## How to cite / What is claimed
@@ -11,7 +11,7 @@ In Lean 4 with Mathlib, we give a machine-checked reduction of Clay Millennium S
 
 The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale–Kato–Majda, 1984); the novelty here is the complete, `sorry`-free formalization.
 
-Cite as: Benjamin Stanley Frohman, *A Lean-verified conditional reduction of periodic Navier–Stokes regularity on $\mathbb{T}^3$ to a single integrability hypothesis*, DOI [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295); main paper DOI [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555).
+Cite as: Benjamin Stanley Frohman, *A Lean-verified conditional reduction of periodic Navier–Stokes regularity on $\mathbb{T}^3$ to a single integrability hypothesis*, DOI [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295); main paper concept DOI [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555), this version (v10) DOI [10.5281/zenodo.23986023](https://doi.org/10.5281/zenodo.23986023).
 
 
 Lean 4 + Mathlib formalization of the classical continuation steps used by the Statement (B)
@@ -613,6 +613,7 @@ See [`NAMING.md`](NAMING.md) for the canonical names (Frohmanian Tether Hypothes
 
 ## Zenodo archive
 
+- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23842555.svg)](https://doi.org/10.5281/zenodo.23842555) Classical continuation chain for periodic NS on T³ (main paper) — concept DOI: [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555); this version (v10): [10.5281/zenodo.23986023](https://doi.org/10.5281/zenodo.23986023) ([record](https://zenodo.org/records/23986023))
 - [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23904622.svg)](https://doi.org/10.5281/zenodo.23904622) Is ‖S‖_{L^∞} ≤ C‖ω‖_{L^∞}? A deep check of PeriodicStrainLinfBound — all versions: [10.5281/zenodo.23904622](https://doi.org/10.5281/zenodo.23904622); latest version: [10.5281/zenodo.23905235](https://doi.org/10.5281/zenodo.23905235)
 - [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23906578.svg)](https://doi.org/10.5281/zenodo.23906578) The viscous strain bound: what a ν,t-dependent constant can and cannot give — all versions: [10.5281/zenodo.23906578](https://doi.org/10.5281/zenodo.23906578); latest version: [10.5281/zenodo.23931605](https://doi.org/10.5281/zenodo.23931605)
 - [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23930084.svg)](https://doi.org/10.5281/zenodo.23930084) A cubic source for the vorticity maximum, and a recorded gap in the periodic continuation criterion — all versions: [10.5281/zenodo.23930084](https://doi.org/10.5281/zenodo.23930084); latest version: [10.5281/zenodo.23931604](https://doi.org/10.5281/zenodo.23931604)

@@ -1,11 +1,18 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it using the metadata below."
-title: "."
+title: "A Lean 4 Formalization of the Classical Continuation Chain for Periodic Navier–Stokes on T³: Energy Identity, H³ Commutator Reduction and the BKM Route"
 authors:
   - family-names: "Frohman"
     given-names: "Benjamin Stanley"
     orcid: "https://orcid.org/0009-0006-7068-3718"
     email: "frohmanbenjamin@gmail.com"
 license: "Apache-2.0"
-repository-code: "https://github.com/BenFrohman/."
-doi: "10.5281/zenodo.23842295"
+repository-code: "https://github.com/BenFrohman/periodic-ns-classical-continuation"
+doi: "10.5281/zenodo.23842555"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23986023"
+    description: "This version (v10)"
+  - type: doi
+    value: "10.5281/zenodo.23842555"
+    description: "Concept DOI (all versions)"

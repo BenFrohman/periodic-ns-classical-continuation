@@ -7,12 +7,25 @@
 \renewcommand{\paperdoi}{10.5281/zenodo.23842555}
 \renewcommand{\companiondoi}{10.5281/zenodo.23842295}
 \renewcommand{\companionlabel}{Companion reduction paper:}
+% Show version DOI next to concept DOI in the title block.
+\renewcommand{\frohmantitle}[1]{%
+  \thispagestyle{plain}%
+  \begin{center}
+  {\small\scshape\color{red!60!black} Work in progress --- draft, not peer reviewed\par}\vspace{10pt}
+  {\LARGE\bfseries #1\par}\vspace{6pt}
+  \ifx\papersubtitle\empty\else{\large\itshape\papersubtitle\par}\vspace{6pt}\fi
+  \vspace{6pt}{\large\scshape Benjamin Stanley Frohman\par}\vspace{2pt}
+  {\small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\quad$\cdot$\quad\href{mailto:frohmanbenjamin@gmail.com}{\nolinkurl{frohmanbenjamin@gmail.com}}\par}\vspace{2pt}
+  {\small\paperdate\par}\vspace{2pt}
+  {\small Concept DOI \doi{10.5281/zenodo.23842555}\quad$\cdot$\quad Version DOI \doi{10.5281/zenodo.23986023}\par}\vspace{1pt}
+  {\small\companionlabel\ \doi{\companiondoi}\par}
+  \end{center}\vspace{4pt}}
 \begin{document}
 \hypersetup{pdftitle={A Lean 4 Formalization of the Classical Continuation Chain for Periodic Navier–Stokes on 𝕋³: Energy Identity, H³ Commutator Reduction and the BKM Route},pdfauthor={Benjamin Stanley Frohman}}
 \frohmantitle{A Lean~4 Formalization of the Classical Continuation Chain for Periodic Navier--Stokes on $\mathbb{T}^3$: Energy Identity, $H^3$ Commutator Reduction and the BKM Route}
 
 \begin{citebox}
-\textbf{How to cite / What is claimed.} In Lean~4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement~(B) (periodic Navier--Stokes on $\TT$) to the single hypothesis \lean{PeriodicBKMIntegrability}. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and $H^3$ control are proved unconditionally, using only the standard axioms. \lean{PeriodicBKMIntegrability} remains open. The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale--Kato--Majda, 1984~\cite{BKM1984}); the novelty here is the complete, \texttt{sorry}-free formalization. $\TT$ is modelled as $\mathbb{R}^3$ with $\mathbb{Z}^3$-periodicity and unit-cell integrals (Section~\ref{sec:model}). Axiom audit at commit \file{36fa434}: 1048 theorems, 285 definitions, only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound} (Appendix~\ref{app:axioms}). Cite as: B.~S.~Frohman, reduction paper, DOI \doi{10.5281/zenodo.23842295}; main paper, DOI \doi{10.5281/zenodo.23842555}.
+\textbf{How to cite / What is claimed.} In Lean~4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement~(B) (periodic Navier--Stokes on $\TT$) to the single hypothesis \lean{PeriodicBKMIntegrability}. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and $H^3$ control are proved unconditionally, using only the standard axioms. \lean{PeriodicBKMIntegrability} remains open. The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale--Kato--Majda, 1984~\cite{BKM1984}); the novelty here is the complete, \texttt{sorry}-free formalization. $\TT$ is modelled as $\mathbb{R}^3$ with $\mathbb{Z}^3$-periodicity and unit-cell integrals (Section~\ref{sec:model}). Axiom audit at commit \file{36fa434}: 1048 theorems, 285 definitions, only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound} (Appendix~\ref{app:axioms}). Cite as: B.~S.~Frohman, reduction paper, DOI \doi{10.5281/zenodo.23842295}; main paper concept DOI \doi{10.5281/zenodo.23842555}, this version (v10) DOI \doi{10.5281/zenodo.23986023}.
 \end{citebox}
 \begin{wipbox}
 \textbf{Draft --- tracks build in progress.} This document reports exactly what the Lean development proves at the stated commit. It does \emph{not} solve the Clay Millennium problem, and does not prove global regularity of the 3D Navier--Stokes equations. The step \lean{PeriodicBKMIntegrability} is the open Clay core and remains an explicit hypothesis.
@@ -177,7 +190,7 @@ and closes only because $\int_0^T\norm{u}_{H^2}^2\,dt<\infty$ when $\norm{u}_{H^
 \section*{Reproducibility}
 Run \texttt{lake build} and then \texttt{lake env lean AxiomAudit.lean}. The build contains no \texttt{sorry}, and the audit reports only \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}.
 
-\paragraph{Counting convention.} At commit \file{36fa434}, \file{AxiomAudit.lean} reports 1048 non-internal theorem constants and 285 definitions in the \texttt{PeriodicNSContinuation} module tree (kernel count, includes automatically generated theorems). Figures 755 and 867 in earlier versions referred to the source and kernel counts at commit \file{f9a26c7} and are superseded.
+\paragraph{Counting convention.} At commit \file{36fa434}, \file{AxiomAudit.lean} reports 1048 non-internal theorem constants and 285 definitions in the \lean{PeriodicNSContinuation} module tree (kernel count, includes automatically generated theorems). Figures 755 and 867 in earlier versions referred to the source and kernel counts at commit \file{f9a26c7} and are superseded.
 
 \paragraph{Source.} B.~S.~Frohman, \emph{periodic-ns-classical-continuation}, Lean~4 repository, \url{https://github.com/BenFrohman/periodic-ns-classical-continuation}, commit \file{36fa434} (\url{https://github.com/BenFrohman/periodic-ns-classical-continuation/tree/36fa434}).
 
@@ -188,10 +201,16 @@ Run \texttt{lake build} and then \texttt{lake env lean AxiomAudit.lean}. The bui
 \bibliography{refs}
 \appendix
 \section{Axiom audit}\label{app:axioms}
-Commit \file{36fa434}; command \texttt{lake build \&\& lake env lean AxiomAudit.lean}. The module tree \texttt{PeriodicNSContinuation} contains 1048 theorems and 285 definitions; every declaration depends only on \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}. No \texttt{sorryAx}, no \texttt{axiom} declaration. Open content enters only as explicit \texttt{Prop} hypotheses. All names below are in namespace \lean{PeriodicNSContinuation}; \texttt{\#print axioms} gives exactly the three standard axioms for each.
-\begin{center}\small
-\begin{tabular}{p{0.42\linewidth}p{0.3\linewidth}p{0.2\linewidth}}
-\hline Declaration & Content & Hypothesis Props\\\hline
+Commit \file{36fa434}; command \texttt{lake build \&\& lake env lean AxiomAudit.lean}. The module tree \lean{PeriodicNSContinuation} contains 1048 theorems and 285 definitions; every declaration depends only on \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}. No \texttt{sorryAx}, no \texttt{axiom} declaration. Open content enters only as explicit \texttt{Prop} hypotheses. All names below are in namespace \lean{PeriodicNSContinuation}; \texttt{\#print axioms} gives exactly the three standard axioms for each.
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{%
+  >{\raggedright\arraybackslash}X%
+  >{\raggedright\arraybackslash}p{0.24\linewidth}%
+  >{\raggedright\arraybackslash}p{0.22\linewidth}}
+\toprule
+Declaration & Content & Hypothesis Props\\
+\midrule
 \lean{periodicLocalExistence_of_nonneg} & local existence, $\nu\ge0$ & none\\
 \lean{Corrected.periodicEnergyDifferenceEstimate} & energy-difference estimate & none\\
 \lean{Corrected.periodicVelocityUniqueness_of_energy} & uniqueness & none\\
@@ -204,7 +223,8 @@ Commit \file{36fa434}; command \texttt{lake build \&\& lake env lean AxiomAudit.
 \lean{periodicBKMIntegrability_iff_globalLifespan} & \lean{PeriodicBKMIntegrability} $\Leftrightarrow$ \lean{PeriodicGlobalLifespan} & none (both sides open)\\
 \lean{clay_B_exact_of_globalLifespan} & \lean{PeriodicGlobalLifespan} $\Rightarrow$ \lean{Clay_B_exact} & \lean{PeriodicGlobalLifespan}\\
 \lean{clay_B_exact_of_integrability} & Statement (B), conditional & \lean{PeriodicBKMIntegrability} only\\
-\hline\end{tabular}\end{center}
+\bottomrule
+\end{tabularx}\end{center}
 Conditional theorems carry their hypotheses as arguments; the kernel audit is unaffected by them. This paper does not claim a solution of the Clay problem or global regularity of 3D Navier--Stokes.
 
 

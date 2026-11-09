@@ -204,10 +204,13 @@ Run \texttt{lake build} and then \texttt{lake env lean AxiomAudit.lean}. The bui
 Commit \file{36fa434}; command \texttt{lake build \&\& lake env lean AxiomAudit.lean}. The module tree \lean{PeriodicNSContinuation} contains 1048 theorems and 285 definitions; every declaration depends only on \lean{propext}, \lean{Classical.choice} and \lean{Quot.sound}. No \texttt{sorryAx}, no \texttt{axiom} declaration. Open content enters only as explicit \texttt{Prop} hypotheses. All names below are in namespace \lean{PeriodicNSContinuation}; \texttt{\#print axioms} gives exactly the three standard axioms for each.
 \begin{center}\footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabularx}{\linewidth}{%
-  >{\raggedright\arraybackslash}X%
-  >{\raggedright\arraybackslash}p{0.24\linewidth}%
-  >{\raggedright\arraybackslash}p{0.22\linewidth}}
+% Explicit top-aligned p-columns only (no X/m). \vspace{0pt} anchors each
+% cell's reference point at the top of the parbox so wrapped \lean names
+% share a top edge with the content / hypothesis columns.
+\begin{tabular}{@{}%
+  >{\vspace{0pt}\raggedright\arraybackslash}p{0.48\linewidth}%
+  >{\vspace{0pt}\raggedright\arraybackslash}p{0.26\linewidth}%
+  >{\vspace{0pt}\raggedright\arraybackslash}p{0.22\linewidth}@{}}
 \toprule
 Declaration & Content & Hypothesis Props\\
 \midrule
@@ -224,7 +227,7 @@ Declaration & Content & Hypothesis Props\\
 \lean{clay_B_exact_of_globalLifespan} & \lean{PeriodicGlobalLifespan} $\Rightarrow$ \lean{Clay_B_exact} & \lean{PeriodicGlobalLifespan}\\
 \lean{clay_B_exact_of_integrability} & Statement (B), conditional & \lean{PeriodicBKMIntegrability} only\\
 \bottomrule
-\end{tabularx}\end{center}
+\end{tabular}\end{center}
 Conditional theorems carry their hypotheses as arguments; the kernel audit is unaffected by them. This paper does not claim a solution of the Clay problem or global regularity of 3D Navier--Stokes.
 
 

@@ -53,18 +53,24 @@
 \ExplSyntaxOn
 \cs_new_protected:Npn \frohman_lean:n #1
   {
-    \group_begin:
-    \upshape\ttfamily\color{RoyalBlue!70!black}
-    \hyphenchar\font=-1
-    \hyphenpenalty=10000
-    \exhyphenpenalty=10000
-    \tl_set:Nn \l_tmpa_tl {#1}
-    \regex_replace_all:nnN { \. } { \.\c{allowbreak} } \l_tmpa_tl
-    \regex_replace_all:nnN { \_ } { \c{_}\c{allowbreak} } \l_tmpa_tl
-    \regex_replace_all:nnN { ([a-z0-9])([A-Z]) } { \1\c{allowbreak}\2 } \l_tmpa_tl
-    \regex_replace_all:nnN { ([A-Z])([A-Z][a-z]) } { \1\c{allowbreak}\2 } \l_tmpa_tl
-    \tl_use:N \l_tmpa_tl
-    \group_end:
+    % \leavevmode + \textcolor (not bare \color) avoid a whatsit baseline
+    % shift when \lean fills a tabular p/X cell by itself.
+    \leavevmode
+    \textcolor{RoyalBlue!70!black}
+      {
+        \group_begin:
+        \upshape\ttfamily
+        \hyphenchar\font=-1
+        \hyphenpenalty=10000
+        \exhyphenpenalty=10000
+        \tl_set:Nn \l_tmpa_tl {#1}
+        \regex_replace_all:nnN { \. } { \.\c{allowbreak} } \l_tmpa_tl
+        \regex_replace_all:nnN { \_ } { \c{_}\c{allowbreak} } \l_tmpa_tl
+        \regex_replace_all:nnN { ([a-z0-9])([A-Z]) } { \1\c{allowbreak}\2 } \l_tmpa_tl
+        \regex_replace_all:nnN { ([A-Z])([A-Z][a-z]) } { \1\c{allowbreak}\2 } \l_tmpa_tl
+        \tl_use:N \l_tmpa_tl
+        \group_end:
+      }
   }
 \NewDocumentCommand{\lean}{m}{\frohman_lean:n{#1}}
 \ExplSyntaxOff

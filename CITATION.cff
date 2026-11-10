@@ -11,8 +11,8 @@ repository-code: "https://github.com/BenFrohman/periodic-ns-classical-continuati
 doi: "10.5281/zenodo.23842555"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.23986023"
-    description: "This version (v10)"
+    value: "10.5281/zenodo.24091995"
+    description: "This version (v11)"
   - type: doi
     value: "10.5281/zenodo.23842555"
     description: "Concept DOI (all versions)"

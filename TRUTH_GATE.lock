@@ -1,0 +1,17 @@
+{
+  "semantics_file": "PeriodicNSContinuation/Semantics.lean",
+  "semantics_module": "PeriodicNSContinuation.Semantics",
+  "paper_path": "paper/periodic-ns-classical-continuation.tex",
+  "paper_sha256": "4aeaa07d97e2a5c7700405c79d602ba2985234ccc5b76ba8854fe33958837f48",
+  "main_theorems": [
+    "PeriodicNSContinuation.clay_B_exact_of_integrability"
+  ],
+  "lock_region_sha256": "8e19febd6f414000c387217a30666026cb639f909667d3a94f24a68285d7df27",
+  "draft_dirs": [
+    "PeriodicNSContinuation/Draft"
+  ],
+  "lean_roots": [
+    "PeriodicNSContinuation",
+    "PeriodicNSContinuation.lean"
+  ]
+}

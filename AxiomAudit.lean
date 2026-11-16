@@ -3,11 +3,18 @@ Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Benjamin Stanley Frohman
 -/
+
 -- Kernel axiom audit. Run: `lake env lean AxiomAudit.lean`.
 -- Fails if any declaration in the `PeriodicNSContinuation` module tree depends on an axiom outside
 -- {propext, Classical.choice, Quot.sound} (for example `sorryAx`).
 import Lean
 import PeriodicNSContinuation
+
+/-!
+# AxiomAudit
+
+Machine-checked Lean 4 module.
+-/
 
 open Lean Elab Command
 

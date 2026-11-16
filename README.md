@@ -1,5 +1,9 @@
 # periodic-ns-classical-continuation
 
+## Kernel certificate
+
+[certificates/CERTIFICATE.md](certificates/CERTIFICATE.md): commit `4aa277f`, `leanprover/lean4:v4.30.0-rc1`. `lake build` passes; the sorry/axiom scan finds 0 hits; **1052 theorems depend only on `propext`, `Classical.choice`, `Quot.sound`**; 78 of 78 modules replayed through the kernel, 0 failures ([CI run](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/43937850957)).
+
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 >
 > **DOIs:** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23842555.svg)](https://doi.org/10.5281/zenodo.23842555) main paper concept [10.5281/zenodo.23842555](https://doi.org/10.5281/zenodo.23842555), this version (v11) [10.5281/zenodo.24091995](https://doi.org/10.5281/zenodo.24091995); reduction paper [10.5281/zenodo.23842295](https://doi.org/10.5281/zenodo.23842295)

@@ -1,0 +1,3 @@
+# Certificate files are committed on purpose; override ignore rules from the repository root.
+!*
+!*/

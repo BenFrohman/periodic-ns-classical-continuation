@@ -2,3 +2,4 @@
 
 # raw numerics archived on box under /workspace/archive/
 paper/**/*.npz
+truth-gate-report/

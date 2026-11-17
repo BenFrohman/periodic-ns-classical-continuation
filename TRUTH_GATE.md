@@ -120,3 +120,26 @@ def paper_claim : Prop :=
 ```
 
 See the doc comment of `PeriodicNSContinuation/Semantics.lean` for the fixed reading of the paper's terms and the scope.
+
+## Re-audit (2026-11-16): this lock is NOT certifying
+
+Status: **REOPENED. The gate is red on purpose.** `TRUTH_GATE.lock` carries `"certifying": false`, and
+`scripts/truth_gate_check.py` fails while it does. Nothing was deleted: `Semantics.lean`, the quotes,
+the hashes and the history are unchanged.
+
+Rule applied (Benjamin Stanley Frohman, 2026-11-16):
+* There are no partial locks. A lock certifies only a step on the correct path to the full theorem
+  that is kernel-proved as the actual true answer, so that the next step can build on it.
+* Drifted, dummy, placeholder or stand-in types, names or categories are rejected.
+* Cross-ontology connections are not rejected for looking unrelated. The kernel check, and whether
+  the piece genuinely helps reach the full structured proof, decide.
+* `paper_claim` is an independent transcription of the verbatim paper quote, never an alias of
+  `formal_claim`, and the correspondence is never `rfl`/`Iff.rfl`.
+
+Locked claim under review: clay_B_exact_of_integrability (Statement (B) conditional on PeriodicBKMIntegrability)
+
+Why it is reopened:
+* The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely ("∫‖ω‖_∞ < ∞ on every finite interval of existence"), so the hypothesis that carries the whole difficulty is read through a repository definition.
+* Non-vacuity is not certified. The hypothesis is open, there is no witness, and the paper says it is equivalent to global existence.
+
+What would re-certify it: Re-lock with the hypothesis transcribed from a precise statement in the paper. BenFrohman/Clay- locks the same reduction with both hypotheses transcribed from the paper's English.

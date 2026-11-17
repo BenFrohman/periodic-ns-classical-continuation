@@ -13,5 +13,8 @@
   "lean_roots": [
     "PeriodicNSContinuation",
     "PeriodicNSContinuation.lean"
-  ]
+  ],
+  "certifying": false,
+  "reopened_reason": "The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely (\"∫‖ω‖_∞ < ∞ on every finite interval of existence\"), so the hypothesis that carries the whole difficulty is read through a repository definition.",
+  "reopened_on": "2026-11-16"
 }

@@ -140,7 +140,7 @@ python3 -m unittest discover -s scripts/tests -p 'test_truth_gate_classify.py' -
 ## The locked claim of this repository
 
 * Paper: `paper/periodic-ns-classical-continuation.tex`
-* sha256: `4aeaa07d97e2a5c7700405c79d602ba2985234ccc5b76ba8854fe33958837f48`
+* sha256: `ae41820715ddf983ece536e21a78887ea99e6b70fda50fb8f5d48bee0f58b422`
 * Section: Section "Status" (conditional item: Statement (B) conditional on PeriodicBKMIntegrability), with Section "Modelling of the torus" (sec:model) and the hypothesis PeriodicBKMIntegrability of Section "Conditional results"
 * Main theorem(s): `PeriodicNSContinuation.clay_B_exact_of_integrability`
 * Lock file: `TRUTH_GATE.lock`; semantics: `PeriodicNSContinuation/Semantics.lean`
@@ -154,7 +154,7 @@ In the Lean development the torus is not a quotient type. The carrier \lean{T3} 
 \[\partial_t u+(u\cdot\nabla)u=\nu\Delta u-\nabla p,\qquad \Div u=0,\qquad u(0)=u_0 .\]
 This is a faithful encoding of the periodic problem; every Clay- and BKM-type statement in this paper is to be read in this model.
 
-From the dependency \file{fefferman-clay-navier-stokes}: $\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty$ on every finite interval of existence.
+From the dependency \file{fefferman-clay-navier-stokes}. Let $\nu>0$. A pair $(u,p)$ is a smooth periodic solution on $[0,T]$ with data $u_0$ if $T>0$; $u(t)$ and $p(t)$ are $\mathbb{Z}^3$-periodic for $t\in[0,T]$; $u$ and $p$ are $C^\infty$ on $[0,T]\times\mathbb{R}^3$; $\partial_t u+(u\cdot\nabla)u=\nu\Delta u-\nabla p$ and $\Div u=0$ on $[0,T]\times\mathbb{R}^3$, with $\partial_t$ the derivative within $[0,T]$; and $u(0)=u_0$. Let $\Tstar(u_0)\in[-\infty,\infty]$ be the supremum of the real $T$ for which such a pair exists. The hypothesis states: for every smooth, divergence-free, $\mathbb{Z}^3$-periodic $u_0$ and every pair $(u,p)$ that is a smooth periodic solution on $[0,T]$ with data $u_0$ for every real $T$ with $0<T<\Tstar(u_0)$, the function $t\mapsto\norm{\omega(t)}_{L^\infty}=\sup_{x\in\mathbb{R}^3}\abs{(\nabla\times u(t))(x)}$ is integrable on $[0,T]$ (\lean{IntegrableOn}) for every real $T$; in particular $\int_0^T\norm{\omega(t)}_{L^\infty}\dd t<\infty$ for every real $T$. The supremum is the real supremum \lean{iSup}, which Lean sets to $0$ when the set is unbounded. When $\Tstar(u_0)<\infty$ the condition includes every $T\ge\Tstar(u_0)$, where the solution property places no constraint on $u$; it is not only a condition on intervals of existence.
 
 We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field.
 ```
@@ -163,8 +163,61 @@ We prove this hypothesis is equivalent to global existence of smooth solutions f
 def formal_claim : Prop :=
   ∀ ν : ℝ, PeriodicBKMIntegrability ν → Clay_B_exact ν
 
+/-- Paper (Section "Conditional results"): `(u, p)` is a smooth periodic solution on `[0, T]` with
+data `u₀`: `T > 0`; `u(t)`, `p(t)` are `ℤ³`-periodic (unit shifts) for `t ∈ [0, T]`; `u`, `p` are
+`C^∞` on `[0, T] × ℝ³`; `∂ₜu + (u·∇)u = νΔu - ∇p` and `div u = 0` on `[0, T] × ℝ³`, with `∂ₜ` the
+derivative within `[0, T]`; `u(0) = u₀`. -/
+def paperSolOn (ν : ℝ) (u₀ : EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3)) (T : ℝ)
+    (u : ℝ → EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3))
+    (p : ℝ → EuclideanSpace ℝ (Fin 3) → ℝ) : Prop :=
+  0 < T ∧
+  (∀ t ∈ Set.Icc (0 : ℝ) T, ∀ x (j : Fin 3), u t (x + EuclideanSpace.single j 1) = u t x) ∧
+  (∀ t ∈ Set.Icc (0 : ℝ) T, ∀ x (j : Fin 3), p t (x + EuclideanSpace.single j 1) = p t x) ∧
+  ContDiffOn ℝ ∞ (fun q : ℝ × EuclideanSpace ℝ (Fin 3) => u q.1 q.2)
+    (Set.Icc (0 : ℝ) T ×ˢ Set.univ) ∧
+  ContDiffOn ℝ ∞ (fun q : ℝ × EuclideanSpace ℝ (Fin 3) => p q.1 q.2)
+    (Set.Icc (0 : ℝ) T ×ˢ Set.univ) ∧
+  (∀ t ∈ Set.Icc (0 : ℝ) T, ∀ x,
+    derivWithin (fun s => u s x) (Set.Icc (0 : ℝ) T) t + fderiv ℝ (u t) x (u t x) =
+      ν • ∑ i : Fin 3, fderiv ℝ (fun y => fderiv ℝ (u t) y (EuclideanSpace.single i 1)) x
+          (EuclideanSpace.single i 1) - ∇ (p t) x) ∧
+  (∀ t ∈ Set.Icc (0 : ℝ) T, ∀ x,
+    ∑ i : Fin 3, fderiv ℝ (fun y => u t y i) x (EuclideanSpace.single i 1) = 0) ∧
+  (∀ x, u 0 x = u₀ x)
+
+/-- Paper: `T*(u₀) ∈ [-∞, ∞]`, the supremum of the real `T` for which a smooth periodic solution on
+`[0, T]` with data `u₀` exists. -/
+noncomputable def paperTstar (ν : ℝ)
+    (u₀ : EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3)) : EReal :=
+  sSup {s : EReal | ∃ T : ℝ, s = (T : EReal) ∧ ∃ u p, paperSolOn ν u₀ T u p}
+
+/-- Paper: `∇ × v = (∂₂v₃ - ∂₃v₂, ∂₃v₁ - ∂₁v₃, ∂₁v₂ - ∂₂v₁)` (indices `0, 1, 2` here). -/
+noncomputable def paperCurl (v : EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3))
+    (x : EuclideanSpace ℝ (Fin 3)) : EuclideanSpace ℝ (Fin 3) :=
+  EuclideanSpace.single 0 (fderiv ℝ (fun y => v y 2) x (EuclideanSpace.single 1 1) -
+      fderiv ℝ (fun y => v y 1) x (EuclideanSpace.single 2 1)) +
+    EuclideanSpace.single 1 (fderiv ℝ (fun y => v y 0) x (EuclideanSpace.single 2 1) -
+      fderiv ℝ (fun y => v y 2) x (EuclideanSpace.single 0 1)) +
+    EuclideanSpace.single 2 (fderiv ℝ (fun y => v y 1) x (EuclideanSpace.single 0 1) -
+      fderiv ℝ (fun y => v y 0) x (EuclideanSpace.single 1 1))
+
+/-- Paper: the hypothesis of Section "Conditional results". For `ν > 0`, every smooth,
+divergence-free, `ℤ³`-periodic `u₀` and every `(u, p)` that is a smooth periodic solution on `[0, T]`
+with data `u₀` for every real `T` with `0 < T < T*(u₀)`, the function
+`t ↦ ‖ω(t)‖_∞ = sup_x |(∇ × u(t))(x)|` is integrable on `[0, T]` for every real `T`. -/
+def paperBKMInt (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3),
+    ContDiff ℝ (⊤ : ℕ∞) u₀ →
+    (∀ x, ∑ i : Fin 3, fderiv ℝ (fun y => u₀ y i) x (EuclideanSpace.single i 1) = 0) →
+    (∀ x (j : Fin 3), u₀ (x + EuclideanSpace.single j 1) = u₀ x) →
+    ∀ (u : ℝ → EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3))
+      (p : ℝ → EuclideanSpace ℝ (Fin 3) → ℝ),
+      (∀ T : ℝ, 0 < T → (T : EReal) < paperTstar ν u₀ → paperSolOn ν u₀ T u p) →
+      ∀ T : ℝ, MeasureTheory.IntegrableOn (fun t => ⨆ x, ‖paperCurl (u t) x‖) (Set.Icc 0 T)
+
+/-- Paper: Statement (B) holds conditionally on the hypothesis, spelled out. -/
 def paper_claim : Prop :=
-  ∀ ν : ℝ, 0 < ν → PeriodicBKMIntegrability ν →
+  ∀ ν : ℝ, 0 < ν → paperBKMInt ν →
     ∀ u₀ : EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3),
       ContDiff ℝ (⊤ : ℕ∞) u₀ →
       (∀ x, ∑ i : Fin 3, fderiv ℝ (fun y => u₀ y i) x (EuclideanSpace.single i 1) = 0) →
@@ -187,6 +240,35 @@ def paper_claim : Prop :=
 ```
 
 See the doc comment of `PeriodicNSContinuation/Semantics.lean` for the fixed reading of the paper's terms and the scope.
+
+## Re-certification (2026-11-23): new lock, certifying
+
+Status: **certifying**, by the author's sign-off. This section supersedes the status line of the
+re-audit below, which is kept as history.
+
+Author's sign-off (Benjamin Stanley Frohman, 23 November 2026, 15:56 CST, America/Chicago, chosen on
+an approval card), verbatim:
+* "Yes, finish the new-lock transcription PR and correct the paper's sentence to integrable on [0,T] for every real T."
+* "Yes, I sign off on certifying: true."
+
+What changed:
+* The paper's hypothesis sentence (Section "Conditional results") was corrected to say what
+  `PeriodicBKMIntegrability` states: integrability of `t ↦ ‖ω(t)‖_∞` on `[0, T]` for **every real
+  `T`** along every maximal solution, not only "on every finite interval of existence".
+* `paper_claim` no longer names `PeriodicBKMIntegrability`. It uses `paperBKMInt`, written from the
+  corrected sentence with Mathlib only (`paperSolOn`, `paperTstar`, `paperCurl`,
+  `MeasureTheory.IntegrableOn`). `bkmInt_iff : PeriodicBKMIntegrability ν ↔ paperBKMInt ν` is proved
+  by unfolding both sides and transporting across `solOn_iff`, `tstar_eq`, `supNorm_eq` and
+  `data_iff` (no `rfl` correspondence; it does not use the main theorem).
+* `formal_claim`, the main theorem and the gate scripts are unchanged.
+
+Caveats the author acknowledged:
+* **Partial lock.** The lock covers Statement (B) conditional on the transcribed hypothesis
+  (`clay_B_exact_of_integrability`). The paper's other results are not locked. The quoted sentence
+  on equivalence with global existence is context; that equivalence is not part of `formal_claim`.
+* **Non-vacuity is not certified.** The hypothesis is open and is equivalent to global existence
+  (`periodicBKMIntegrability_iff_globalLifespan`); no witness exists here. Nothing here proves
+  Statement (B), global regularity, or the Clay Millennium problem.
 
 ## Re-audit (2026-11-16): this lock is NOT certifying
 

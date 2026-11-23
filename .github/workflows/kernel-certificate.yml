@@ -3,7 +3,7 @@ name: Kernel certificate
 # Rebuilds the development with its pinned toolchain, scans for sorry/admit/native_decide/axiom,
 # runs collectAxioms (#print axioms) on every theorem the build produces, re-checks every module
 # with Lean's external kernel checker (leanchecker / lean4checker), and uploads the raw logs.
-# The committed copies of these files live in certificates/ (see certificates/CERTIFICATE.md).
+# The committed copies of these files live in certificates/, unedited.
 
 on:
   push:

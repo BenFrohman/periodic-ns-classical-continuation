@@ -1,20 +1,19 @@
-✔ [8267/8369] Built FeffermanClayNS.Stage6Calculus (4.6s)
-✔ [8268/8369] Built PeriodicNSContinuation.ViscousStrainBound (9.2s)
-✔ [8269/8369] Built PeriodicNSContinuation.StrainLinf (9.4s)
-✔ [8270/8369] Built PeriodicNSContinuation.SineSumBound (11s)
-⚠ [8271/8369] Built PeriodicNSContinuation.WindowCancellation (7.7s)
+✔ [8267/8369] Built FeffermanClayNS.Stage6Calculus (6.4s)
+✔ [8268/8369] Built PeriodicNSContinuation.ViscousStrainBound (9.3s)
+✔ [8269/8369] Built PeriodicNSContinuation.StrainLinf (11s)
+✔ [8270/8369] Built PeriodicNSContinuation.SineSumBound (14s)
+✔ [8271/8369] Built PeriodicNSContinuation.SmallSeparationGain (11s)
+⚠ [8272/8369] Built PeriodicNSContinuation.WindowCancellation (8.8s)
 warning: PeriodicNSContinuation/WindowCancellation.lean:39:0: automatically included section variable(s) unused in theorem `PeriodicNSContinuation.window_drift_linear`:
   [InnerProductSpace ℝ E]
 consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
   omit [InnerProductSpace ℝ E] in theorem ...
 
 Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
-✔ [8272/8369] Built PeriodicNSContinuation.SmallSeparationGain (8.4s)
-✔ [8273/8369] Built PeriodicNSContinuation.HighSetExit (7.1s)
-✔ [8274/8369] Built TorusFourierNS.Basic (6.9s)
-✔ [8275/8369] Built PeriodicNSContinuation.Clamp (6.9s)
-✔ [8276/8369] Built WeightedEnstrophy.TorusCalculus (6.8s)
-⚠ [8277/8369] Built FeffermanClayNS.Defs (37s)
+✔ [8273/8369] Built PeriodicNSContinuation.HighSetExit (8.6s)
+✔ [8274/8369] Built TorusFourierNS.Basic (8.8s)
+✔ [8275/8369] Built PeriodicNSContinuation.Clamp (8.8s)
+⚠ [8276/8369] Built FeffermanClayNS.Defs (41s)
 info: FeffermanClayNS/Defs.lean:2521:2: Try this:
   [apply] abel_nf
 warning: FeffermanClayNS/Defs.lean:3670:9: unused variable `T`
@@ -124,7 +123,8 @@ info: FeffermanClayNS/Defs.lean:3764:0: 'NavierStokes3D.differentiableAt_coord_o
 info: FeffermanClayNS/Defs.lean:3765:0: 'NavierStokes3D.differentiableAt_half_norm_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: FeffermanClayNS/Defs.lean:3766:0: 'NavierStokes3D.convective_energy_pairing_vanishes' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: FeffermanClayNS/Defs.lean:3767:0: 'NavierStokes3D.pressure_energy_pairing_vanishes' depends on axioms: [propext, Classical.choice, Quot.sound]
-⚠ [8278/8369] Built TorusFourierNS.Strain (9.1s)
+✔ [8277/8369] Built WeightedEnstrophy.TorusCalculus (8.4s)
+⚠ [8278/8369] Built TorusFourierNS.Strain (9.8s)
 warning: TorusFourierNS/Strain.lean:130:40: This simp argument is unused:
   ← Complex.ofReal_pow
 
@@ -134,14 +134,15 @@ Hint: Omit it from the simp argument list.
 Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [8279/8369] Built PeriodicNSContinuation.TorusSobolev (17s)
-✔ [8280/8369] Built TorusFourierNS.Heat (6.8s)
-✔ [8281/8369] Built FeffermanClayNS.FeffermanStatements (3.9s)
-✔ [8282/8369] Built PeriodicNSContinuation.TorusIntegral (5.9s)
-✔ [8283/8369] Built TorusFourierNS.GateauxBridge (4.9s)
-✔ [8284/8369] Built FeffermanClayNS.TorusStrainExclusion (2.5s)
-✔ [8285/8369] Built FeffermanClayNS.HighSetDepletionAndBKM (2.7s)
-⚠ [8286/8369] Built TorusFourierNS.FieldBiotSavart (4.5s)
+✔ [8279/8369] Built FeffermanClayNS.FeffermanStatements (5.8s)
+✔ [8280/8369] Built PeriodicNSContinuation.TorusSobolev (21s)
+✔ [8281/8369] Built TorusFourierNS.Heat (8.1s)
+✔ [8282/8369] Built FeffermanClayNS.TorusStrainExclusion (3.0s)
+✔ [8283/8369] Built PeriodicNSContinuation.TorusIntegral (7.3s)
+✔ [8284/8369] Built TorusFourierNS.GateauxBridge (5.1s)
+✔ [8285/8369] Built FeffermanClayNS.HighSetDepletionAndBKM (2.0s)
+✔ [8286/8369] Built FeffermanClayNS.MainTheorem (2.5s)
+⚠ [8287/8369] Built TorusFourierNS.FieldBiotSavart (6.1s)
 warning: TorusFourierNS/FieldBiotSavart.lean:83:56: This simp argument is unused:
   mul_one
 
@@ -149,8 +150,7 @@ Hint: Omit it from the simp argument list.
   simp only [one_pow, neg_one_sq, one_mul, neg_one_mul,̵ ̵m̵u̵l̵_̵o̵n̵e̵] at h1 h2
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [8287/8369] Built FeffermanClayNS.MainTheorem (1.4s)
-ℹ [8288/8369] Built FeffermanClayNS.FinalProductTheorem (3.1s)
+ℹ [8288/8369] Built FeffermanClayNS.FinalProductTheorem (3.8s)
 info: FeffermanClayNS/FinalProductTheorem.lean:477:0: 'FeffermanClayNS.unitCube_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: FeffermanClayNS/FinalProductTheorem.lean:478:0: 'FeffermanClayNS.bddAbove_range_norm_of_attained_max' depends on axioms: [propext, Classical.choice, Quot.sound]
 info: FeffermanClayNS/FinalProductTheorem.lean:479:0: 'FeffermanClayNS.vorticity_sup_norm_eq_of_isSpatialMax' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -182,43 +182,43 @@ info: FeffermanClayNS/FinalProductTheorem.lean:496:0: 'FeffermanClayNS.constanti
 info: FeffermanClayNS/FinalProductTheorem.lean:497:0: 'FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-✔ [8289/8369] Built FeffermanClayNS (1.7s)
-✔ [8290/8369] Built TorusFourierNS.SobolevField (5.7s)
-✔ [8291/8369] Built PeriodicNSContinuation.Corrected (3.7s)
-✔ [8292/8369] Built PeriodicNSContinuation.FieldIdentities (4.4s)
-✔ [8293/8369] Built PeriodicNSContinuation.TorusField (8.5s)
-✔ [8294/8369] Built TorusFourierNS.FconvSummable (5.7s)
-✔ [8295/8369] Built PeriodicNSContinuation.Uniqueness (2.7s)
-✔ [8296/8369] Built PeriodicNSContinuation.Maximal (2.5s)
-✔ [8297/8369] Built TorusFourierNS.GalerkinNS (11s)
-✔ [8298/8369] Built TorusFourierNS.SobolevProduct (15s)
-✔ [8299/8369] Built TorusFourierNS.GalerkinEnergy (5.6s)
-✔ [8300/8369] Built PeriodicNSContinuation.Energy (12s)
-✔ [8301/8369] Built PeriodicNSContinuation.Route (4.2s)
+✔ [8289/8369] Built FeffermanClayNS (1.9s)
+✔ [8290/8369] Built PeriodicNSContinuation.Corrected (5.3s)
+✔ [8291/8369] Built PeriodicNSContinuation.FieldIdentities (5.5s)
+✔ [8292/8369] Built TorusFourierNS.SobolevField (8.1s)
+✔ [8293/8369] Built PeriodicNSContinuation.Uniqueness (3.8s)
+✔ [8294/8369] Built PeriodicNSContinuation.TorusField (9.1s)
+✔ [8295/8369] Built TorusFourierNS.FconvSummable (6.0s)
+✔ [8296/8369] Built PeriodicNSContinuation.Maximal (3.4s)
+✔ [8297/8369] Built TorusFourierNS.GalerkinNS (14s)
+✔ [8298/8369] Built PeriodicNSContinuation.Energy (17s)
+✔ [8299/8369] Built TorusFourierNS.SobolevProduct (17s)
+✔ [8300/8369] Built TorusFourierNS.GalerkinEnergy (7.3s)
+✔ [8301/8369] Built PeriodicNSContinuation.Route (3.8s)
 ✔ [8302/8369] Built TorusFourierNS.TransportBound (11s)
-✔ [8303/8369] Built TorusFourierNS.GalerkinStructure (5.2s)
-✔ [8304/8369] Built TorusFourierNS.TameTransport (8.9s)
-✔ [8305/8369] Built TorusFourierNS.GalerkinContinuation (5.8s)
-✔ [8306/8369] Built TorusFourierNS (2.6s)
-✔ [8307/8369] Built PeriodicNSContinuation.LocalExistence (3.4s)
-✔ [8308/8369] Built PeriodicNSContinuation.FourierData (5.5s)
-✔ [8309/8369] Built PeriodicNSContinuation.GalerkinLimit (3.0s)
-✔ [8310/8369] Built PeriodicNSContinuation.GalerkinLimitProof (4.5s)
-✔ [8311/8369] Built PeriodicNSContinuation.Reconstruction (3.5s)
-✔ [8312/8369] Built PeriodicNSContinuation.FourierInversion (3.8s)
-✔ [8313/8369] Built PeriodicNSContinuation.CoefSpace (8.9s)
-✔ [8314/8369] Built PeriodicNSContinuation.HigherRegularity (5.3s)
-✔ [8315/8369] Built PeriodicNSContinuation.Parseval (5.4s)
-✔ [8316/8369] Built PeriodicNSContinuation.TimeCurve (4.7s)
-✔ [8317/8369] Built PeriodicNSContinuation.SpatialSeries (9.1s)
-✔ [8318/8369] Built PeriodicNSContinuation.SeriesCalculus (3.8s)
-✔ [8319/8369] Built PeriodicNSContinuation.PDE (4.4s)
-✔ [8320/8369] Built PeriodicNSContinuation.SmoothReconstruction (3.2s)
-✔ [8321/8369] Built PeriodicNSContinuation.LocalExistenceProof (2.9s)
-✔ [8322/8369] Built PeriodicNSContinuation.Continuation (4.3s)
-✔ [8323/8369] Built PeriodicNSContinuation.BKMGronwall (3.8s)
-✔ [8324/8369] Built PeriodicNSContinuation.BKMPieces (4.2s)
-⚠ [8325/8369] Built PeriodicNSContinuation.BKMLog (4.3s)
+✔ [8303/8369] Built TorusFourierNS.GalerkinStructure (6.3s)
+✔ [8304/8369] Built TorusFourierNS.TameTransport (9.9s)
+✔ [8305/8369] Built TorusFourierNS.GalerkinContinuation (6.8s)
+✔ [8306/8369] Built TorusFourierNS (3.1s)
+✔ [8307/8369] Built PeriodicNSContinuation.LocalExistence (4.1s)
+✔ [8308/8369] Built PeriodicNSContinuation.FourierData (6.1s)
+✔ [8309/8369] Built PeriodicNSContinuation.GalerkinLimit (4.6s)
+✔ [8310/8369] Built PeriodicNSContinuation.GalerkinLimitProof (5.1s)
+✔ [8311/8369] Built PeriodicNSContinuation.Reconstruction (4.3s)
+✔ [8312/8369] Built PeriodicNSContinuation.FourierInversion (4.8s)
+✔ [8313/8369] Built PeriodicNSContinuation.CoefSpace (10s)
+✔ [8314/8369] Built PeriodicNSContinuation.HigherRegularity (6.2s)
+✔ [8315/8369] Built PeriodicNSContinuation.Parseval (6.6s)
+✔ [8316/8369] Built PeriodicNSContinuation.TimeCurve (5.7s)
+✔ [8317/8369] Built PeriodicNSContinuation.SpatialSeries (10s)
+✔ [8318/8369] Built PeriodicNSContinuation.SeriesCalculus (4.5s)
+✔ [8319/8369] Built PeriodicNSContinuation.PDE (5.3s)
+✔ [8320/8369] Built PeriodicNSContinuation.SmoothReconstruction (3.8s)
+✔ [8321/8369] Built PeriodicNSContinuation.LocalExistenceProof (3.4s)
+✔ [8322/8369] Built PeriodicNSContinuation.Continuation (4.0s)
+✔ [8323/8369] Built PeriodicNSContinuation.BKMGronwall (4.7s)
+✔ [8324/8369] Built PeriodicNSContinuation.BKMPieces (5.1s)
+⚠ [8325/8369] Built PeriodicNSContinuation.BKMLog (5.1s)
 warning: PeriodicNSContinuation/BKMLog.lean:21:71: unused variable `i`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
@@ -237,11 +237,11 @@ Note: This linter can be disabled with `set_option linter.unusedVariables false`
 warning: PeriodicNSContinuation/BKMLog.lean:141:18: unused variable `hδ`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-✔ [8326/8369] Built PeriodicNSContinuation.BKMAssembly (9.3s)
-✔ [8327/8369] Built PeriodicNSContinuation.HsEnergyIdentity (9.4s)
-✔ [8328/8369] Built PeriodicNSContinuation.CoeffODE (6.0s)
-✔ [8329/8369] Built PeriodicNSContinuation.PhysicalCommutator (4.3s)
-⚠ [8330/8369] Built PeriodicNSContinuation.KatoPonce (8.8s)
+✔ [8326/8369] Built PeriodicNSContinuation.BKMAssembly (11s)
+✔ [8327/8369] Built PeriodicNSContinuation.HsEnergyIdentity (11s)
+✔ [8328/8369] Built PeriodicNSContinuation.CoeffODE (7.9s)
+✔ [8329/8369] Built PeriodicNSContinuation.PhysicalCommutator (4.9s)
+⚠ [8330/8369] Built PeriodicNSContinuation.KatoPonce (9.9s)
 warning: PeriodicNSContinuation/KatoPonce.lean:61:68: unused variable `x`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
@@ -251,42 +251,42 @@ Note: This linter can be disabled with `set_option linter.unusedVariables false`
 warning: PeriodicNSContinuation/KatoPonce.lean:339:89: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
 
 Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
-✔ [8331/8369] Built PeriodicNSContinuation.CommutatorAssembly (4.1s)
-✔ [8332/8369] Built PeriodicNSContinuation.LowFreqKernel (3.0s)
-✔ [8333/8369] Built PeriodicNSContinuation.BiotSavartCoeff (3.4s)
-✔ [8334/8369] Built PeriodicNSContinuation.CellParseval (3.8s)
-✔ [8335/8369] Built PeriodicNSContinuation.BiotSavartStrain (4.2s)
-⚠ [8336/8369] Built PeriodicNSContinuation.KernelWeighted (3.5s)
+✔ [8331/8369] Built PeriodicNSContinuation.CommutatorAssembly (4.9s)
+✔ [8332/8369] Built PeriodicNSContinuation.LowFreqKernel (3.5s)
+✔ [8333/8369] Built PeriodicNSContinuation.BiotSavartCoeff (4.1s)
+✔ [8334/8369] Built PeriodicNSContinuation.CellParseval (4.7s)
+✔ [8335/8369] Built PeriodicNSContinuation.BiotSavartStrain (5.1s)
+⚠ [8336/8369] Built PeriodicNSContinuation.KernelWeighted (4.2s)
 warning: PeriodicNSContinuation/KernelWeighted.lean:152:74: unused variable `l`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 warning: PeriodicNSContinuation/KernelWeighted.lean:156:63: unused variable `l`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-✔ [8337/8369] Built PeriodicNSContinuation.WeightIntegral (5.3s)
-⚠ [8338/8369] Built PeriodicNSContinuation.DyadicBlock (4.1s)
+✔ [8337/8369] Built PeriodicNSContinuation.WeightIntegral (6.4s)
+⚠ [8338/8369] Built PeriodicNSContinuation.DyadicBlock (4.0s)
 warning: PeriodicNSContinuation/DyadicBlock.lean:87:70: unused variable `i`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
 warning: PeriodicNSContinuation/DyadicBlock.lean:90:52: unused variable `i`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-✔ [8339/8369] Built PeriodicNSContinuation.VPKernel (4.2s)
-✔ [8340/8369] Built PeriodicNSContinuation.LowFreqAssembly (5.2s)
-✔ [8341/8369] Built PeriodicNSContinuation.BKMFinal (2.7s)
-✔ [8342/8369] Built PeriodicNSContinuation.IntegrabilityAttack (2.9s)
-⚠ [8343/8369] Built PeriodicNSContinuation.SmallDataAttack (3.2s)
+✔ [8339/8369] Built PeriodicNSContinuation.VPKernel (4.9s)
+✔ [8340/8369] Built PeriodicNSContinuation.LowFreqAssembly (6.2s)
+✔ [8341/8369] Built PeriodicNSContinuation.BKMFinal (3.4s)
+✔ [8342/8369] Built PeriodicNSContinuation.IntegrabilityAttack (3.6s)
+⚠ [8343/8369] Built PeriodicNSContinuation.SmallDataAttack (4.2s)
 warning: PeriodicNSContinuation/SmallDataAttack.lean:35:53: unused variable `hβ`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-✔ [8344/8369] Built PeriodicNSContinuation.EnstrophyIdentity (3.4s)
-✔ [8345/8369] Built PeriodicNSContinuation.TetherClaimAttack (3.7s)
-✔ [8346/8369] Built PeriodicNSContinuation.TetherKappaZero (3.0s)
-✔ [8347/8369] Built PeriodicNSContinuation.DirectionCriterion (4.5s)
-✔ [8348/8369] Built PeriodicNSContinuation.EnstrophyRate (5.7s)
-✔ [8349/8369] Built PeriodicNSContinuation.MeanConservation (4.6s)
-✔ [8350/8369] Built PeriodicNSContinuation.LatticeSum (6.6s)
-⚠ [8351/8369] Built PeriodicNSContinuation.BendingRate (10s)
+✔ [8344/8369] Built PeriodicNSContinuation.EnstrophyIdentity (4.3s)
+✔ [8345/8369] Built PeriodicNSContinuation.TetherClaimAttack (4.6s)
+✔ [8346/8369] Built PeriodicNSContinuation.DirectionCriterion (4.4s)
+✔ [8347/8369] Built PeriodicNSContinuation.TetherKappaZero (5.2s)
+✔ [8348/8369] Built PeriodicNSContinuation.EnstrophyRate (7.1s)
+✔ [8349/8369] Built PeriodicNSContinuation.MeanConservation (6.9s)
+✔ [8350/8369] Built PeriodicNSContinuation.LatticeSum (8.2s)
+⚠ [8351/8369] Built PeriodicNSContinuation.BendingRate (13s)
 warning: PeriodicNSContinuation/BendingRate.lean:101:62: This simp argument is unused:
   mul_comm
 
@@ -294,10 +294,9 @@ Hint: Omit it from the simp argument list.
   simp only [perpPart, inner_smul_right, smul_sub, smul_smul,̵ ̵m̵u̵l̵_̵c̵o̵m̵m̵]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [8352/8369] Built PeriodicNSContinuation.FrohmanianDirectionCoercivity (5.3s)
-✔ [8353/8369] Built PeriodicNSContinuation.CubicSource (7.9s)
-✔ [8354/8369] Built PeriodicNSContinuation.Ladyzhenskaya (12s)
-⚠ [8355/8369] Built PeriodicNSContinuation.StrainLinfFamily (10s)
+✔ [8352/8369] Built PeriodicNSContinuation.FrohmanianDirectionCoercivity (7.5s)
+✔ [8353/8369] Built PeriodicNSContinuation.CubicSource (9.9s)
+⚠ [8354/8369] Built PeriodicNSContinuation.StrainLinfFamily (13s)
 warning: PeriodicNSContinuation/StrainLinfFamily.lean:262:15: `EuclideanSpace.norm_single` has been deprecated: Use `PiLp.norm_single` instead
 
 Note: The updated constant has a different type:
@@ -309,11 +308,12 @@ instead of
     ‖EuclideanSpace.single i a‖ = ‖a‖
 
 Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.norm_single` to `PiLp.norm_single x`).
-⚠ [8356/8369] Built PeriodicNSContinuation.ClassicalSteps (5.1s)
+✔ [8355/8369] Built PeriodicNSContinuation.Ladyzhenskaya (17s)
+⚠ [8356/8369] Built PeriodicNSContinuation.ClassicalSteps (6.6s)
 warning: PeriodicNSContinuation/ClassicalSteps.lean:91:36: unused variable `hM`
 
 Note: This linter can be disabled with `set_option linter.unusedVariables false`
-⚠ [8357/8369] Built PeriodicNSContinuation.BendingRateTests (7.0s)
+⚠ [8357/8369] Built PeriodicNSContinuation.BendingRateTests (10s)
 warning: PeriodicNSContinuation/BendingRateTests.lean:72:48: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
 
 Note: The updated constant has a different type:
@@ -368,10 +368,10 @@ Hint: Omit it from the simp argument list.
   simp ̵[̵E̵u̵c̵l̵i̵d̵e̵a̵n̵S̵p̵a̵c̵e̵.̵s̵i̵n̵g̵l̵e̵_̵a̵p̵p̵l̵y̵]̵
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [8358/8369] Built PeriodicNSContinuation.DirectionDrift (4.7s)
-✔ [8359/8369] Built PeriodicNSContinuation.StrainLinfRefutation (4.5s)
-✔ [8360/8369] Built PeriodicNSContinuation.EnergyEquality (6.7s)
-⚠ [8361/8369] Built PeriodicNSContinuation.PlanarObstruction (8.0s)
+✔ [8358/8369] Built PeriodicNSContinuation.DirectionDrift (5.8s)
+✔ [8359/8369] Built PeriodicNSContinuation.StrainLinfRefutation (6.0s)
+✔ [8360/8369] Built PeriodicNSContinuation.EnergyEquality (8.2s)
+⚠ [8361/8369] Built PeriodicNSContinuation.PlanarObstruction (11s)
 warning: PeriodicNSContinuation/PlanarObstruction.lean:39:51: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
 
 Note: The updated constant has a different type:
@@ -457,7 +457,7 @@ open Lean.Parser.Tactic in
 macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
   `(tactic| push $cfg:optConfig Not $[$loc]?)
 ```
-⚠ [8362/8369] Built PeriodicNSContinuation.DirectionEvolution (11s)
+⚠ [8362/8369] Built PeriodicNSContinuation.DirectionEvolution (15s)
 warning: PeriodicNSContinuation/DirectionEvolution.lean:39:53: This simp argument is unused:
   Pi.single_apply
 
@@ -509,9 +509,9 @@ Hint: Omit it from the simp argument list.
   simp [Fin.sum_univ_three, curlOfMat,̵ ̵E̵u̵c̵l̵i̵d̵e̵a̵n̵S̵p̵a̵c̵e̵.̵s̵i̵n̵g̵l̵e̵_̵a̵p̵p̵l̵y̵]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [8363/8369] Built PeriodicNSContinuation.LineField (5.8s)
-✔ [8364/8369] Built PeriodicNSContinuation.ConstantinKernel (7.6s)
-⚠ [8365/8369] Built PeriodicNSContinuation.ViscousDirection (5.2s)
+✔ [8363/8369] Built PeriodicNSContinuation.LineField (7.8s)
+✔ [8364/8369] Built PeriodicNSContinuation.ConstantinKernel (9.2s)
+⚠ [8365/8369] Built PeriodicNSContinuation.ViscousDirection (6.0s)
 warning: PeriodicNSContinuation/ViscousDirection.lean:46:36: This simp argument is unused:
   real_inner_self_eq_norm_sq
 
@@ -519,7 +519,7 @@ Hint: Omit it from the simp argument list.
   simp [perpPart, inner_smul_right, r̵e̵a̵l̵_̵i̵n̵n̵e̵r̵_̵s̵e̵l̵f̵_̵e̵q̵_̵n̵o̵r̵m̵_̵s̵q̵,̵ ̵ht]
 
 Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
-✔ [8366/8369] Built PeriodicNSContinuation.ScaleCriticalBuffer (3.2s)
-✔ [8367/8369] Built PeriodicNSContinuation.EnergyCancellation (17s)
-✔ [8368/8369] Built PeriodicNSContinuation (2.5s)
+✔ [8366/8369] Built PeriodicNSContinuation.EnergyCancellation (22s)
+✔ [8367/8369] Built PeriodicNSContinuation.ScaleCriticalBuffer (3.9s)
+✔ [8368/8369] Built PeriodicNSContinuation (3.2s)
 Build completed successfully (8369 jobs).

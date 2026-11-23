@@ -2,11 +2,11 @@
   "semantics_file": "PeriodicNSContinuation/Semantics.lean",
   "semantics_module": "PeriodicNSContinuation.Semantics",
   "paper_path": "paper/periodic-ns-classical-continuation.tex",
-  "paper_sha256": "4aeaa07d97e2a5c7700405c79d602ba2985234ccc5b76ba8854fe33958837f48",
+  "paper_sha256": "ae41820715ddf983ece536e21a78887ea99e6b70fda50fb8f5d48bee0f58b422",
   "main_theorems": [
     "PeriodicNSContinuation.clay_B_exact_of_integrability"
   ],
-  "lock_region_sha256": "8e19febd6f414000c387217a30666026cb639f909667d3a94f24a68285d7df27",
+  "lock_region_sha256": "610c5dac061eaee0a973557f960f1f0f4d3cb9519aa160ec8d4fe0a494334cdc",
   "draft_dirs": [
     "PeriodicNSContinuation/Draft"
   ],
@@ -14,7 +14,24 @@
     "PeriodicNSContinuation",
     "PeriodicNSContinuation.lean"
   ],
-  "certifying": false,
-  "reopened_reason": "The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely (\"∫‖ω‖_∞ < ∞ on every finite interval of existence\"), so the hypothesis that carries the whole difficulty is read through a repository definition.",
-  "reopened_on": "2026-11-16"
+  "certifying": true,
+  "signoff": {
+    "by": "Benjamin Stanley Frohman",
+    "when": "2026-11-23 15:56 CST (America/Chicago)",
+    "how": "chosen by the author on an approval card in his Chief of Staff chat",
+    "words": [
+      "Yes, finish the new-lock transcription PR and correct the paper's sentence to integrable on [0,T] for every real T.",
+      "Yes, I sign off on certifying: true."
+    ],
+    "caveats_acknowledged": [
+      "Partial lock: it covers Statement (B) conditional on the transcribed hypothesis (clay_B_exact_of_integrability) only; the paper's other results are not locked.",
+      "Non-vacuity is not certified: the hypothesis is open and is equivalent to global existence (periodicBKMIntegrability_iff_globalLifespan), so no witness exists here."
+    ]
+  },
+  "reaudit_2026_11_16": {
+    "reopened_on": "2026-11-16",
+    "reason": "The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely (\"∫‖ω‖_∞ < ∞ on every finite interval of existence\"), so the hypothesis that carries the whole difficulty is read through a repository definition.",
+    "resolved_on": "2026-11-23",
+    "resolution": "paper_claim now uses paperBKMInt, an independent Mathlib-only transcription of the corrected paper sentence, proved equivalent to PeriodicBKMIntegrability by bkmInt_iff."
+  }
 }

@@ -3,7 +3,7 @@
 \usepackage{frohman-paper}
 \renewcommand{\shorttitle}{Classical continuation chain for periodic NS on $\mathbb{T}^3$ in Lean~4}
 \renewcommand{\papersubtitle}{Companion paper to \file{BenFrohman/periodic-ns-classical-continuation}}
-\renewcommand{\paperdate}{Version of 9 November 2026 \,(Lean development at commit \file{36fa434})}
+\renewcommand{\paperdate}{Version of 23 November 2026 \,(Lean development at commit \file{36fa434})}
 \renewcommand{\paperdoi}{10.5281/zenodo.23842555}
 \renewcommand{\companiondoi}{10.5281/zenodo.23842295}
 \renewcommand{\companionlabel}{Companion reduction paper:}
@@ -17,7 +17,7 @@
   \vspace{6pt}{\large\scshape Benjamin Stanley Frohman\par}\vspace{2pt}
   {\small ORCID \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\quad$\cdot$\quad\href{mailto:frohmanbenjamin@gmail.com}{\nolinkurl{frohmanbenjamin@gmail.com}}\par}\vspace{2pt}
   {\small\paperdate\par}\vspace{2pt}
-  {\small Concept DOI \doi{10.5281/zenodo.23842555}\quad$\cdot$\quad Version DOI \doi{10.5281/zenodo.24091995}\par}\vspace{1pt}
+  {\small Concept DOI \doi{10.5281/zenodo.23842555}\quad$\cdot$\quad Version DOI \doi{10.5281/zenodo.24484161}\par}\vspace{1pt}
   {\small\companionlabel\ \doi{\companiondoi}\par}
   \end{center}\vspace{4pt}}
 \begin{document}
@@ -25,7 +25,7 @@
 \frohmantitle{A Lean~4 Formalization of the Classical Continuation Chain for Periodic Navier--Stokes on $\mathbb{T}^3$: Energy Identity, $H^3$ Commutator Reduction and the BKM Route}
 
 \begin{citebox}
-\textbf{How to cite / What is claimed.} In Lean~4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement~(B) (periodic Navier--Stokes on $\TT$) to the single hypothesis \lean{PeriodicBKMIntegrability}. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and $H^3$ control are proved unconditionally, using only the standard axioms. \lean{PeriodicBKMIntegrability} remains open. The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale--Kato--Majda, 1984~\cite{BKM1984}); the novelty here is the complete, \texttt{sorry}-free formalization. $\TT$ is modelled as $\mathbb{R}^3$ with $\mathbb{Z}^3$-periodicity and unit-cell integrals (Section~\ref{sec:model}). Axiom audit at commit \file{36fa434}: 1048 theorems, 285 definitions, only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound} (Appendix~\ref{app:axioms}). Cite as: B.~S.~Frohman, reduction paper, DOI \doi{10.5281/zenodo.23842295}; main paper concept DOI \doi{10.5281/zenodo.23842555}, this version (v11) DOI \doi{10.5281/zenodo.24091995}.
+\textbf{How to cite / What is claimed.} In Lean~4 with Mathlib, we give a machine-checked reduction of Clay Millennium Statement~(B) (periodic Navier--Stokes on $\TT$) to the single hypothesis \lean{PeriodicBKMIntegrability}. We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field. The BKM criterion and $H^3$ control are proved unconditionally, using only the standard axioms. \lean{PeriodicBKMIntegrability} remains open. The equivalence of vorticity integrability with continuation of smooth solutions is classical (Beale--Kato--Majda, 1984~\cite{BKM1984}); the novelty here is the complete, \texttt{sorry}-free formalization. $\TT$ is modelled as $\mathbb{R}^3$ with $\mathbb{Z}^3$-periodicity and unit-cell integrals (Section~\ref{sec:model}). Axiom audit at commit \file{36fa434}: 1048 theorems, 285 definitions, only \lean{propext}, \lean{Classical.choice}, \lean{Quot.sound} (Appendix~\ref{app:axioms}). Cite as: B.~S.~Frohman, reduction paper, DOI \doi{10.5281/zenodo.23842295}; main paper concept DOI \doi{10.5281/zenodo.23842555}, this version (v12) DOI \doi{10.5281/zenodo.24484161}.
 \end{citebox}
 \begin{wipbox}
 \textbf{Draft --- tracks build in progress.} This document reports exactly what the Lean development proves at the stated commit. It does \emph{not} solve the Clay Millennium problem, and does not prove global regularity of the 3D Navier--Stokes equations. The step \lean{PeriodicBKMIntegrability} is the open Clay core and remains an explicit hypothesis.
@@ -56,7 +56,7 @@ The author's manuscript frames regularity through a tethered Lyapunov functional
 \begin{equation}\label{eq:comparison}
 y'=Cy^2-\kappa''y^3,
 \end{equation}
-with transport cancellation, viscous dissipation, a H\"older--Sobolev gate and Young absorption at $\varepsilon=\kappa/4$ (Proposition~2). For \emph{unmodified} Navier--Stokes ($\kappa=0$) the cubic damping is absent, and the remaining gap is hypothesis (H5): a non-circular majorant for the vorticity. In this repository that gap appears exactly as \lean{PeriodicBKMIntegrability}, i.e.
+with transport cancellation, viscous dissipation, a H\"older--Sobolev gate and Young absorption at $\varepsilon=\kappa/4$ (Proposition~2). For \emph{unmodified} Navier--Stokes ($\kappa=0$) the cubic damping is absent, and the remaining gap is hypothesis (H5): a non-circular majorant for the vorticity. In this repository that gap appears exactly as \lean{PeriodicBKMIntegrability} (stated in full in Section~\ref{sec:conditional}): along every maximal solution, for every real $T$,
 \begin{equation}\label{eq:bkm-int}
 \int_0^T\norm{\omega(t)}_{L^\infty}\dd t<\infty .
 \end{equation}
@@ -128,7 +128,7 @@ There is $K\ge0$ such that for all $R\ge2$,
 It splits $q$ into a low piece and $S=\lceil\log_2R\rceil+3$ smooth dyadic blocks, each with a uniformly $L^1$-bounded kernel (\file{DyadicBlock.lean}). Every piece is followed by the uniformly $L^1$-bounded de la Vall\'ee Poussin kernel (\file{VPKernel.lean}). No longer a hypothesis.
 \end{hyp}
 \begin{hyp}[\lean{PeriodicBKMIntegrability}~$\nu$]
-From the dependency \file{fefferman-clay-navier-stokes}: $\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty$ on every finite interval of existence.
+From the dependency \file{fefferman-clay-navier-stokes}. Let $\nu>0$. A pair $(u,p)$ is a smooth periodic solution on $[0,T]$ with data $u_0$ if $T>0$; $u(t)$ and $p(t)$ are $\mathbb{Z}^3$-periodic for $t\in[0,T]$; $u$ and $p$ are $C^\infty$ on $[0,T]\times\mathbb{R}^3$; $\partial_t u+(u\cdot\nabla)u=\nu\Delta u-\nabla p$ and $\Div u=0$ on $[0,T]\times\mathbb{R}^3$, with $\partial_t$ the derivative within $[0,T]$; and $u(0)=u_0$. Let $\Tstar(u_0)\in[-\infty,\infty]$ be the supremum of the real $T$ for which such a pair exists. The hypothesis states: for every smooth, divergence-free, $\mathbb{Z}^3$-periodic $u_0$ and every pair $(u,p)$ that is a smooth periodic solution on $[0,T]$ with data $u_0$ for every real $T$ with $0<T<\Tstar(u_0)$, the function $t\mapsto\norm{\omega(t)}_{L^\infty}=\sup_{x\in\mathbb{R}^3}\abs{(\nabla\times u(t))(x)}$ is integrable on $[0,T]$ (\lean{IntegrableOn}) for every real $T$; in particular $\int_0^T\norm{\omega(t)}_{L^\infty}\dd t<\infty$ for every real $T$. The supremum is the real supremum \lean{iSup}, which Lean sets to $0$ when the set is unbounded. When $\Tstar(u_0)<\infty$ the condition includes every $T\ge\Tstar(u_0)$, where the solution property places no constraint on $u$; it is not only a condition on intervals of existence.
 \emph{Status:} \textbf{open}. This is the Clay core and the manuscript's (H5) gap.
 \end{hyp}
 

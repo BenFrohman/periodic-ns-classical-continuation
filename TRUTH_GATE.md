@@ -140,9 +140,9 @@ python3 -m unittest discover -s scripts/tests -p 'test_truth_gate_classify.py' -
 ## The locked claim of this repository
 
 * Paper: `paper/periodic-ns-classical-continuation.tex`
-* sha256: `4aeaa07d97e2a5c7700405c79d602ba2985234ccc5b76ba8854fe33958837f48`
+* sha256: `947e4e31f881b05bb34ac8a1b9d7b2736812f4e0e24b425c3aa942c9d57de827`
 * Section: Section "Status" (conditional item: Statement (B) conditional on PeriodicBKMIntegrability), with Section "Modelling of the torus" (sec:model) and the hypothesis PeriodicBKMIntegrability of Section "Conditional results"
-* Main theorem(s): `PeriodicNSContinuation.clay_B_exact_of_integrability`
+* Main theorem(s): `PeriodicNSContinuation.clay_B_exact_of_integrability`, `PeriodicNSContinuation.periodicBKMIntegrability_iff_globalLifespan`
 * Lock file: `TRUTH_GATE.lock`; semantics: `PeriodicNSContinuation/Semantics.lean`
 
 Verbatim quote:
@@ -154,37 +154,13 @@ In the Lean development the torus is not a quotient type. The carrier \lean{T3} 
 \[\partial_t u+(u\cdot\nabla)u=\nu\Delta u-\nabla p,\qquad \Div u=0,\qquad u(0)=u_0 .\]
 This is a faithful encoding of the periodic problem; every Clay- and BKM-type statement in this paper is to be read in this model.
 
-From the dependency \file{fefferman-clay-navier-stokes}: $\int_0^T\norm{\omega}_{L^\infty}\dd t<\infty$ on every finite interval of existence.
+From the dependency \file{fefferman-clay-navier-stokes}. For $\nu>0$ and initial data $u_0$, let $\Tstar(u_0)\in[-\infty,\infty]$ be the supremum of the real $T$ for which some pair $(u,p)$ is a smooth periodic solution on $[0,T]$ with data $u_0$: $T>0$; $u(t)$ and $p(t)$ are $\mathbb{Z}^3$-periodic for $t\in[0,T]$; $u$ and $p$ are $C^\infty$ on $[0,T]\times\mathbb{R}^3$; $\partial_t u+(u\cdot\nabla)u=\nu\Delta u-\nabla p$ and $\Div u=0$ on $[0,T]\times\mathbb{R}^3$, with $\partial_t$ the derivative within $[0,T]$; and $u(0)=u_0$. The hypothesis states: for every smooth, divergence-free, $\mathbb{Z}^3$-periodic $u_0$ and every pair $(u,p)$ that is a smooth periodic solution on $[0,T]$ for every real $T$ with $0<T<\Tstar(u_0)$, the function $t\mapsto\norm{\omega(t)}_{L^\infty}=\sup_x\abs{(\nabla\times u(t))(x)}$ is integrable on $[0,T]$ for \emph{every} real $T$. When $\Tstar(u_0)<\infty$ this includes $T=\Tstar(u_0)$ and times after it, where the solution property places no constraint on $u$; so the hypothesis is not the bounded-interval condition $T<\Tstar(u_0)$.
 
 We prove this hypothesis is equivalent to global existence of smooth solutions for every smooth periodic initial field.
 ```
 
-```lean
-def formal_claim : Prop :=
-  ∀ ν : ℝ, PeriodicBKMIntegrability ν → Clay_B_exact ν
+`formal_claim` is the conjunction of `clay_B_exact_of_integrability` and `periodicBKMIntegrability_iff_globalLifespan`. `paper_claim` transcribes Statement (B) and the BKM-integrability hypothesis (`paperBKMInt`, `paperSolOn`, `paperTstar`, `paperCurl`) from the paper's own sentences, without reusing the repository Prop `PeriodicBKMIntegrability`. See `PeriodicNSContinuation/Semantics.lean` for the full statements and the fixed reading of the paper's terms.
 
-def paper_claim : Prop :=
-  ∀ ν : ℝ, 0 < ν → PeriodicBKMIntegrability ν →
-    ∀ u₀ : EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3),
-      ContDiff ℝ (⊤ : ℕ∞) u₀ →
-      (∀ x, ∑ i : Fin 3, fderiv ℝ (fun y => u₀ y i) x (EuclideanSpace.single i 1) = 0) →
-      (∀ x (j : Fin 3), u₀ (x + EuclideanSpace.single j 1) = u₀ x) →
-      ∃ (u : ℝ → EuclideanSpace ℝ (Fin 3) → EuclideanSpace ℝ (Fin 3))
-        (p : ℝ → EuclideanSpace ℝ (Fin 3) → ℝ),
-        ContDiffOn ℝ ∞ (fun q : ℝ × EuclideanSpace ℝ (Fin 3) => u q.1 q.2)
-            (Set.Ici (0 : ℝ) ×ˢ Set.univ) ∧
-        ContDiffOn ℝ ∞ (fun q : ℝ × EuclideanSpace ℝ (Fin 3) => p q.1 q.2)
-            (Set.Ici (0 : ℝ) ×ˢ Set.univ) ∧
-        (∀ t ≥ (0 : ℝ), ∀ x,
-          derivWithin (fun s => u s x) (Set.Ici (0 : ℝ)) t + fderiv ℝ (u t) x (u t x) =
-            ν • ∑ i : Fin 3, fderiv ℝ (fun y => fderiv ℝ (u t) y (EuclideanSpace.single i 1)) x
-                (EuclideanSpace.single i 1) - ∇ (p t) x) ∧
-        (∀ t ≥ (0 : ℝ), ∀ x,
-          ∑ i : Fin 3, fderiv ℝ (fun y => u t y i) x (EuclideanSpace.single i 1) = 0) ∧
-        (∀ x, u 0 x = u₀ x) ∧
-        (∀ t ≥ (0 : ℝ), ∀ x (j : Fin 3),
-          u t (x + EuclideanSpace.single j 1) = u t x ∧ p t (x + EuclideanSpace.single j 1) = p t x)
-```
 
 See the doc comment of `PeriodicNSContinuation/Semantics.lean` for the fixed reading of the paper's terms and the scope.
 
@@ -205,8 +181,14 @@ Rule applied (Benjamin Stanley Frohman, 2026-11-16):
 
 Locked claim under review: clay_B_exact_of_integrability (Statement (B) conditional on PeriodicBKMIntegrability)
 
-Why it is reopened:
-* The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely ("∫‖ω‖_∞ < ∞ on every finite interval of existence"), so the hypothesis that carries the whole difficulty is read through a repository definition.
+Why it was reopened on 2026-11-16:
+* The hypothesis was not independently transcribed. `paper_claim` kept the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper described it only loosely ("∫‖ω‖_∞ < ∞ on every finite interval of existence"), so the hypothesis that carries the whole difficulty was read through a repository definition.
 * Non-vacuity is not certified. The hypothesis is open, there is no witness, and the paper says it is equivalent to global existence.
 
-What would re-certify it: Re-lock with the hypothesis transcribed from a precise statement in the paper. BenFrohman/Clay- locks the same reduction with both hypotheses transcribed from the paper's English.
+## Update (2026-11-23): independent transcription done; lock is still partial
+
+The 2026-11-16 transcription gap is closed: the paper's hypothesis sentence was rewritten to the exact Lean meaning, and `paperBKMInt` (with `paperSolOn`, `paperTstar`, `paperCurl`) is an independent transcription. The lock now also includes `periodicBKMIntegrability_iff_globalLifespan`.
+
+The lock is still **not certifying** and **not whole-paper**. `TRUTH_GATE.lock` keeps `"certifying": false`. Still outside any lock: Local existence; Energy difference / uniqueness; Fourier coefficient ODE, decay, H^s energy identity; Parseval on the unit cube; Physical form of the H^3 rate; Kato-Ponce toolkit; Continuation alternative; the commutator and low-frequency bounds; the Proposition of Section 4; Unconditional corollaries; `clay_B_exact_of_hsControl` and variants; and every item of Section 5 other than `periodicBKMIntegrability_iff_globalLifespan`. The BKM-integrability hypothesis remains OPEN; nothing here proves Statement (B) or the Clay problem.
+
+What would re-certify it: lock every statement the paper claims, with no weakening, and keep `"certifying": false` until that whole-paper lock is honest.

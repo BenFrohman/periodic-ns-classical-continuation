@@ -2,11 +2,12 @@
   "semantics_file": "PeriodicNSContinuation/Semantics.lean",
   "semantics_module": "PeriodicNSContinuation.Semantics",
   "paper_path": "paper/periodic-ns-classical-continuation.tex",
-  "paper_sha256": "4aeaa07d97e2a5c7700405c79d602ba2985234ccc5b76ba8854fe33958837f48",
+  "paper_sha256": "947e4e31f881b05bb34ac8a1b9d7b2736812f4e0e24b425c3aa942c9d57de827",
   "main_theorems": [
-    "PeriodicNSContinuation.clay_B_exact_of_integrability"
+    "PeriodicNSContinuation.clay_B_exact_of_integrability",
+    "PeriodicNSContinuation.periodicBKMIntegrability_iff_globalLifespan"
   ],
-  "lock_region_sha256": "8e19febd6f414000c387217a30666026cb639f909667d3a94f24a68285d7df27",
+  "lock_region_sha256": "f7b077d7105c6658850e81bd25d84e2a8deb18d5fae122bb8b2813eb850dfc81",
   "draft_dirs": [
     "PeriodicNSContinuation/Draft"
   ],
@@ -15,6 +16,6 @@
     "PeriodicNSContinuation.lean"
   ],
   "certifying": false,
-  "reopened_reason": "The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely (\"∫‖ω‖_∞ < ∞ on every finite interval of existence\"), so the hypothesis that carries the whole difficulty is read through a repository definition.",
+  "reopened_reason": "Partial lock (not whole-paper). The lock now covers Statement (B) conditional on an independently transcribed BKM-integrability hypothesis (paperBKMInt, written from the paper's hypothesis sentence) and the equivalence of that hypothesis with global existence. It does not yet cover the whole paper. Statements stated in the paper and still outside any lock: Local existence (periodicLocalExistence_of_nonneg); Energy difference / uniqueness; Fourier coefficient ODE, decay, H^s energy identity; Parseval on the unit cube; Physical form of the H^3 rate; Kato-Ponce toolkit (lower_term_bound, top_term_zero); Continuation alternative; the commutator and low-frequency bounds (periodicPhysicalCommutatorBound, periodicLowFreqVorticityBound); the Proposition of Section 4; Unconditional corollaries (BKMFinal.lean); clay_B_exact_of_hsControl and variants; and every item of Section 5 other than periodicBKMIntegrability_iff_globalLifespan. certifying stays false until all are locked.",
   "reopened_on": "2026-11-16"
 }

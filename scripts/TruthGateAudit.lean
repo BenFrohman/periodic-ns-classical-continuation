@@ -26,7 +26,8 @@ open Lean Meta Elab Command
 namespace TruthGateAudit
 
 def standard : List Name := [``propext, ``Classical.choice, ``Quot.sound]
-def mains : List Name := [`PeriodicNSContinuation.clay_B_exact_of_integrability]
+def mains : List Name := [`PeriodicNSContinuation.clay_B_exact_of_integrability,
+  `PeriodicNSContinuation.periodicBKMIntegrability_iff_globalLifespan]
 
 partial def reach (env : Environment) (todo : List Name) (seen : NameSet) : NameSet :=
   match todo with

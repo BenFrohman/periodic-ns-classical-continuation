@@ -2,7 +2,16 @@
 
 ## Kernel certificate
 
-[certificates/CERTIFICATE.md](certificates/CERTIFICATE.md): commit `b5154f3` (`main`), `leanprover/lean4:v4.30.0-rc1`. In the GitHub Actions `Kernel certificate` run for that commit, `lake build` passes with 0 `sorry` warnings; the sorry/axiom scan finds 0 hits; **1052 theorems depend only on `propext`, `Classical.choice`, `Quot.sound`**; 78 of 78 modules replayed through the kernel, 0 failures ([CI run 44062315856](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315856)). The repository's `truth-gate` check (paper ↔ Lean lock, [TRUTH_GATE.md](TRUTH_GATE.md)) is red on the same commit (`FAIL (LOCK-FORM)`, lock not certifying), so this certifies the Lean development, not the paper's English wording.
+Kernel certificate: the GitHub Actions `Kernel certificate` run for commit `b5154f3` (`main`), [CI run 44062315856](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315856), conclusion `success`. Its files are committed unedited in [`certificates/`](certificates/): [build.log](certificates/build.log), [sorry-scan.txt](certificates/sorry-scan.txt), [axioms.raw.txt](certificates/axioms.raw.txt), [axioms.txt](certificates/axioms.txt), [leanchecker.txt](certificates/leanchecker.txt), [environment.txt](certificates/environment.txt), [modules.txt](certificates/modules.txt) and the generated audit file [KernelCertificateAudit.lean.txt](certificates/KernelCertificateAudit.lean.txt). Their result lines, verbatim:
+
+```
+Build completed successfully (8369 jobs).
+RESULT: 0 hits
+AUDIT PASS: 1052 theorems in 77 modules depend only on propext, Classical.choice, Quot.sound (or on no axioms)
+RESULT: 78 of 78 modules replayed through the kernel, 0 failures
+```
+
+The repository's `truth-gate` check (paper ↔ Lean lock, [TRUTH_GATE.md](TRUTH_GATE.md)) is red on the same commit (`VERDICT: FAIL (LOCK-FORM). Kernel checks passed: no math was found false.`). This certifies the Lean development, not the paper's English wording.
 
 ## Reproducibility
 
@@ -23,7 +32,11 @@ One-command rebuild (the steps the `Kernel certificate` workflow runs; Mathlib i
 git clone https://github.com/BenFrohman/periodic-ns-classical-continuation.git && cd periodic-ns-classical-continuation && git checkout b5154f38e928c76f599812ba76074fb37e4ead3a && lake exe cache get && lake build
 ```
 
-The full check (build, sorry scan, `#print axioms` on every theorem) is the command at the end of [certificates/CERTIFICATE.md](certificates/CERTIFICATE.md).
+The full check that the workflow runs after the build (sorry scan, then `#print axioms` on every theorem through `Lean.collectAxioms`):
+
+```
+python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
+```
 
 `#print axioms` output from that CI run, quoted verbatim from [certificates/axioms.raw.txt](certificates/axioms.raw.txt) and [certificates/axioms.txt](certificates/axioms.txt):
 

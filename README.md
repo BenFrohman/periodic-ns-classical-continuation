@@ -2,7 +2,39 @@
 
 ## Kernel certificate
 
-[certificates/CERTIFICATE.md](certificates/CERTIFICATE.md): commit `4aa277f`, `leanprover/lean4:v4.30.0-rc1`. `lake build` passes; the sorry/axiom scan finds 0 hits; **1052 theorems depend only on `propext`, `Classical.choice`, `Quot.sound`**; 78 of 78 modules replayed through the kernel, 0 failures ([CI run](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/43937850957)).
+[certificates/CERTIFICATE.md](certificates/CERTIFICATE.md): commit `b5154f3` (`main`), `leanprover/lean4:v4.30.0-rc1`. In the GitHub Actions `Kernel certificate` run for that commit, `lake build` passes with 0 `sorry` warnings; the sorry/axiom scan finds 0 hits; **1052 theorems depend only on `propext`, `Classical.choice`, `Quot.sound`**; 78 of 78 modules replayed through the kernel, 0 failures ([CI run 44062315856](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315856)). The repository's `truth-gate` check (paper ↔ Lean lock, [TRUTH_GATE.md](TRUTH_GATE.md)) is red on the same commit (`FAIL (LOCK-FORM)`, lock not certifying), so this certifies the Lean development, not the paper's English wording.
+
+## Reproducibility
+
+| Item | Value |
+|---|---|
+| Commit | `b5154f38e928c76f599812ba76074fb37e4ead3a` |
+| `lean-toolchain` | `leanprover/lean4:v4.30.0-rc1` |
+| Lean | `Lean (version 4.30.0-rc1, x86_64-unknown-linux-gnu, commit 714601baf118066cbf3f282361339c6d06665b2a, Release)` |
+| Lake | `Lake version 5.0.0-src+714601b (Lean version 4.30.0-rc1)` |
+| elan | installed by CI from `elan-init.sh` (`--default-toolchain none`); the toolchain comes from `lean-toolchain`; the elan version is not recorded |
+| Mathlib | `0c154d67103f74be3a0f2c509f72ccbf5be9f2a7` (`lake-manifest.json`, inputRev `v4.30.0-rc1`) |
+| Dependencies | `FeffermanClayNS` @ `ebcf109`, `WeightedEnstrophy` @ `1df4652`, `TorusFourierNS` @ `e63af4e` |
+| CI run | [Kernel certificate, run 44062315856](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315856), push to `main`, 17 November 2026, 04:10 CST, conclusion `success` |
+
+One-command rebuild (the steps the `Kernel certificate` workflow runs; Mathlib is downloaded from the cache and never rebuilt):
+
+```
+git clone https://github.com/BenFrohman/periodic-ns-classical-continuation.git && cd periodic-ns-classical-continuation && git checkout b5154f38e928c76f599812ba76074fb37e4ead3a && lake exe cache get && lake build
+```
+
+The full check (build, sorry scan, `#print axioms` on every theorem) is the command at the end of [certificates/CERTIFICATE.md](certificates/CERTIFICATE.md).
+
+`#print axioms` output from that CI run, quoted verbatim from [certificates/axioms.raw.txt](certificates/axioms.raw.txt) and [certificates/axioms.txt](certificates/axioms.txt):
+
+```
+'PeriodicNSContinuation.clay_B_exact_of_integrability' depends on axioms: [propext, Classical.choice, Quot.sound] [module PeriodicNSContinuation.BKMFinal]
+'PeriodicNSContinuation.periodicBKMIntegrability_iff_globalLifespan' depends on axioms: [propext, Classical.choice, Quot.sound] [module PeriodicNSContinuation.IntegrabilityAttack]
+'PeriodicNSContinuation.clay_B_exact_of_globalLifespan' depends on axioms: [propext, Classical.choice, Quot.sound] [module PeriodicNSContinuation.IntegrabilityAttack]
+AUDIT PASS: 1052 theorems in 77 modules depend only on propext, Classical.choice, Quot.sound (or on no axioms)
+```
+
+These are statements about proofs, not about open problems: `clay_B_exact_of_integrability` is conditional on `PeriodicBKMIntegrability`, which remains the sole open named hypothesis of the headline theorem. Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 
 > **Work in progress.** Draft formalization; results are stated with their exact status (proved unconditionally / conditional on named Props). Nothing here solves the Clay problem or proves Navier–Stokes regularity.
 >

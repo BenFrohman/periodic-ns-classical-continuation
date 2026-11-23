@@ -5,15 +5,16 @@ This file records a reproducible machine check of the Lean 4 development in this
 | Item | Value |
 |---|---|
 | Repository | https://github.com/BenFrohman/periodic-ns-classical-continuation |
-| Certified commit | `4aa277f880599a8e9e71fd6e21e669713b988b6a` (branch `chore/kernel-certificate`) |
-| Lean sources | identical to `main` at `f7b04697c4844022f278b14ce75952fc0a35f32a`: no `.lean`, lakefile, manifest or toolchain file differs; the certified commit only adds CI and the scripts in `certificates/tools/` |
+| Certified commit | `b5154f38e928c76f599812ba76074fb37e4ead3a` (`main`, merge of PR #6) |
+| Lean sources | relative to the previous certificate (`4aa277f`), the only `.lean` changes are the new files `PeriodicNSContinuation/Semantics.lean` and `scripts/TruthGateAudit.lean`; neither is imported by the root module, so neither is among the 78 built modules below (both are checked by the `truth-gate` workflow, see [TRUTH_GATE.md](../TRUTH_GATE.md)) |
 | lean-toolchain | `leanprover/lean4:v4.30.0-rc1` |
 | Lean | Lean (version 4.30.0-rc1, x86_64-unknown-linux-gnu, commit 714601baf118066cbf3f282361339c6d06665b2a, Release) |
 | Mathlib | `0c154d67103f74be3a0f2c509f72ccbf5be9f2a7` (lake-manifest.json; inputRev `v4.30.0-rc1`) |
-| Date (UTC) | 2026-11-16T19:20:47Z |
-| CI run | https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/43937850957 |
+| Lake | Lake version 5.0.0-src+714601b (Lean version 4.30.0-rc1) |
+| Date | 2026-11-17T10:10:37Z (UTC) = 17 November 2026, 04:10 CST (America/Chicago) |
+| CI run | https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315856 (workflow `Kernel certificate`, push to `main`, conclusion `success`) |
 | `lake build` | `Build completed successfully (8369 jobs).` ([build.log](build.log)) |
-| sorry / admit / native_decide / axiom scan | `RESULT: 0 hits` ([sorry-scan.txt](sorry-scan.txt)) |
+| sorry / admit / native_decide / axiom scan | `RESULT: 0 hits` over 82 tracked `.lean` files ([sorry-scan.txt](sorry-scan.txt)); 0 `declaration uses 'sorry'` warnings in [build.log](build.log) |
 | `#print axioms` | `AUDIT PASS: 1052 theorems in 77 modules depend only on propext, Classical.choice, Quot.sound (or on no axioms)` ([axioms.txt](axioms.txt)) |
 | Kernel replay (leanchecker) | `RESULT: 78 of 78 modules replayed through the kernel, 0 failures` ([leanchecker.txt](leanchecker.txt)) |
 
@@ -26,10 +27,12 @@ This file records a reproducible machine check of the Lean 4 development in this
 
 ## Scope
 
+The repository's `truth-gate` check (the paper ↔ Lean lock, [TRUTH_GATE.md](../TRUTH_GATE.md)) is **red** on this commit: `VERDICT: FAIL (LOCK-FORM). Kernel checks passed: no math was found false.` ([run 44062315706](https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315706)). The lock is marked not certifying because `paper_claim` still reads the hypothesis `PeriodicBKMIntegrability` through the repository's own definition. This file is therefore a kernel certificate for the Lean development only; it does not certify that the paper's English claim is the statement Lean proves.
+
 The axiom result says the listed theorems are proved from Lean's standard axioms. It does not by itself say what the theorems mean; read the statements in the sources. Conditional theorems remain conditional on their hypotheses.
 
 ## Rebuild
 
 ```
-git clone https://github.com/BenFrohman/periodic-ns-classical-continuation.git && cd periodic-ns-classical-continuation && git checkout 4aa277f880599a8e9e71fd6e21e669713b988b6a && lake exe cache get && lake build && python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
+git clone https://github.com/BenFrohman/periodic-ns-classical-continuation.git && cd periodic-ns-classical-continuation && git checkout b5154f38e928c76f599812ba76074fb37e4ead3a && lake exe cache get && lake build && python3 certificates/tools/sorry_scan.py && python3 certificates/tools/gen_audit.py /tmp/KernelCertificateAudit.lean /tmp/modules.txt && lake env lean /tmp/KernelCertificateAudit.lean > /tmp/axioms.raw.txt && python3 certificates/tools/check_audit.py /tmp/axioms.raw.txt | tail -n 1
 ```

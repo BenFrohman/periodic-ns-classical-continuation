@@ -9,6 +9,10 @@
 #  4. The sha256 of the lock region of Semantics.lean equals the recorded hash (the claim is fixed).
 #  5. No sorry / admit / native_decide / `axiom` declaration in any .lean file outside a draft directory
 #     (comments and string literals excluded).
+#  6. Every additional lock (`additional_locks`) is certifying, covers the whole paper
+#     (`"whole_paper": true`), has an empty `still_outside_any_lock`, records the author's sign-off,
+#     and its paper hash, lock-region hash, verbatim quotes and per-claim declarations match.
+#     A partial lock therefore fails the gate.
 import hashlib, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -124,6 +128,63 @@ else:
             fail("quoted paper text not found verbatim in the paper file: " + norm(q)[:120])
         if tg and norm(q) not in norm(tg):
             fail("TRUTH_GATE.md does not carry the verbatim paper quote")
+
+# 6. additional locks: no partial lock passes
+for ex in lock.get("additional_locks", []):
+    name = ex.get("name", "?")
+    missing = [k for k in ["semantics_file", "semantics_module", "audit_file", "paper_path", "paper_sha256",
+                           "claims", "main_theorems", "lock_region_sha256"] if k not in ex]
+    for k in missing:
+        fail(f"additional lock {name}: lacks key {k}")
+    if missing:
+        continue
+    outside = ex.get("still_outside_any_lock", [])
+    if ex.get("certifying") is not True:
+        fail(f"additional lock {name}: NOT certifying (partial lock): " + str(ex.get("reopened_reason", "")))
+    if ex.get("whole_paper") is not True:
+        fail(f"additional lock {name}: whole_paper is not true (the locks do not yet cover the whole paper)")
+    if outside:
+        fail(f"additional lock {name}: {len(outside)} paper statement group(s) still outside any lock: "
+             + "; ".join(str(o)[:90] for o in outside))
+    if ex.get("certifying") is True and not (isinstance(ex.get("signoff"), dict) and ex["signoff"].get("words")):
+        fail(f"additional lock {name}: certifying without a recorded author sign-off (signoff.words)")
+    if not os.path.isfile(os.path.join(ROOT, ex["audit_file"])):
+        fail(f"additional lock {name}: audit file {ex['audit_file']} missing")
+    esem = os.path.join(ROOT, ex["semantics_file"])
+    if not os.path.isfile(esem):
+        fail(f"additional lock {name}: {ex['semantics_file']} missing"); continue
+    esrc = open(esem, encoding="utf-8").read()
+    em = re.search(r"^-- TRUTH-GATE LOCK BEGIN\n(.*?)^-- TRUTH-GATE LOCK END\n", esrc, re.S | re.M)
+    if not em:
+        fail(f"additional lock {name}: lock region markers missing in {ex['semantics_file']}")
+    else:
+        eregion = em.group(1)
+        egot = hashlib.sha256(eregion.encode("utf-8")).hexdigest()
+        if egot != ex["lock_region_sha256"]:
+            fail(f"additional lock {name}: lock region sha256 {egot} != locked {ex['lock_region_sha256']}")
+        ecode = strip_comments_strings(eregion)
+        for cid in ex["claims"]:
+            c = re.escape(cid)
+            for decl in [rf"def\s+formal_claim_{c}\s*:\s*Prop", rf"def\s+paper_claim_{c}\s*:\s*Prop",
+                         rf"theorem\s+intended_correspondence_{c}\s*:\s*formal_claim_{c}\s*↔\s*paper_claim_{c}"]:
+                if not re.search(decl, ecode):
+                    fail(f"additional lock {name}: lock region lacks `{decl}`")
+            if cid not in ex["main_theorems"] or not ex["main_theorems"][cid]:
+                fail(f"additional lock {name}: no main theorem recorded for claim {cid}")
+    epp = os.path.join(ROOT, ex["paper_path"])
+    if not os.path.isfile(epp):
+        fail(f"additional lock {name}: paper file {ex['paper_path']} missing"); continue
+    if sha256_file(epp) != ex["paper_sha256"]:
+        fail(f"additional lock {name}: paper sha256 {sha256_file(epp)} != locked {ex['paper_sha256']}")
+    if f"PAPER_SHA256: {ex['paper_sha256']}" not in esrc:
+        fail(f"additional lock {name}: {ex['semantics_file']} does not record the locked PAPER_SHA256")
+    equotes = re.findall(r"PAPER_QUOTE_BEGIN\n(.*?)\nPAPER_QUOTE_END", esrc, re.S)
+    if not equotes:
+        fail(f"additional lock {name}: no PAPER_QUOTE_BEGIN/END block")
+    epaper = norm(open(epp, encoding="utf-8", errors="replace").read())
+    for q in equotes:
+        if norm(q) not in epaper:
+            fail(f"additional lock {name}: quoted paper text not found verbatim in the paper: " + norm(q)[:120])
 
 # 5. forbidden tokens outside draft directories
 drafts = [d.strip("/") for d in lock["draft_dirs"]]

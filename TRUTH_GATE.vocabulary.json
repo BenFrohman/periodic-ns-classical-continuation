@@ -23,6 +23,21 @@
           "why": "lint false positive on the short name: the paper side uses Mathlib's Complex.I (the imaginary unit), not WeightedEnstrophy.Smooth.I"
         }
       ]
+    },
+    "paper-statements-2": {
+      "paper_vocabulary": [
+        {"name": "paperSolOn", "why": "paper-side notion of the main lock (author-signed-off): smooth periodic solution on [0,T] with data u0"},
+        {"name": "paperTstar", "why": "paper-side notion of the main lock (author-signed-off): T*(u0)"},
+        {"name": "paperCurl", "why": "paper-side notion of the main lock (author-signed-off): curl"},
+        {"name": "paperBKMInt", "why": "paper-side transcription of the BKM integrability hypothesis (main lock, author-signed-off)"},
+        {"name": "pDatum", "why": "paper-side notion of lock paper-statements (Mathlib only): smooth, divergence-free, unit-shift periodic datum"},
+        {"name": "pMaximal", "why": "paper-side notion of lock paper-statements (Mathlib only): solution on [0,T] for every 0<T<T*"},
+        {"name": "pBKMCriterion", "why": "paper-side notion of lock paper-statements: the spelled-out BKM criterion"},
+        {"name": "pStatementB", "why": "paper-side notion of lock paper-statements: Statement (B) in the model of the paper"},
+        {"name": "pD", "why": "paper-side notion of lock paper-statements (Mathlib only): D^L as iterated fderiv"},
+        {"name": "pCube", "why": "paper-side notion of lock paper-statements (Mathlib only): unit-cell integral"},
+        {"name": "I", "why": "lint false positive on the short name: the paper side uses Mathlib's Complex.I, not WeightedEnstrophy.Smooth.I"}
+      ]
     }
   }
 }

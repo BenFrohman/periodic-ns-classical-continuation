@@ -16,6 +16,7 @@ import PeriodicNSContinuation.KatoPonce
 # Truth Gate: additional lock "paper-statements" (see `TRUTH_GATE.md`)
 
 PAPER_PATH: paper/periodic-ns-classical-continuation.tex
+PAPER_SHA256: effd6bb926e424b41076cac25c4363a8d1011b48d729811b805f5d2bc764df2d
 PAPER_SECTION: Sections "Proved results (no hypothesis Props)", "Conditional results" and "Further reductions of the open hypothesis"
 
 Each claim `X` below has `formal_claim_X` (the statement of the repository theorem(s)),
@@ -144,9 +145,9 @@ noncomputable def pD (L : List (Fin 3))
     (φ : EuclideanSpace ℝ (Fin 3) → ℝ) : EuclideanSpace ℝ (Fin 3) → ℝ :=
   L.foldr (fun a ψ => fun y => fderiv ℝ ψ y (EuclideanSpace.single a 1)) φ
 
-/-- Paper: `∫_{[0,1]³} F dx`, the unit cube in coordinates. -/
-noncomputable def pCube (F : EuclideanSpace ℝ (Fin 3) → ℝ) : ℝ :=
-  ∫ x in Set.Icc (0 : Fin 3 → ℝ) 1, F ((EuclideanSpace.equiv (Fin 3) ℝ).symm x)
+/-- Paper: `∫_{[0,1]³} Φ dx`, the unit cube in coordinates. -/
+noncomputable def pCube (Φ : EuclideanSpace ℝ (Fin 3) → ℝ) : ℝ :=
+  ∫ x in Set.Icc (0 : Fin 3 → ℝ) 1, Φ ((EuclideanSpace.equiv (Fin 3) ℝ).symm x)
 
 /-! ### The claims -/
 

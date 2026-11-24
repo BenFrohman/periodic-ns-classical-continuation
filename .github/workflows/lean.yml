@@ -1,0 +1,28 @@
+name: Lean
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build-args: "PeriodicNSContinuation"
+          use-mathlib-cache: true
+      - name: No new axiom declarations (sorry is caught as sorryAx by the audit)
+        run: |
+          ! grep -rnE '^axiom ' PeriodicNSContinuation PeriodicNSContinuation.lean
+      - name: Axiom audit (standard axioms only)
+        run: |
+          lake env lean AxiomAudit.lean | tee audit.txt
+          python3 - <<'PY'
+          import re
+          t = open("audit.txt").read()
+          bad = set(re.findall(r"[A-Za-z_][\w.]*", " ".join(re.findall(r"axioms: \[([^\]]*)\]", t, re.S)))) - {"propext", "Classical.choice", "Quot.sound"}
+          assert "error" not in t.lower() and not bad, bad
+          print("audit ok")
+          PY

@@ -1,0 +1,6 @@
+commit: b5154f38e928c76f599812ba76074fb37e4ead3a
+lean-toolchain: leanprover/lean4:v4.30.0-rc1
+lean --version: Lean (version 4.30.0-rc1, x86_64-unknown-linux-gnu, commit 714601baf118066cbf3f282361339c6d06665b2a, Release)
+lake --version: Lake version 5.0.0-src+714601b (Lean version 4.30.0-rc1)
+date (UTC): 2026-11-17T10:10:37Z
+run: https://github.com/BenFrohman/periodic-ns-classical-continuation/actions/runs/44062315856

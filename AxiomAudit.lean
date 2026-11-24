@@ -3,11 +3,18 @@ Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Benjamin Stanley Frohman
 -/
+
 -- Kernel axiom audit. Run: `lake env lean AxiomAudit.lean`.
 -- Fails if any declaration in the `PeriodicNSContinuation` module tree depends on an axiom outside
 -- {propext, Classical.choice, Quot.sound} (for example `sorryAx`).
 import Lean
 import PeriodicNSContinuation
+
+/-!
+# AxiomAudit
+
+Machine-checked Lean 4 module.
+-/
 
 open Lean Elab Command
 
@@ -462,3 +469,10 @@ open Lean Elab Command
 #print axioms PeriodicNSContinuation.norm_bendKernel_perp_le
 #print axioms PeriodicNSContinuation.norm_bendKernel_sub_aligned_le
 #print axioms PeriodicNSContinuation.norm_bending_sum_le
+
+-- ViscousStrainBound (note: The viscous strain bound)
+#print axioms PeriodicNSContinuation.ViscousStrain.riccati_comparison
+#print axioms PeriodicNSContinuation.ViscousStrain.bound_of_viscousStrainBound
+#print axioms PeriodicNSContinuation.ViscousStrain.riccati_saturates
+#print axioms PeriodicNSContinuation.ViscousStrain.riccati_saturates_unbounded
+#print axioms PeriodicNSContinuation.ViscousStrain.log_smoothing_split

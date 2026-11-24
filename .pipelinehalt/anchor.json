@@ -1,0 +1,85 @@
+{
+  "source": "paper/periodic-ns-classical-continuation.tex",
+  "claims": [
+    {
+      "id": "theorem-1",
+      "number": "Theorem 1",
+      "statement": "\\lean{periodicLocalExistence_of_nonneg}\\coined: for $\\nu\\ge0$, \\lean{PeriodicLocalExistence}~$\\nu$ holds (Galerkin method at $s=3$).",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:48",
+      "title": "Local existence"
+    },
+    {
+      "id": "theorem-2",
+      "number": "Theorem 2",
+      "statement": "\\lean{periodicEnergyDifferenceEstimate}\\coined: for $\\nu\\ge0$ and two classical solutions $u,v$ with equal data, \\[ E(t)=\\int_{[0,1]^3}\\abs{u-v}^2\\dd x \\quad\\text{satisfies}\\quad E'(t)\\le 2C\\,E(t). \\] With Gr\\\"onwall (\\lean{eq_zero_of_deriv_le_mul}\\coined, \\lean{periodicVelocityUniqueness_of_energy}\\coined) this gives uniqueness.",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:51",
+      "title": "Energy difference / uniqueness"
+    },
+    {
+      "id": "eq:hs-identity",
+      "number": "Theorem 3",
+      "statement": "\\lean{periodicFourierCoeffODE}\\coined, \\lean{periodicFourierCoeffDecay}\\coined{} and \\lean{periodicFourierHsEnergyIdentity}\\coined{} (file \\file{CoeffODE.lean}) prove the Props \\lean{PeriodicFourierCoeffODE}, \\lean{PeriodicFourierCoeffDecay}, \\lean{PeriodicFourierHsEnergyIdentity} for every $\\nu$ (and every $s$): each Fourier coefficient $\\hat u_k(t)$ obeys the projected ODE, coefficients decay faster than any power, and \\begin{equation} \\frac{\\mathrm d}{\\mathrm dt}\\norm{u}_{H^s}^2 = -2\\nu\\sum_{k}(1+\\abs{k}^2)^s\\,4\\pi^2\\abs{k}^2\\abs{\\hat u_k}^2 + \\bigl(\\text{nonlinear rate}\\bigr). \\end{equation} The bridge is \\lean{periodicFourierHsEnergyIdentity_of_coeff}\\coined{} (\\file{HsEnergyIdentity.lean}).",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:58",
+      "title": "Fourier coefficient ODE, decay, $H^s$ energy identity"
+    },
+    {
+      "id": "theorem-4",
+      "number": "Theorem 4",
+      "statement": "\\lean{hasSum_prod_cubeCoeff}\\coined{} (\\file{Parseval.lean}): for continuous periodic $f,g$, \\[ \\sum_{k\\in\\Z^3}\\overline{\\hat f_k}\\,\\hat g_k = \\int_{[0,1]^3}\\bar f\\,g\\dd x, \\] via \\lean{torusLift}\\coined{} and Mathlib's torus Parseval.",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:65",
+      "title": "Parseval on the unit cube"
+    },
+    {
+      "id": "theorem-5",
+      "number": "Theorem 5",
+      "statement": "\\lean{hasSum_rate_three}\\coined: the Fourier-side $H^3$ nonlinear rate is summable and equals \\[ -2\\sum_i\\int \\Bigl(1-\\frac{\\Delta}{4\\pi^2}\\Bigr)^{3} v_i\\,\\bigl((v\\cdot\\nabla)v\\bigr)_i\\dd x . \\]",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:72",
+      "title": "Physical form of the $H^3$ rate"
+    },
+    {
+      "id": "theorem-6",
+      "number": "Theorem 6",
+      "statement": "Proved: unit-cell integration by parts \\lean{cellI_ibp}\\coined, \\lean{cellI_ibp'}\\coined; Leibniz rule \\lean{DL_mul}\\coined; Gagliardo--Nirenberg on the cell \\lean{gagliardoNirenberg_cell}\\coined{} and \\lean{cellI_sq_mul_abs_le}\\coined; and • \\lean{lower_term_bound}\\coined: every lower-order Leibniz term (first factor of order $\\ge1$) satisfies \\[ \\Bigl|\\int D^L v_i\\cdot D^{p_1}v_l\\, D^{p_2}\\partial_l v_i\\dd x\\Bigr|\\le 5\\norm{\\nabla v}_{L^\\infty}\\,Q(v), \\] with $Q=$\\,\\lean{physQ}\\coined; • \\lean{top_term_zero}\\coined: $\\displaystyle\\sum_{i,l}\\int D^L v_i\\, v_l\\, D^L\\partial_l v_i\\dd x = 0$, because $\\Div v=0$ (transport cancellation).",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:78",
+      "title": "Kato--Ponce toolkit, $s=3$; \\file{KatoPonce.lean}"
+    },
+    {
+      "id": "theorem-7",
+      "number": "Theorem 7",
+      "statement": "\\lean{periodicBKMCriterion_of_hsControl}\\coined: for $\\nu\\ge0$, $s>5/2$, \\lean{PeriodicBKMHsControl}~$\\nu\\ s$ implies \\lean{PeriodicBKMCriterion}~$\\nu$ (the $H^s$ blow-up alternative is proved).",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:89",
+      "title": "Continuation alternative"
+    },
+    {
+      "id": "proposition-8",
+      "number": "Proposition 8",
+      "statement": "\\lean{periodicFourierCommutatorBound_of_physical}\\coined: \\lean{PeriodicPhysicalCommutatorBound}~$C$ $\\Rightarrow$ \\lean{PeriodicFourierCommutatorBound}~$3$~$C$. \\lean{periodicBKMHsControl_of_physical_lowFreq}\\coined: $(\\exists C\\ge0,$ \\lean{PeriodicPhysicalCommutatorBound}~$C$$)$ and \\lean{PeriodicLowFreqVorticityBound} give \\lean{PeriodicBKMHsControl}~$\\nu$~3. Combined with the proved bound: \\lean{periodicBKMHsControl_three_of_lowFreq}\\coined{} gives \\lean{PeriodicBKMHsControl}~$\\nu$~3 from \\lean{PeriodicLowFreqVorticityBound} alone.",
+      "kind": "proposition",
+      "source": "paper/periodic-ns-classical-continuation.tex:117"
+    },
+    {
+      "id": "theorem-9",
+      "number": "Theorem 9",
+      "statement": "\\lean{periodicBKMHsControl_three}\\coined: \\lean{PeriodicBKMHsControl}~$\\nu$~3 for every $\\nu$, with no hypotheses. \\lean{periodicBKMCriterion}\\coined: \\lean{PeriodicBKMCriterion}~$\\nu$ for every $\\nu$, with no hypotheses.",
+      "kind": "theorem",
+      "source": "paper/periodic-ns-classical-continuation.tex:120",
+      "title": "Unconditional corollaries, \\file{BKMFinal.lean}"
+    },
+    {
+      "id": "proposition-10",
+      "number": "Proposition 10",
+      "statement": "\\lean{clay_B_exact_of_hsControl}\\coined: for $s>5/2$, \\lean{PeriodicBKMHsControl}~$\\nu\\ s$ and \\lean{PeriodicBKMIntegrability}~$\\nu$ give \\lean{Clay_B_exact}~$\\nu$. Also \\lean{clay_B_exact_of_corrected_route'}\\coined{} and \\lean{clay_B_exact_of_bkm}\\coined. The final form, \\lean{clay_B_exact_of_integrability}\\coined, is conditional \\emph{only} on the open \\lean{PeriodicBKMIntegrability}~$\\nu$.",
+      "kind": "proposition",
+      "source": "paper/periodic-ns-classical-continuation.tex:123",
+      "title": "Statement (B), conditional"
+    }
+  ],
+  "clarifications": {}
+}

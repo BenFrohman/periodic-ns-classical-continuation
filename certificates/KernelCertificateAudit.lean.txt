@@ -1,0 +1,101 @@
+import Lean
+import «PeriodicNSContinuation»
+import «PeriodicNSContinuation».«BKMAssembly»
+import «PeriodicNSContinuation».«BKMFinal»
+import «PeriodicNSContinuation».«BKMGronwall»
+import «PeriodicNSContinuation».«BKMLog»
+import «PeriodicNSContinuation».«BKMPieces»
+import «PeriodicNSContinuation».«BendingRate»
+import «PeriodicNSContinuation».«BendingRateTests»
+import «PeriodicNSContinuation».«BiotSavartCoeff»
+import «PeriodicNSContinuation».«BiotSavartStrain»
+import «PeriodicNSContinuation».«CellParseval»
+import «PeriodicNSContinuation».«Clamp»
+import «PeriodicNSContinuation».«ClassicalSteps»
+import «PeriodicNSContinuation».«CoefSpace»
+import «PeriodicNSContinuation».«CoeffODE»
+import «PeriodicNSContinuation».«CommutatorAssembly»
+import «PeriodicNSContinuation».«ConstantinKernel»
+import «PeriodicNSContinuation».«Continuation»
+import «PeriodicNSContinuation».«Corrected»
+import «PeriodicNSContinuation».«CubicSource»
+import «PeriodicNSContinuation».«DirectionCriterion»
+import «PeriodicNSContinuation».«DirectionDrift»
+import «PeriodicNSContinuation».«DirectionEvolution»
+import «PeriodicNSContinuation».«DyadicBlock»
+import «PeriodicNSContinuation».«Energy»
+import «PeriodicNSContinuation».«EnergyCancellation»
+import «PeriodicNSContinuation».«EnergyEquality»
+import «PeriodicNSContinuation».«EnstrophyIdentity»
+import «PeriodicNSContinuation».«EnstrophyRate»
+import «PeriodicNSContinuation».«FieldIdentities»
+import «PeriodicNSContinuation».«FourierData»
+import «PeriodicNSContinuation».«FourierInversion»
+import «PeriodicNSContinuation».«FrohmanianDirectionCoercivity»
+import «PeriodicNSContinuation».«GalerkinLimit»
+import «PeriodicNSContinuation».«GalerkinLimitProof»
+import «PeriodicNSContinuation».«HighSetExit»
+import «PeriodicNSContinuation».«HigherRegularity»
+import «PeriodicNSContinuation».«HsEnergyIdentity»
+import «PeriodicNSContinuation».«IntegrabilityAttack»
+import «PeriodicNSContinuation».«KatoPonce»
+import «PeriodicNSContinuation».«KernelWeighted»
+import «PeriodicNSContinuation».«Ladyzhenskaya»
+import «PeriodicNSContinuation».«LatticeSum»
+import «PeriodicNSContinuation».«LineField»
+import «PeriodicNSContinuation».«LocalExistence»
+import «PeriodicNSContinuation».«LocalExistenceProof»
+import «PeriodicNSContinuation».«LowFreqAssembly»
+import «PeriodicNSContinuation».«LowFreqKernel»
+import «PeriodicNSContinuation».«Maximal»
+import «PeriodicNSContinuation».«MeanConservation»
+import «PeriodicNSContinuation».«PDE»
+import «PeriodicNSContinuation».«Parseval»
+import «PeriodicNSContinuation».«PhysicalCommutator»
+import «PeriodicNSContinuation».«PlanarObstruction»
+import «PeriodicNSContinuation».«Reconstruction»
+import «PeriodicNSContinuation».«Route»
+import «PeriodicNSContinuation».«ScaleCriticalBuffer»
+import «PeriodicNSContinuation».«SeriesCalculus»
+import «PeriodicNSContinuation».«SineSumBound»
+import «PeriodicNSContinuation».«SmallDataAttack»
+import «PeriodicNSContinuation».«SmallSeparationGain»
+import «PeriodicNSContinuation».«SmoothReconstruction»
+import «PeriodicNSContinuation».«SpatialSeries»
+import «PeriodicNSContinuation».«StrainLinf»
+import «PeriodicNSContinuation».«StrainLinfFamily»
+import «PeriodicNSContinuation».«StrainLinfRefutation»
+import «PeriodicNSContinuation».«TetherClaimAttack»
+import «PeriodicNSContinuation».«TetherKappaZero»
+import «PeriodicNSContinuation».«TimeCurve»
+import «PeriodicNSContinuation».«TorusField»
+import «PeriodicNSContinuation».«TorusIntegral»
+import «PeriodicNSContinuation».«TorusSobolev»
+import «PeriodicNSContinuation».«Uniqueness»
+import «PeriodicNSContinuation».«VPKernel»
+import «PeriodicNSContinuation».«ViscousDirection»
+import «PeriodicNSContinuation».«ViscousStrainBound»
+import «PeriodicNSContinuation».«WeightIntegral»
+import «PeriodicNSContinuation».«WindowCancellation»
+
+open Lean Elab Command
+
+/-- Prints `#print axioms`-style lines for every theorem declared in the listed modules. -/
+elab "#kernel_certificate_audit" : command => do
+  let env ← getEnv
+  let mods : Array Name := #[`«PeriodicNSContinuation», `«PeriodicNSContinuation».«BKMAssembly», `«PeriodicNSContinuation».«BKMFinal», `«PeriodicNSContinuation».«BKMGronwall», `«PeriodicNSContinuation».«BKMLog», `«PeriodicNSContinuation».«BKMPieces», `«PeriodicNSContinuation».«BendingRate», `«PeriodicNSContinuation».«BendingRateTests», `«PeriodicNSContinuation».«BiotSavartCoeff», `«PeriodicNSContinuation».«BiotSavartStrain», `«PeriodicNSContinuation».«CellParseval», `«PeriodicNSContinuation».«Clamp», `«PeriodicNSContinuation».«ClassicalSteps», `«PeriodicNSContinuation».«CoefSpace», `«PeriodicNSContinuation».«CoeffODE», `«PeriodicNSContinuation».«CommutatorAssembly», `«PeriodicNSContinuation».«ConstantinKernel», `«PeriodicNSContinuation».«Continuation», `«PeriodicNSContinuation».«Corrected», `«PeriodicNSContinuation».«CubicSource», `«PeriodicNSContinuation».«DirectionCriterion», `«PeriodicNSContinuation».«DirectionDrift», `«PeriodicNSContinuation».«DirectionEvolution», `«PeriodicNSContinuation».«DyadicBlock», `«PeriodicNSContinuation».«Energy», `«PeriodicNSContinuation».«EnergyCancellation», `«PeriodicNSContinuation».«EnergyEquality», `«PeriodicNSContinuation».«EnstrophyIdentity», `«PeriodicNSContinuation».«EnstrophyRate», `«PeriodicNSContinuation».«FieldIdentities», `«PeriodicNSContinuation».«FourierData», `«PeriodicNSContinuation».«FourierInversion», `«PeriodicNSContinuation».«FrohmanianDirectionCoercivity», `«PeriodicNSContinuation».«GalerkinLimit», `«PeriodicNSContinuation».«GalerkinLimitProof», `«PeriodicNSContinuation».«HighSetExit», `«PeriodicNSContinuation».«HigherRegularity», `«PeriodicNSContinuation».«HsEnergyIdentity», `«PeriodicNSContinuation».«IntegrabilityAttack», `«PeriodicNSContinuation».«KatoPonce», `«PeriodicNSContinuation».«KernelWeighted», `«PeriodicNSContinuation».«Ladyzhenskaya», `«PeriodicNSContinuation».«LatticeSum», `«PeriodicNSContinuation».«LineField», `«PeriodicNSContinuation».«LocalExistence», `«PeriodicNSContinuation».«LocalExistenceProof», `«PeriodicNSContinuation».«LowFreqAssembly», `«PeriodicNSContinuation».«LowFreqKernel», `«PeriodicNSContinuation».«Maximal», `«PeriodicNSContinuation».«MeanConservation», `«PeriodicNSContinuation».«PDE», `«PeriodicNSContinuation».«Parseval», `«PeriodicNSContinuation».«PhysicalCommutator», `«PeriodicNSContinuation».«PlanarObstruction», `«PeriodicNSContinuation».«Reconstruction», `«PeriodicNSContinuation».«Route», `«PeriodicNSContinuation».«ScaleCriticalBuffer», `«PeriodicNSContinuation».«SeriesCalculus», `«PeriodicNSContinuation».«SineSumBound», `«PeriodicNSContinuation».«SmallDataAttack», `«PeriodicNSContinuation».«SmallSeparationGain», `«PeriodicNSContinuation».«SmoothReconstruction», `«PeriodicNSContinuation».«SpatialSeries», `«PeriodicNSContinuation».«StrainLinf», `«PeriodicNSContinuation».«StrainLinfFamily», `«PeriodicNSContinuation».«StrainLinfRefutation», `«PeriodicNSContinuation».«TetherClaimAttack», `«PeriodicNSContinuation».«TetherKappaZero», `«PeriodicNSContinuation».«TimeCurve», `«PeriodicNSContinuation».«TorusField», `«PeriodicNSContinuation».«TorusIntegral», `«PeriodicNSContinuation».«TorusSobolev», `«PeriodicNSContinuation».«Uniqueness», `«PeriodicNSContinuation».«VPKernel», `«PeriodicNSContinuation».«ViscousDirection», `«PeriodicNSContinuation».«ViscousStrainBound», `«PeriodicNSContinuation».«WeightIntegral», `«PeriodicNSContinuation».«WindowCancellation»]
+  for m in mods do
+    match env.getModuleIdx? m with
+    | none => IO.println s!"MODULE NOT LOADED {m}"
+    | some i =>
+      for n in (env.header.moduleData[i.toNat]!).constNames do
+        match env.find? n with
+        | some (.thmInfo _) =>
+          if !n.isInternal then
+            let ax ← collectAxioms n
+            let axs := ", ".intercalate (ax.toList.map toString)
+            if ax.isEmpty then IO.println s!"'{n}' does not depend on any axioms [module {m}]"
+            else IO.println s!"'{n}' depends on axioms: [{axs}] [module {m}]"
+        | _ => pure ()
+
+#kernel_certificate_audit

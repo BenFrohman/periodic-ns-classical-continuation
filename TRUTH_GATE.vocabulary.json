@@ -1,0 +1,28 @@
+{
+  "locks": {
+    "paper-statements": {
+      "paper_vocabulary": [
+        {
+          "name": "paperSolOn",
+          "why": "paper-side notion of the main lock (author-signed-off 2026-11-23 15:56 CST): smooth periodic solution on [0,T] with data u0"
+        },
+        {
+          "name": "paperTstar",
+          "why": "paper-side notion of the main lock (author-signed-off): T*(u0)"
+        },
+        {
+          "name": "paperCurl",
+          "why": "paper-side notion of the main lock (author-signed-off): curl"
+        },
+        {
+          "name": "paperBKMInt",
+          "why": "paper-side transcription of the BKM integrability hypothesis in the main lock (author-signed-off)"
+        },
+        {
+          "name": "I",
+          "why": "lint false positive on the short name: the paper side uses Mathlib's Complex.I (the imaginary unit), not WeightedEnstrophy.Smooth.I"
+        }
+      ]
+    }
+  }
+}

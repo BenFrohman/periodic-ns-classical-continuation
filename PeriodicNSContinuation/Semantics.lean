@@ -11,7 +11,7 @@ import PeriodicNSContinuation.BKMFinal
 
 PAPER_PATH: paper/periodic-ns-classical-continuation.tex
 PAPER_SECTION: Section "Status" (conditional item: Statement (B) conditional on PeriodicBKMIntegrability), with Section "Modelling of the torus" (sec:model) and the hypothesis PeriodicBKMIntegrability of Section "Conditional results"
-PAPER_SHA256: ae41820715ddf983ece536e21a78887ea99e6b70fda50fb8f5d48bee0f58b422
+PAPER_SHA256: effd6bb926e424b41076cac25c4363a8d1011b48d729811b805f5d2bc764df2d
 
 Locked paper claim, quoted verbatim (the claim, the model it is read in, and the hypothesis):
 

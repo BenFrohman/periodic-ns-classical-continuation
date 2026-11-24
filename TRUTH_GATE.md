@@ -140,7 +140,7 @@ python3 -m unittest discover -s scripts/tests -p 'test_truth_gate_classify.py' -
 ## The locked claim of this repository
 
 * Paper: `paper/periodic-ns-classical-continuation.tex`
-* sha256: `ae41820715ddf983ece536e21a78887ea99e6b70fda50fb8f5d48bee0f58b422`
+* sha256: `effd6bb926e424b41076cac25c4363a8d1011b48d729811b805f5d2bc764df2d`
 * Section: Section "Status" (conditional item: Statement (B) conditional on PeriodicBKMIntegrability), with Section "Modelling of the torus" (sec:model) and the hypothesis PeriodicBKMIntegrability of Section "Conditional results"
 * Main theorem(s): `PeriodicNSContinuation.clay_B_exact_of_integrability`
 * Lock file: `TRUTH_GATE.lock`; semantics: `PeriodicNSContinuation/Semantics.lean`
@@ -292,3 +292,21 @@ Why it is reopened:
 * Non-vacuity is not certified. The hypothesis is open, there is no witness, and the paper says it is equivalent to global existence.
 
 What would re-certify it: Re-lock with the hypothesis transcribed from a precise statement in the paper. BenFrohman/Clay- locks the same reduction with both hypotheses transcribed from the paper's English.
+
+## Additional lock "paper-statements" (new lock, 2026-11-23, sign-off PENDING)
+
+* Semantics: `PeriodicNSContinuation/SemanticsPaper.lean`; kernel audit: `scripts/TruthGateAuditPaper.lean`
+  (run by phase 6 of `scripts/verify-lock.sh`).
+* Twelve claims, each `formal_claim_X ↔ paper_claim_X` with its own main theorem(s): `localExistence`,
+  `energyDifference`, `uniqueness`, `maximal`, `parseval`, `topTerm`, `bkmCriterion`,
+  `integrableBelow`, `bkmIffGlobal`, `clayBOfGlobal`, `clayBOfBKM`, `clayBOfRoute`. The verbatim
+  quotes are in the Semantics file; the paper sentences were made precise in the same PR.
+* The paper side uses only Mathlib and the main lock's signed-off paper-side notions (`paperSolOn`,
+  `paperTstar`, `paperCurl`, `paperBKMInt`), listed in `TRUTH_GATE.vocabulary.json`.
+* Recorded discrepancies (paper corrected to what Lean states; no Lean statement changed): local
+  existence holds for `ν > 0` (the Prop is vacuous at `ν = 0`); the energy-difference statement is
+  existential in `E, E', L` and does not fix `E = ∫|u - v|²`.
+* `"certifying": false`, `"whole_paper": false`: this is still a partial lock. The statements outside
+  every lock are listed under `still_outside_any_lock` in `TRUTH_GATE.lock`.
+* Author sign-off on these readings (rule 8) is pending. Instruction recorded: "Finish the proof locks"
+  (2026-11-23 20:28 CST, America/Chicago).

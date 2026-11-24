@@ -2,7 +2,7 @@
   "semantics_file": "PeriodicNSContinuation/Semantics.lean",
   "semantics_module": "PeriodicNSContinuation.Semantics",
   "paper_path": "paper/periodic-ns-classical-continuation.tex",
-  "paper_sha256": "ae41820715ddf983ece536e21a78887ea99e6b70fda50fb8f5d48bee0f58b422",
+  "paper_sha256": "effd6bb926e424b41076cac25c4363a8d1011b48d729811b805f5d2bc764df2d",
   "main_theorems": [
     "PeriodicNSContinuation.clay_B_exact_of_integrability"
   ],
@@ -33,5 +33,85 @@
     "reason": "The hypothesis is not independently transcribed. `paper_claim` keeps the repository Prop `PeriodicBKMIntegrability` as a named Prop. The paper describes it only loosely (\"∫‖ω‖_∞ < ∞ on every finite interval of existence\"), so the hypothesis that carries the whole difficulty is read through a repository definition.",
     "resolved_on": "2026-11-23",
     "resolution": "paper_claim now uses paperBKMInt, an independent Mathlib-only transcription of the corrected paper sentence, proved equivalent to PeriodicBKMIntegrability by bkmInt_iff."
-  }
+  },
+  "additional_locks": [
+    {
+      "name": "paper-statements",
+      "semantics_file": "PeriodicNSContinuation/SemanticsPaper.lean",
+      "semantics_module": "PeriodicNSContinuation.SemanticsPaper",
+      "audit_file": "scripts/TruthGateAuditPaper.lean",
+      "paper_path": "paper/periodic-ns-classical-continuation.tex",
+      "paper_sha256": "effd6bb926e424b41076cac25c4363a8d1011b48d729811b805f5d2bc764df2d",
+      "claims": [
+        "localExistence",
+        "energyDifference",
+        "uniqueness",
+        "maximal",
+        "parseval",
+        "topTerm",
+        "bkmCriterion",
+        "integrableBelow",
+        "bkmIffGlobal",
+        "clayBOfGlobal",
+        "clayBOfBKM",
+        "clayBOfRoute"
+      ],
+      "main_theorems": {
+        "localExistence": [
+          "PeriodicNSContinuation.periodicLocalExistence_of_nonneg"
+        ],
+        "energyDifference": [
+          "PeriodicNSContinuation.Corrected.periodicEnergyDifferenceEstimate"
+        ],
+        "uniqueness": [
+          "PeriodicNSContinuation.Corrected.periodicVelocityUniqueness_of_energy",
+          "PeriodicNSContinuation.Corrected.periodicEnergyDifferenceEstimate"
+        ],
+        "maximal": [
+          "PeriodicNSContinuation.Corrected.periodicMaximalSolution_of_uniqueness"
+        ],
+        "parseval": [
+          "PeriodicNSContinuation.hasSum_prod_cubeCoeff"
+        ],
+        "topTerm": [
+          "PeriodicNSContinuation.top_term_zero"
+        ],
+        "bkmCriterion": [
+          "PeriodicNSContinuation.periodicBKMCriterion"
+        ],
+        "integrableBelow": [
+          "PeriodicNSContinuation.integrableOn_vorticity_of_lt_tstar"
+        ],
+        "bkmIffGlobal": [
+          "PeriodicNSContinuation.periodicBKMIntegrability_iff_globalLifespan"
+        ],
+        "clayBOfGlobal": [
+          "PeriodicNSContinuation.clay_B_exact_of_globalLifespan"
+        ],
+        "clayBOfBKM": [
+          "PeriodicNSContinuation.clay_B_exact_of_bkm"
+        ],
+        "clayBOfRoute": [
+          "PeriodicNSContinuation.Corrected.clay_B_exact_of_corrected_route'"
+        ]
+      },
+      "lock_region_sha256": "3ee21940d69282adb0a8bc7f6a398dd8f17f5cd0bfadb02ff6814fd4764b3011",
+      "certifying": false,
+      "whole_paper": false,
+      "reopened_reason": "Partial lock (not whole-paper): 12 statement groups are transcribed and locked here; the statements listed in still_outside_any_lock are not yet transcribed. certifying stays false until all are locked.",
+      "still_outside_any_lock": [
+        "Fourier coefficient ODE, decay, H^s energy identity (periodicFourierCoeffODE, periodicFourierCoeffDecay, periodicFourierHsEnergyIdentity, periodicFourierHsEnergyIdentity_of_coeff): the paper sentence is not precise enough to transcribe (projected ODE, 'faster than any power', 'nonlinear rate' are not written out)",
+        "Physical form of the H^3 rate (hasSum_rate_three): needs a Mathlib transcription of the Fourier-side rate and of (1-Δ/4π²)^3",
+        "Kato-Ponce toolkit other than top_term_zero (cellI_ibp, cellI_ibp', DL_mul, gagliardoNirenberg_cell, cellI_sq_mul_abs_le, lower_term_bound with physQ): the paper names these without full statements; lower_term_bound needs physQ written out",
+        "Continuation alternative (periodicBKMCriterion_of_hsControl, periodicHsBlowupAlternative): needs a transcription of the H^s norm and of PeriodicBKMHsControl",
+        "periodicPhysicalCommutatorBound and periodicLowFreqVorticityBound: need transcriptions of the H^3 norm and of V_R",
+        "Proposition of Section 'Conditional results' (periodicFourierCommutatorBound_of_physical, periodicBKMHsControl_of_physical_lowFreq, periodicBKMHsControl_three_of_lowFreq)",
+        "periodicBKMHsControl_three (BKMFinal.lean)",
+        "clay_B_exact_of_hsControl",
+        "every item of Section 'Further reductions' other than integrableOn_vorticity_of_lt_tstar, periodicBKMIntegrability_iff_globalLifespan and clay_B_exact_of_globalLifespan",
+        "eq_zero_of_deriv_le_mul and the other Mathlib-only lemmas (riccati_barrier_Ioo, cubic_riccati_barrier, exp_gronwall_Ioo, gronwall_integrating_factor, inner_perpPart, abs_cfDepletion_le, ...): already Mathlib statements, but the paper does not state them precisely"
+      ],
+      "signoff_status": "PENDING. Instruction recorded: Benjamin Stanley Frohman, 2026-11-23 20:28 CST (America/Chicago): \"Finish the proof locks\". The transcriptions and the corrected paper sentences have not yet been signed off as the right reading (TRUTH_GATE.md rule 8)."
+    }
+  ]
 }

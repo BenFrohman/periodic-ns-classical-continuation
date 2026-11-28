@@ -98,20 +98,56 @@
       "lock_region_sha256": "3ee21940d69282adb0a8bc7f6a398dd8f17f5cd0bfadb02ff6814fd4764b3011",
       "certifying": false,
       "whole_paper": false,
-      "reopened_reason": "Partial lock (not whole-paper): 12 statement groups are transcribed and locked here; the statements listed in still_outside_any_lock are not yet transcribed. certifying stays false until all are locked.",
+      "reopened_reason": "Partial lock (not whole-paper): together with paper-statements-2 the locks do not yet cover every statement of the paper (see still_outside_any_lock). certifying stays false until all are locked.",
       "still_outside_any_lock": [
-        "Fourier coefficient ODE, decay, H^s energy identity (periodicFourierCoeffODE, periodicFourierCoeffDecay, periodicFourierHsEnergyIdentity, periodicFourierHsEnergyIdentity_of_coeff): the paper sentence is not precise enough to transcribe (projected ODE, 'faster than any power', 'nonlinear rate' are not written out)",
-        "Physical form of the H^3 rate (hasSum_rate_three): needs a Mathlib transcription of the Fourier-side rate and of (1-Δ/4π²)^3",
-        "Kato-Ponce toolkit other than top_term_zero (cellI_ibp, cellI_ibp', DL_mul, gagliardoNirenberg_cell, cellI_sq_mul_abs_le, lower_term_bound with physQ): the paper names these without full statements; lower_term_bound needs physQ written out",
-        "Continuation alternative (periodicBKMCriterion_of_hsControl, periodicHsBlowupAlternative): needs a transcription of the H^s norm and of PeriodicBKMHsControl",
-        "periodicPhysicalCommutatorBound and periodicLowFreqVorticityBound: need transcriptions of the H^3 norm and of V_R",
-        "Proposition of Section 'Conditional results' (periodicFourierCommutatorBound_of_physical, periodicBKMHsControl_of_physical_lowFreq, periodicBKMHsControl_three_of_lowFreq)",
-        "periodicBKMHsControl_three (BKMFinal.lean)",
-        "clay_B_exact_of_hsControl",
+        "Section 3-4 statements transcribed in paper-statements-2 (pending the matching paper sentences and their quotes)",
         "every item of Section 'Further reductions' other than integrableOn_vorticity_of_lt_tstar, periodicBKMIntegrability_iff_globalLifespan and clay_B_exact_of_globalLifespan",
-        "eq_zero_of_deriv_le_mul and the other Mathlib-only lemmas (riccati_barrier_Ioo, cubic_riccati_barrier, exp_gronwall_Ioo, gronwall_integrating_factor, inner_perpPart, abs_cfDepletion_le, ...): already Mathlib statements, but the paper does not state them precisely"
+        "eq_zero_of_deriv_le_mul (named in the uniqueness paragraph)",
+        "the Remark 'A failed route' (R^{3/2} growth): not formalized",
+        "abstract and Status lists (to be checked against the locked statements)"
       ],
-      "signoff_status": "PENDING. Instruction recorded: Benjamin Stanley Frohman, 2026-11-23 20:28 CST (America/Chicago): \"Finish the proof locks\". The transcriptions and the corrected paper sentences have not yet been signed off as the right reading (TRUTH_GATE.md rule 8)."
+      "signoff_status": "PENDING. Instruction recorded: Benjamin Stanley Frohman, 2026-11-23 20:28 CST (America/Chicago): \"Finish the proof locks\"; 22:04 CST: \"well transcribe these first then and ensure the whole paper is machine checked and paper updated to match what the machine proof proves\"; 22:40 CST: \"finish checking the whole paper\", \"no you should simply finish the work and stop putting it off\"."
+    },
+    {
+      "name": "paper-statements-2",
+      "semantics_file": "PeriodicNSContinuation/SemanticsPaper2.lean",
+      "semantics_module": "PeriodicNSContinuation.SemanticsPaper2",
+      "audit_file": "scripts/TruthGateAuditPaper2.lean",
+      "paper_path": "paper/periodic-ns-classical-continuation.tex",
+      "paper_sha256": "effd6bb926e424b41076cac25c4363a8d1011b48d729811b805f5d2bc764df2d",
+      "claims": ["coeffODE", "coeffDecay", "hsIdentity", "hsIdentityOfCoeff", "rateThree", "ibp", "ibpRight", "leibniz", "gn", "sqMulAbs", "lowerTerm", "blowup", "continuation", "physBound", "wordBound", "physQLe", "lowFreq", "fourierOfPhys", "ctrlOfPhysLow", "ctrlOfLow", "ctrlThree", "clayBOfCtrl"],
+      "main_theorems": {
+        "coeffODE": ["PeriodicNSContinuation.periodicFourierCoeffODE"],
+        "coeffDecay": ["PeriodicNSContinuation.periodicFourierCoeffDecay"],
+        "hsIdentity": ["PeriodicNSContinuation.periodicFourierHsEnergyIdentity"],
+        "hsIdentityOfCoeff": ["PeriodicNSContinuation.periodicFourierHsEnergyIdentity_of_coeff"],
+        "rateThree": ["PeriodicNSContinuation.hasSum_rate_three"],
+        "ibp": ["PeriodicNSContinuation.cellI_ibp"],
+        "ibpRight": ["PeriodicNSContinuation.cellI_ibp'"],
+        "leibniz": ["PeriodicNSContinuation.DL_mul"],
+        "gn": ["PeriodicNSContinuation.gagliardoNirenberg_cell"],
+        "sqMulAbs": ["PeriodicNSContinuation.cellI_sq_mul_abs_le"],
+        "lowerTerm": ["PeriodicNSContinuation.lower_term_bound"],
+        "blowup": ["PeriodicNSContinuation.periodicHsBlowupAlternative"],
+        "continuation": ["PeriodicNSContinuation.periodicBKMCriterion_of_hsControl"],
+        "physBound": ["PeriodicNSContinuation.periodicPhysicalCommutatorBound"],
+        "wordBound": ["PeriodicNSContinuation.word_bound"],
+        "physQLe": ["PeriodicNSContinuation.physQ_le_hsSq"],
+        "lowFreq": ["PeriodicNSContinuation.periodicLowFreqVorticityBound"],
+        "fourierOfPhys": ["PeriodicNSContinuation.periodicFourierCommutatorBound_of_physical"],
+        "ctrlOfPhysLow": ["PeriodicNSContinuation.periodicBKMHsControl_of_physical_lowFreq"],
+        "ctrlOfLow": ["PeriodicNSContinuation.periodicBKMHsControl_three_of_lowFreq"],
+        "ctrlThree": ["PeriodicNSContinuation.periodicBKMHsControl_three"],
+        "clayBOfCtrl": ["PeriodicNSContinuation.clay_B_exact_of_hsControl"]
+      },
+      "lock_region_sha256": "PENDING-first-CI-run",
+      "certifying": false,
+      "whole_paper": false,
+      "reopened_reason": "Work in progress: Section 3-4 transcriptions; the paper sentences, quotes and hashes are not in yet, and Section 5 is still outside any lock.",
+      "still_outside_any_lock": [
+        "paper sentences and PAPER_QUOTE blocks for the 22 claims of this lock",
+        "Section 'Further reductions' items (see lock paper-statements)"
+      ]
     }
   ]
 }
